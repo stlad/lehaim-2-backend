@@ -6,10 +6,12 @@ import ru.vaganov.ResourceServer.models.Parameter;
 
 
 @Repository
-public interface ParameterCatalogRepo extends JpaRepository<Parameter,Long> {
+public interface CatalogRepo extends JpaRepository<Parameter,Long> {
 
     public Parameter findByName(String name);
-    public Parameter findByAbbreviation(String abbreviation);
+    public Parameter findByAdditionalName(String abbreviation);
+
+    public Parameter findByNameAndAdditionalName(String name, String adName);
 
 
 }

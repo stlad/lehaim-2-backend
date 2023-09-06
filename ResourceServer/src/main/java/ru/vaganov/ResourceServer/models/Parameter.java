@@ -5,24 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.vaganov.ResourceServer.repositories.PatientRepo;
 
-@Data
-@Table(name = "catalog")
+@Table(name = "catalog", uniqueConstraints={@UniqueConstraint(columnNames={"name", "additionalName"})})
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class Parameter {
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(unique=true)
     private String name;
-
-    @Column(unique=true)
-    private String abbreviation;
+    private String additionalName;
     private String unit;
     private Double refMin;
     private Double refMax;
@@ -30,10 +23,13 @@ public class Parameter {
     @Enumerated(value = EnumType.STRING)
     private ResearchType researchType;
 
-
-
     public enum ResearchType{
         Hematological, immunological, Cytokine, None
+    }
+
+    @Override
+    public String toString(){
+        return name + " (" + additionalName + ")";
     }
 
 }
