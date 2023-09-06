@@ -1,0 +1,6 @@
+Name;AddName;Unit;Min;Max;ResearchType
+Параметр 1;P1;10E9/л;0;100;Hematological
+Параметр 2;P2;10E9/л;0;1;Hematological
+Параметр 3;P3;10E9/л;10;120;Hematological
+Параметр 4;P4;10E9/л;1;300;Hematological
+Параметр 5;P5;10E9/л;0;100;Hematological

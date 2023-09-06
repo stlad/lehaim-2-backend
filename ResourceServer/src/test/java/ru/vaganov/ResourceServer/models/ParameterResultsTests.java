@@ -1,9 +1,7 @@
-package ru.vaganov.ResourceServer.ModelTests;
+package ru.vaganov.ResourceServer.models;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.vaganov.ResourceServer.models.Parameter;
-import ru.vaganov.ResourceServer.models.ParameterResult;
 
 public class ParameterResultsTests {
 

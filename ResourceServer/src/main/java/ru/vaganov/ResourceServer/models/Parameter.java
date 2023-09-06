@@ -29,7 +29,7 @@ public class Parameter {
 
     @Override
     public String toString(){
-        return name + " (" + additionalName + ")";
+        return String.format("%s (%s) [%.2f : %.2f]",name,additionalName,refMax,refMax);
     }
 
 }
