@@ -2,7 +2,6 @@ package ru.vaganov.ResourceServer.parsers;
 
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import ru.vaganov.ResourceServer.models.Parameter;
 
@@ -16,7 +15,7 @@ public class CsvParserTests {
         File file = new ClassPathResource("Test Catalog").getFile();
 
         CsvFileParser<Parameter> parser = new CsvFileParser<>(file);
-        parser.go(str->{
+        parser.exec(str->{
             String[] arr = str.split(";");
             Parameter parameter = Parameter.builder()
                     .name(arr[0])

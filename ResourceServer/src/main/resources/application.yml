@@ -15,3 +15,8 @@ spring:
       hibernate:
         dialect : org.hibernate.dialect.PostgreSQLDialect
         ddl-auto : create
+
+command-line-runner:
+  data-loading:
+    catalog:
+      enabled : false

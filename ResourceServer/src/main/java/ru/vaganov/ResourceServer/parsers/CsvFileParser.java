@@ -1,11 +1,10 @@
 package ru.vaganov.ResourceServer.parsers;
 
-import org.springframework.stereotype.Component;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
 
 public class CsvFileParser<Target>{
 
@@ -16,7 +15,11 @@ public class CsvFileParser<Target>{
     }
 
 
-    public void go(lineParse<Target> parseLine, onEachAction<Target> action){
+    /**
+     * @param parseLine (str) -> object. Как преобразовать строку в целевой объект
+     * @param action (obj) -> void. Действие с объектом после его получение в результате парсинга строки
+     */
+    public void exec(lineParse<Target> parseLine, onEachAction<Target> action){
         try(BufferedReader reader = new BufferedReader(new FileReader(source))){
             reader.readLine();
             String line;
