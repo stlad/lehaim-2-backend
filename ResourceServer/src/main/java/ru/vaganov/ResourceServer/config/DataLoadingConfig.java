@@ -1,6 +1,5 @@
 package ru.vaganov.ResourceServer.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -40,6 +39,7 @@ public class DataLoadingConfig {
                 return parameter;
 
             }, catalogService::save);
+            System.out.println("Загрузка каталога завершена");
         };
     }
 

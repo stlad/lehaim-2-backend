@@ -19,4 +19,12 @@ spring:
 command-line-runner:
   data-loading:
     catalog:
-      enabled : false
+      enabled : true
+
+
+
+springdoc:
+  show-actuator: false
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html

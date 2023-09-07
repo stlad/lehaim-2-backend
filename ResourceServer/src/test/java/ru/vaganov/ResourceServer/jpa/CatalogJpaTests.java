@@ -27,8 +27,8 @@ public class CatalogJpaTests {
         catalogRepo.save(param2);
         catalogRepo.save(param3);
         Assertions.assertDoesNotThrow(()->catalogRepo.findAll());
-        catalogRepo.save(param4);
-        Assertions.assertThrows(DataIntegrityViolationException.class,()->catalogRepo.findAll());
+
+        Assertions.assertThrows(DataIntegrityViolationException.class,()->catalogRepo.save(param4));
     }
 
 

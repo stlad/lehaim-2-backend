@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.repositories.CatalogRepo;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 public class CatalogService {
 
@@ -29,5 +34,16 @@ public class CatalogService {
 
     public void delete(Parameter parameter){
         catalogRepo.delete(parameter);
+    }
+
+    public List<Parameter> findByResearchType(Parameter.ResearchType type){
+        return catalogRepo.findByResearchTypeOrderById(type);
+    }
+    public List<Parameter> findAll(){
+        return catalogRepo.findAll();
+    }
+
+    public Parameter findById(Long id){
+        return catalogRepo.findById(id).orElse(null);
     }
 }

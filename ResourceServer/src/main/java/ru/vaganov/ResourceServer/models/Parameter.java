@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class Parameter {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -24,12 +24,21 @@ public class Parameter {
     private ResearchType researchType;
 
     public enum ResearchType{
-        Hematological, immunological, Cytokine, None
+        Hematological, Immunological, Cytokine, None
     }
 
     @Override
     public String toString(){
         return String.format("%s (%s) [%.2f : %.2f]",name,additionalName,refMax,refMax);
+    }
+
+    public void updateFieldsBy(Parameter changes){
+        if(changes.getName()!=null) setName(changes.getName());
+        if(changes.getAdditionalName()!=null) setAdditionalName(changes.getAdditionalName());
+        if(changes.getUnit()!=null) setUnit(changes.getUnit());
+        if(changes.getRefMin()!=null) setRefMin(changes.getRefMin());
+        if(changes.getRefMax()!=null) setRefMax(changes.getRefMax());
+        if(changes.getResearchType()!=null) setResearchType(changes.getResearchType());
     }
 
 }

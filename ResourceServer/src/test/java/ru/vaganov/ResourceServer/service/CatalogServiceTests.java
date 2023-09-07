@@ -60,5 +60,17 @@ public class CatalogServiceTests {
         catalogService.delete(param2);
     }
 
+    @Test
+    public void updatingParameterName(){
+        Parameter param1 = Parameter.builder().name("Тестовый параметр ОДИН").additionalName("TEST").build();
+        param1 = catalogService.save(param1);
+        param1.setName("Измененное название");
+        param1 = catalogService.save(param1);
+        Assertions.assertEquals("Измененное название", param1.getName());
+        Assertions.assertEquals("TEST", param1.getAdditionalName());
+        catalogService.delete(param1);
+
+    }
+
 }
 
