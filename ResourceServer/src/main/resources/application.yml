@@ -11,14 +11,18 @@ spring:
 
   jpa:
     generate-ddl : true
+    hibernate :
+      ddl-auto : create
     properties:
       hibernate:
         dialect : org.hibernate.dialect.PostgreSQLDialect
-        ddl-auto : create
+
 
 command-line-runner:
   data-loading:
     catalog:
+      enabled : false
+    patients:
       enabled : true
 
 

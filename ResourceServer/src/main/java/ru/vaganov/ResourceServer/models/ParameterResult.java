@@ -2,9 +2,14 @@ package ru.vaganov.ResourceServer.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-@Data
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 @Entity
 public class ParameterResult {
 
@@ -14,10 +19,12 @@ public class ParameterResult {
     private Double value;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "catalog_id", referencedColumnName = "id")
     private Parameter parameter;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "test_id", referencedColumnName = "id")
     private OncologicalTest attachedTest;
 

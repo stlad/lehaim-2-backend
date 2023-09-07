@@ -8,6 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.parsers.CsvFileParser;
 import ru.vaganov.ResourceServer.services.CatalogService;
+import ru.vaganov.ResourceServer.services.PatientService;
 
 import java.io.File;
 
@@ -43,4 +44,17 @@ public class DataLoadingConfig {
         };
     }
 
+
+    @ConditionalOnProperty(
+            prefix = "command-line-runner.data-loading.patients",
+            value = "enabled",
+            havingValue = "true",
+            matchIfMissing = true)
+    @Bean
+    public CommandLineRunner patientDataLoader(PatientService patientService) {
+        return args -> {
+            System.out.println("ЗАГРУЗКА ПАЦИЕНТОВ");
+            System.out.println("Загрузка пациентов завершена");
+        };
+    }
 }
