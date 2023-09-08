@@ -20,6 +20,7 @@ public class Patient {
     private String patronymic;
 
     private LocalDate birthdate;
+    private LocalDate deathdate;
     private boolean alive;
     private String mainDiagnosis;
     private String otherDiagnosis;

@@ -6,11 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import ru.vaganov.ResourceServer.models.Parameter;
+import ru.vaganov.ResourceServer.models.Patient;
 import ru.vaganov.ResourceServer.parsers.CsvFileParser;
 import ru.vaganov.ResourceServer.services.CatalogService;
 import ru.vaganov.ResourceServer.services.PatientService;
 
 import java.io.File;
+import java.time.LocalDate;
 
 @Configuration
 public class DataLoadingConfig {
@@ -54,6 +56,9 @@ public class DataLoadingConfig {
     public CommandLineRunner patientDataLoader(PatientService patientService) {
         return args -> {
             System.out.println("ЗАГРУЗКА ПАЦИЕНТОВ");
+            for(Patient patient : DataInitialyzer.createListOfPatients()){
+                patientService.save(patient);
+            };
             System.out.println("Загрузка пациентов завершена");
         };
     }

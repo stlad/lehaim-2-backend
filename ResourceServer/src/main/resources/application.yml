@@ -27,6 +27,7 @@ command-line-runner:
 
 
 
+
 springdoc:
   show-actuator: false
   swagger-ui:
