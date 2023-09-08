@@ -21,7 +21,7 @@ public class Patient {
 
     private LocalDate birthdate;
     private LocalDate deathdate;
-    private boolean alive;
+    private Boolean alive;
     private String mainDiagnosis;
     private String otherDiagnosis;
 
@@ -32,5 +32,18 @@ public class Patient {
 
     public enum Gender{
         Male, Female
+    }
+
+    public void updateFieldsBy(Patient changes){
+        if(changes.getName()!=null) setName(changes.getName());
+        if(changes.getLastname()!=null) setLastname(changes.getLastname());
+        if(changes.getPatronymic()!=null) setPatronymic(changes.getPatronymic());
+        if(changes.getBirthdate()!=null) setBirthdate(changes.getBirthdate());
+        if(changes.getDeathdate()!=null) setDeathdate(changes.getDeathdate());
+        if(changes.getAlive()!=null) setAlive(changes.getAlive());
+        if(changes.getMainDiagnosis()!=null) setMainDiagnosis(changes.getMainDiagnosis());
+        if(changes.getOtherDiagnosis()!=null) setOtherDiagnosis(changes.getOtherDiagnosis());
+        if(changes.getInfo()!=null) setInfo(changes.getInfo());
+        if(changes.getGender()!=null) setGender(changes.getGender());
     }
 }

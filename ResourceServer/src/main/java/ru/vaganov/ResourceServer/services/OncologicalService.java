@@ -18,8 +18,8 @@ public class OncologicalService {
     @Autowired
     OncologicalTestRepo oncologicalTestRepo;
 
-    public ParameterResult findResultById(ParameterResult res){
-        return parameterResultRepo.save(res);
+    public ParameterResult findResultById(Long id){
+        return parameterResultRepo.findById(id).orElse(null);
     }
 
     public ParameterResult saveResult(ParameterResult result){
