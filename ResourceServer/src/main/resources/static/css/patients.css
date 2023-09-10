@@ -1,0 +1,41 @@
+
+.deathdate-fields{
+    visibility: hidden;
+}
+
+ .main{
+display: flex;
+flex-direction: row;
+gap: 250px;
+
+ }
+#patients-area{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.patient-info{
+    width: 400px;
+}
+
+.patient-card{
+    background-color: aquamarine;
+    border: 1px solid black;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.patient-card p{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.inline-fields{
+display: flex;
+flex-direction: row;
+
+}
+
+.id-placeholder{
+    display: none;
+}
