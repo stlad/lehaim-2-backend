@@ -11,6 +11,7 @@ import ru.vaganov.ResourceServer.services.PatientService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/patients")
 public class PatientController {
 
@@ -47,5 +48,11 @@ public class PatientController {
         patientToChange.updateFieldsBy(patient);
         patientToChange = patientService.save(patientToChange);
         return new ResponseEntity<>(patientToChange, HttpStatus.OK);
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<Patient> newPatient(@RequestBody Patient patient){
+        patient = patientService.save(patient);
+        return new ResponseEntity<>(patient, HttpStatus.OK);
     }
 }

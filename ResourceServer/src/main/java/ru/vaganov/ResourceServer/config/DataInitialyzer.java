@@ -1,5 +1,6 @@
 package ru.vaganov.ResourceServer.config;
 
+import org.hibernate.loader.ast.spi.Loadable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
@@ -22,10 +23,17 @@ public class DataInitialyzer {
     @Autowired private OncologicalService oncologicalService;
 
     public void loadTestPatient(){
-        Patient p = Patient.builder().name("ИВАН").lastname("ИВАНОВ").patronymic("ИВАНОВИЧ")
+        Patient p = Patient.builder().name("Иван").lastname("Иванов").patronymic("Иванович")
                 .gender(Patient.Gender.Male).birthdate(LocalDate.of(1980,10,1))
                 .alive(true).mainDiagnosis("C50").build();
         patientService.save(p);
+
+        Patient p1 = Patient.builder().name("Ирина").lastname("Бупкина").patronymic("Андреевна")
+                .gender(Patient.Gender.Female).birthdate(LocalDate.of(1980,10,1))
+                .alive(false).deathdate(LocalDate.of(1950,10,5))
+                .mainDiagnosis("C50").build();
+        patientService.save(p1);
+
         OncologicalTest test1 = OncologicalTest.builder().testDate(LocalDate.of(2000,1,2)).patientOwner(p).build();
         OncologicalTest test2 = OncologicalTest.builder().testDate(LocalDate.of(2000,1,2)).patientOwner(p).build();
         oncologicalService.saveTest(test1);

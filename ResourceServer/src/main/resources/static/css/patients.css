@@ -3,12 +3,15 @@
     visibility: hidden;
 }
 
- .main{
-display: flex;
-flex-direction: row;
-gap: 250px;
+.main{
+    display: flex;
+    flex-direction: row;
+    gap: 250px;
+    margin-top: 50px;
+    margin-left: 20px;
 
  }
+
 #patients-area{
     width: 400px;
     display: flex;
@@ -19,23 +22,52 @@ gap: 250px;
     width: 400px;
 }
 
+.id-placeholder{
+    display: none;
+}
+
+.inline-fields{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.patient-line{
+    display: flex;
+    flex-direction: row;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+
+
+
+
 .patient-card{
     background-color: aquamarine;
     border: 1px solid black;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    width: 300px;
 }
 .patient-card p{
     margin-top: 2px;
     margin-bottom: 2px;
+    margin-left: 10px;
+}
+.patient-card:hover{
+    background-color: #10eec9;
 }
 
-.inline-fields{
-display: flex;
-flex-direction: row;
+
+
+.patient-edit-btn{
+    width: 70px;
+    background-color: aquamarine;
+    border: 1px solid black;
+    margin-left: 10px;
+    text-align: center;
+    vertical-align:middle;
 
 }
-
-.id-placeholder{
-    display: none;
+.patient-edit-btn:hover{
+    background-color: #10eec9;
 }
