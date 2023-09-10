@@ -1,4 +1,4 @@
-package ru.vaganov.ResourceServer.controllers;
+package ru.vaganov.ResourceServer.controllers.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
