@@ -44,7 +44,7 @@
 
 
 .patient-card{
-    background-color: aquamarine;
+    background-color: white;
     border: 1px solid black;
     width: 300px;
 }
@@ -54,20 +54,33 @@
     margin-left: 10px;
 }
 .patient-card:hover{
-    background-color: #10eec9;
+    background-color: whitesmoke;
 }
 
 
 
-.patient-edit-btn{
-    width: 70px;
-    background-color: aquamarine;
+.patient-to-test-btn{
+    width: 80px;
+    background-color: white;
     border: 1px solid black;
     margin-left: 10px;
     text-align: center;
     vertical-align:middle;
 
 }
-.patient-edit-btn:hover{
-    background-color: #10eec9;
+.patient-to-test-btn:hover{
+    background-color: whitesmoke;
+}
+
+.patient-delete-btn{
+    width: 20px;
+    background-color: white;
+    border: 1px solid black;
+    margin-right: 10px;
+    text-align: center;
+    vertical-align:middle;
+
+}
+.patient-delete-btn:hover{
+    background-color: whitesmoke;
 }

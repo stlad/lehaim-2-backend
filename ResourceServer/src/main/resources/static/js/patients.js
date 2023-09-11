@@ -1,15 +1,21 @@
 $(document).ready(()=> main());
 
 const baseUrl = 'http://localhost:8080';
-const genders_dct ={
-  "Male":"мужской", 
-  "Female":"женский", 
-  "":"?", 
-  null:"?",
-  "мужской":"Male",
-  "женский":"Female"
-} 
 
+const tempateEmptyPatient = {
+  "id": -1,
+  "name": "",
+  "lastname": "",
+  "patronymic": "",
+  "birthdate": "",
+  "deathdate": "",
+  "alive": true,
+  "mainDiagnosis": "",
+  "otherDiagnosis": "",
+  "info": "",
+  "gender": "Male"
+
+}
 
 let patients = [
     {
@@ -77,20 +83,23 @@ async function loadPatients(){
     console.log(patient);
     let div = `
     <div class="patient-line">
+    <div id="patient-delete-btn-${patient.id}" class="patient-delete-btn">X</div>
+
       <div id="patient-${patient.id}" class="patient-card ">
         <p class="id-placeholder">${patient.id}</p>
         <p>${patient.lastname ?? "-"} ${patient.name ?? "-" } ${patient.patronymic ?? "-"}</p>
         <p>${patient.birthdate ?? "-"}</p>
         <p>${patient.mainDiagnosis ?? "-"}</p>
       </div>
-      <div id="patient-edit-btn-${patient.id}" class="patient-edit-btn">Анализы<div>
+      <div id="patient-to-test-btn-${patient.id}" class="patient-to-test-btn">Анализы</div>
     </div>
-    `
+    `;
 
     
     $("#patients-area").append(div);
+    $(`#patient-delete-btn-${patient.id}`).on( "click", ()=>{deletePatient(patient);});
     $(`#patient-${patient.id}`).on( "click", ()=>{patientToForm(patient);});
-    $(`#patient-edit-btn-${patient.id}`).on( "click", ()=>{console.log("TO TEST")});
+    $(`#patient-to-test-btn-${patient.id}`).on( "click", ()=>{window.location.repalce("onco_test.html")});
   })
   $("#patients-area").append(`<button id = "new-patient">Новый пациент</button>`);
   
@@ -101,19 +110,7 @@ async function loadPatients(){
 }
 
 function clrPatientForm(){
-
-  $("#id-field").val(-1);
-  $("#name-field").val("");
-  $("#lastname-field").val("");
-  $("#patron-field").val("");
-  $("#birth-field").val("");
-  //$("#gender-field").val(patient.gender);
-  $("#diagnosis-field").val("");
-  $("#diagnosisOther-field").val("");
-  $("#alive-checkbox").prop("checked",false);
-  $("#alive-checkbox").trigger("change");
-  $("#deathdate-field").val("");
-  $("#info").val(""); 
+    patientToForm(tempateEmptyPatient);
 }
 
 
@@ -167,7 +164,6 @@ function savePatient(){
 async function getAllPatients(){
   const response =  await fetch(baseUrl+"/patients/all");
   let data = await response.json();
-  console.log(data);
   return data;
 }
 
@@ -197,6 +193,22 @@ async function updatePatient(patient){
     },
     body: requestBody, 
   });
+  $("#patients-area").empty();
+  clrPatientForm()
+  loadPatients();
+  return response.json();
+}
+
+async function deletePatient(patient){
+  let requestBody = JSON.stringify(patient);
+  console.log(requestBody);
+  const response = await fetch(baseUrl+"/patients/"+patient.id, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
   $("#patients-area").empty();
   clrPatientForm()
   loadPatients();
