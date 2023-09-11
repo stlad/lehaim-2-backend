@@ -11,6 +11,7 @@ import ru.vaganov.ResourceServer.services.OncologicalService;
 import ru.vaganov.ResourceServer.services.PatientService;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("results")
 public class ResultsController {
 

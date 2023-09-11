@@ -10,6 +10,7 @@ import ru.vaganov.ResourceServer.services.CatalogService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/catalog")
 public class CatalogController {
 
