@@ -53,7 +53,7 @@ public class DataInitialyzer {
         for(int i = 0; i<testnum;i++){
             int year = (int)(min.getYear() + Math.random() * (max.getYear() - 1 - min.getYear()));
             int month = (int)(1 + Math.random()*(12 - 1));
-            int date = (int)(1 + Math.random()*(30 - 1));
+            int date = (int)(1 + Math.random()*(month==2 ? 28 : 30 - 1));
             LocalDate generated = LocalDate.of(year, month, date);
             OncologicalTest test = OncologicalTest.builder()
                     .patientOwner(patient)

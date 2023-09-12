@@ -25,6 +25,11 @@ spring:
         dialect : org.hibernate.dialect.PostgreSQLDialect
 
 
+  output:
+    ansi:
+      enabled : always
+
+
 command-line-runner:
   data-loading:
     catalog:

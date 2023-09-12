@@ -1,5 +1,7 @@
 package ru.vaganov.ResourceServer.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -17,6 +19,8 @@ import java.io.File;
 @Configuration
 public class DataLoadingConfig {
 
+    Logger logger = LoggerFactory.getLogger(DataLoadingConfig.class);
+
     @ConditionalOnProperty(
             prefix = "command-line-runner.data-loading.catalog",
             value = "enabled",
@@ -25,7 +29,8 @@ public class DataLoadingConfig {
     @Bean
     public CommandLineRunner dataLoader(CatalogService catalogService) {
         return args -> {
-            System.out.println("ЗАГРУЗКА КАТАЛОГА");
+            //System.out.println("ЗАГРУЗКА КАТАЛОГА");
+            logger.info("Loading catalog from \"Catalog\" file");
             File file = new ClassPathResource("Catalog").getFile();
 
             CsvFileParser<Parameter> parser = new CsvFileParser<>(file);
@@ -42,7 +47,7 @@ public class DataLoadingConfig {
                 return parameter;
 
             }, catalogService::save);
-            System.out.println("Загрузка каталога завершена");
+            logger.info("Catalog loading completed");
         };
     }
 
@@ -57,9 +62,9 @@ public class DataLoadingConfig {
     @Bean
     public CommandLineRunner patientDataLoader(PatientService patientService) {
         return args -> {
-            System.out.println("ЗАГРУЗКА ПАЦИЕНТОВ");
+            logger.info("Loading test patients");
             initialyzer.loadTestPatient();
-            System.out.println("Загрузка пациентов завершена");
+            logger.info("Test Patients loading completed");
         };
     }
 }
