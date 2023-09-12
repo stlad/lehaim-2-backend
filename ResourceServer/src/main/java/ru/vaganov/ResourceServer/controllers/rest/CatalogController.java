@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.services.CatalogService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -23,6 +26,17 @@ public class CatalogController {
         if(type == null) return new ResponseEntity<>(catalogService.findAll(), HttpStatus.OK);
 
         return new ResponseEntity<>(catalogService.findByResearchType(type), HttpStatus.OK);
+    }
+
+    @GetMapping("/all/grouped")
+    public ResponseEntity<HashMap<Parameter.ResearchType, List<Parameter>>> getFullCatalogGroupedByResearch(){
+        List<Parameter> params = catalogService.findAll();
+        HashMap<Parameter.ResearchType, List<Parameter>> map = new HashMap<>();
+        for(Parameter p: params){
+            if(!map.containsKey(p.getResearchType())) map.put(p.getResearchType(), new ArrayList<>());
+            map.get(p.getResearchType()).add(p);
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     //@Operation(hidden = true)

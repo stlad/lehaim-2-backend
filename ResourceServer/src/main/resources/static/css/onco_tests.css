@@ -1,0 +1,24 @@
+.main{
+}
+
+.line{
+    display: flex;
+    flex-direction: row;
+}
+
+.patients-area{
+    background-color: aquamarine;
+}
+
+.onco-tests-area{
+
+    background-color: aqua;
+}
+
+.results-area{
+    background-color: blueviolet;
+}
+
+.graphs-area{
+    background-color: blanchedalmond;
+}

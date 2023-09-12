@@ -8,10 +8,12 @@
 
 
   <link rel="stylesheet" href="../static/css/patients.css">
-  <!-- <link th:href="@{/css/patients.css}" rel="stylesheet" /> -->
+  <link rel="stylesheet" href="../static/css/patient_info_form.css">
+  <link th:href="@{/css/patients.css}" rel="stylesheet" />
+  <link th:href="@{/css/patient_info_form.css}" rel="stylesheet" />
 
-  <script src="../static/js/patients.js"></script>
-  <!-- <script type="text/javascript" th:src="@{/js/patients.js}"></script> -->
+  <script type = "module" src="../static/js/patients.js"></script>
+  <script type ="module" th:src="@{/js/patients.js}"></script>
 
 
 </head>
@@ -19,8 +21,9 @@
     <div class="main">
       <div id="patients-area">
       </div>
+      <div id="patient-info-form-area"></div>
 
-      <div class="patient-info">
+      <!-- <div class="patient-info">
 
         <form class="patient_edit_form">
           <input type="number" id="id-field" class="id-placeholder" value="-1"> 
@@ -48,22 +51,9 @@
           <textarea id="info" placeholder="Доп. Информация"></textarea><br>
       </form>
       <input type="submit" id = "save-patient" class="form-control  field" placeholder="Сохранить"><br>
-      </div>
+      </div> -->
 
 
     </div>
-
-
-    
-
-
-    
-  
-
-
-
-
-
-
   </body>
 </html>

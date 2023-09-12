@@ -32,5 +32,9 @@ public class ParameterResult {
         if(parameter == null) return false;
         return parameter.getRefMin() <= value && value <= parameter.getRefMax();
     }
-
+    public void updateFieldsBy(ParameterResult changes){
+        if(changes.getParameter()!=null) setParameter(changes.getParameter());
+        if(changes.getValue()!=null) setValue(changes.getValue());
+        if(changes.getAttachedTest()!=null) setAttachedTest(changes.getAttachedTest());
+    }
 }
