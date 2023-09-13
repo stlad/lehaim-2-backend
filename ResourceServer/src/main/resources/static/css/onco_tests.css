@@ -4,19 +4,24 @@
 .line{
     display: flex;
     flex-direction: row;
+    gap:0px;
 }
 
 .patients-area{
     background-color: aquamarine;
+    padding-left: 40px;
+    padding-right: 40px;
 }
 
 .onco-tests-area{
-
     background-color: aqua;
+    padding-left: 40px;
+    padding-right: 40px;
+    width: 300px;
 }
 
 .results-area{
-    background-color: blueviolet;
+    background-color: rgb(183, 120, 241);
 }
 
 .graphs-area{
@@ -30,7 +35,7 @@
 
 .test-card{
     border: 1px solid black;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
 }
 
 
@@ -39,4 +44,13 @@
 
 #save-patient{
     display: none;
+}
+
+.results-area{
+    display: flex;
+    flex-direction: row;
+    gap:100px;
+    padding-left: 30px;
+    padding-right: 30px;
+
 }

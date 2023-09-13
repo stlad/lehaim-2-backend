@@ -1,4 +1,4 @@
-import {addPatientFormToDoc, getPatientFromForm, patientToForm,clearForm} from "./html_constructors/patient_info_form.js";
+import {addPatientFormToDoc, getPatientFromForm, patientToForm,clearForm} from "./html_constructors/patientInfoForm.js";
 
 
 $(document).ready(()=> main());

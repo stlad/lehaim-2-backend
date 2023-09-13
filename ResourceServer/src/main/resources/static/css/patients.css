@@ -84,3 +84,7 @@
 .patient-delete-btn:hover{
     background-color: whitesmoke;
 }
+
+.param-input{
+    width: 20px;
+}

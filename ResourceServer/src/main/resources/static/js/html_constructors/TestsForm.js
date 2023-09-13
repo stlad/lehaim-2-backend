@@ -1,6 +1,3 @@
-function createTestsForm(){
-
-}
 
 export default function testsToTestForm(selector, tests){
     tests.forEach((test) => {
@@ -22,7 +19,6 @@ export default function testsToTestForm(selector, tests){
 }
 
 function getAge(birth, moment){
-    
     var birthDate = new Date(birth);
     var last = new Date(moment);
     var age = last.getFullYear() - birthDate.getFullYear();
