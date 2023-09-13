@@ -12,13 +12,11 @@ public class MainViewController {
 
     @GetMapping("/")
     public String getMainPatientsPage(){
-        System.out.println("hello");
         return "patients";
     }
 
     @GetMapping("/tests/{id}")
     public String getMainPatientsPage(@PathVariable Long id){
-        System.out.println("hello");
-        return "patients";
+        return "onco_test";
     }
 }

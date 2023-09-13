@@ -46,4 +46,9 @@ public class Patient {
         if(changes.getInfo()!=null) setInfo(changes.getInfo());
         if(changes.getGender()!=null) setGender(changes.getGender());
     }
+
+    @Override
+    public String toString(){
+        return String.format("(%d) %s %s", getId(), getLastname(), getName());
+    }
 }

@@ -38,7 +38,11 @@ command-line-runner:
       enabled : true
 
 
-
+logging:
+  level:
+    root: INFO
+    ru.vaganov.ResourceServer.services: DEBUG
+    ru.vaganov.ResourceServer.controllers: DEBUG
 
 springdoc:
   show-actuator: false

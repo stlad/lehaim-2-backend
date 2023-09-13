@@ -1,6 +1,10 @@
 package ru.vaganov.ResourceServer.controllers.rest;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +18,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/patients")
 public class PatientController {
+    Logger logger = LoggerFactory.getLogger(PatientController.class);
 
     @Autowired
     private PatientService patientService;
@@ -21,6 +26,8 @@ public class PatientController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Patient>> getALlPatients(){
+        logger.debug("Request to /patients/all");
+
         return new ResponseEntity<>(patientService.findAll(), HttpStatus.OK);
     }
 
