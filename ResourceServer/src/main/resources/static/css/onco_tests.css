@@ -22,3 +22,21 @@
 .graphs-area{
     background-color: blanchedalmond;
 }
+
+
+.id-placeholder{
+    display: none;
+}
+
+.test-card{
+    border: 1px solid black;
+    margin-bottom: 2px;
+}
+
+
+
+
+
+#save-patient{
+    display: none;
+}

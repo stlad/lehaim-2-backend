@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.models.OncologicalTest;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.models.ParameterResult;
+import ru.vaganov.ResourceServer.models.Patient;
 import ru.vaganov.ResourceServer.repositories.OncologicalTestRepo;
 import ru.vaganov.ResourceServer.repositories.ParameterResultRepo;
 
@@ -45,4 +46,7 @@ public class OncologicalService {
         return oncologicalTestRepo.save(test);
     }
 
+    public List<OncologicalTest> findAllTestsByPatientOwner(Patient owner){
+        return oncologicalTestRepo.findByPatientOwner(owner);
+    };
 }

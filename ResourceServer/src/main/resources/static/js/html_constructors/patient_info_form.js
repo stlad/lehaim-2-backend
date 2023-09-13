@@ -2,7 +2,6 @@
 
 
 function addPatientFormToDoc(selector){
-  console.log('second');
    let form = createPatientForm();
     
     $(selector).append(form);
@@ -117,5 +116,6 @@ const tempateEmptyPatient = {
     "info": "",
     "gender": "Male"
 }
+
 
 export {patientToForm, getPatientFromForm, addPatientFormToDoc,clearForm}

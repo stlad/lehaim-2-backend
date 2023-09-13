@@ -1,5 +1,7 @@
 package ru.vaganov.ResourceServer.controllers.rest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,8 @@ import ru.vaganov.ResourceServer.services.CatalogService;
 import ru.vaganov.ResourceServer.services.OncologicalService;
 import ru.vaganov.ResourceServer.services.PatientService;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/results")
@@ -21,6 +25,7 @@ public class ResultsController {
     private CatalogService catalogService;
     @Autowired private PatientService patientService;
     @Autowired private OncologicalService oncologicalService;
+    Logger logger = LoggerFactory.getLogger(ResultsController.class);
 
     @GetMapping("/{id}")
     public ResponseEntity<ParameterResult> getResultById(@PathVariable Long id){
@@ -49,6 +54,17 @@ public class ResultsController {
         parameterResult.setParameter(parameter);
         parameterResult = oncologicalService.saveResult(parameterResult);
         return new ResponseEntity<>(parameterResult, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/tests/{patientId}/all")
+    public ResponseEntity<List<OncologicalTest>> getAllTestsByPatientId(@PathVariable Long patientId){
+        logger.debug("Request to result/stests/" + patientId + "/all");
+        Patient patient = patientService.findById(patientId);
+        if(patient == null )return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        List<OncologicalTest> res = oncologicalService.findAllTestsByPatientOwner(patient);
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
 
     }
 }

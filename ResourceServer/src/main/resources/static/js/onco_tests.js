@@ -1,19 +1,46 @@
+import {addPatientFormToDoc, getPatientFromForm, patientToForm,clearForm} from "./html_constructors/patient_info_form.js";
+import {getPatientById, getFullGroupedCatalog, getAllTestByPatientId} from "./requests.js"
+import testsToTestForm from './html_constructors/TestsForm.js';
+let currentPatient ={};
+let tests = {};
 $(document).ready(()=> main());
 
 function main(){
+  fillPatient();
+  console.log(currentPatient);
+  fillCatalog();
+}
 
+function fillPatient(){
+  let id = document.location.href.split("/").pop();
+  addPatientFormToDoc(".patients-area");
+  getPatientById(id, (data)=> {
+    currentPatient = data;
+    patientToForm(data);
+    console.log(data);
+    getAllTestByPatientId(data.id, (foundTests)=>{
+      console.log(foundTests);
+      tests = foundTests;
+      fillTests(tests);
+    })
+  });
+
+}
+
+function fillTests(tests){
+  testsToTestForm(".onco-tests-area", tests);
+}
+
+function fillCatalog(){
+
+  getFullGroupedCatalog((data) => console.log(data));
 
 }
 
 
-
-
-
-
-
-
-
-
+function getPatientTests(id){
+  getAllTestByPatientId(id, (data)=>console.log(data));
+}
 
 
 

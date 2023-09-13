@@ -9,9 +9,7 @@ const baseUrl = 'http://localhost:8080';
 function main(){
     addPatientFormToDoc("#patient-info-form-area");
     $(`#save-patient`).on( "click", ()=>{ savePatient(); });
-    
     loadPatients();
-    
 }
 
 async function loadPatients(){
@@ -33,7 +31,7 @@ async function loadPatients(){
           <p>${patient.birthdate ?? "-"}</p>
           <p>${patient.mainDiagnosis ?? "-"}</p>
         </div>
-        <div id="patient-to-test-btn-${patient.id}" class="patient-to-test-btn">Анализы</div>
+        <a id="patient-to-test-btn-${patient.id}" class="patient-to-test-btn" href="/tests/${patient.id}">Анализы</a>
       </div>
       `;
   
@@ -41,7 +39,7 @@ async function loadPatients(){
       $("#patients-area").append(div);
       $(`#patient-delete-btn-${patient.id}`).on( "click", ()=>{deletePatient(patient);});
       $(`#patient-${patient.id}`).on( "click", ()=>{patientToForm(patient);});
-      $(`#patient-to-test-btn-${patient.id}`).on( "click", ()=>{window.location.repalce("onco_test.html")});
+      //$(`#patient-to-test-btn-${patient.id}`).on( "click", ()=>{window.location.repalce(`/tests/${patient.id}`)});
     })
     $("#patients-area").append(`<button id = "new-patient">Новый пациент</button>`);
     

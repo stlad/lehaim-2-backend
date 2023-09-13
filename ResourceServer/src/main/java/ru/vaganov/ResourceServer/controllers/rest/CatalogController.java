@@ -34,6 +34,7 @@ public class CatalogController {
 
     @GetMapping("/all/grouped")
     public ResponseEntity<HashMap<Parameter.ResearchType, List<Parameter>>> getFullCatalogGroupedByResearch(){
+        logger.debug("Request to /catalog/all/grouped");
         List<Parameter> params = catalogService.findAll();
         HashMap<Parameter.ResearchType, List<Parameter>> map = new HashMap<>();
         for(Parameter p: params){
