@@ -1,11 +1,11 @@
 
 export default function testsToTestForm(selector, tests){
     tests.forEach((test) => {
-        console.log(test);
+        //console.log(test);
         let season = getSeason(test.testDate);
-        console.log(season);
+        //console.log(season);
         let age = getAge(test.patientOwner.birthdate, test.testDate);
-        console.log(age);
+        //console.log(age);
         let div=`
         <div class="test-card" id="test-card-${test.id}">
             
@@ -15,6 +15,11 @@ export default function testsToTestForm(selector, tests){
           </div>
         `
         $(selector).append(div);
+        $(`#test-card-${test.id}`).on("click", ()=>{
+            $(`#current-test-id`).val(test.id);
+            $(`#current-test-date`).val(test.testDate);
+            $(`#current-test-date`).trigger("change");
+        })
     });
 }
 

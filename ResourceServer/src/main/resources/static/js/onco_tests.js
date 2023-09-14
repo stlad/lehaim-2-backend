@@ -1,18 +1,19 @@
 import {addPatientFormToDoc, getPatientFromForm, patientToForm,clearForm} from "./html_constructors/patientInfoForm.js";
-import {getPatientById, getFullGroupedCatalog, getAllTestByPatientId} from "./requests.js"
+import {getPatientById, getFullGroupedCatalog, getAllTestByPatientId,getAllTestResultsByTestId} from "./requests.js"
 import testsToTestForm from './html_constructors/TestsForm.js';
 import catalogToForm from "./html_constructors/CatalogForm.js";
 
 
 let currentPatient ={};
 let tests = {};
+let currentResults = {};
 $(document).ready(()=> main());
 
 function main(){
   fillPatient();
   console.log(currentPatient);
   fillCatalog();
-
+  fillResults();
   $(`.results-area`).on("change", ()=>console.log("Reedraw Graphs"));
 }
 
@@ -44,4 +45,26 @@ function fillCatalog(){
   
   });
 
+}
+
+function fillResults(){
+  $(`#current-test-date`).on("change", ()=>{
+    getAllTestResultsByTestId($(`#current-test-id`).val(), (data)=>{
+
+      currentResults = data;
+      resultsToCatalogForm(currentResults);
+      $(`.index-line`).trigger("indexiesChanged");
+    })
+
+
+    
+  });
+
+}
+
+function resultsToCatalogForm(results){
+  results.forEach(res =>{
+    $(`#result-for-param-${res.parameter.id}`).val(res.value);
+
+  })
 }

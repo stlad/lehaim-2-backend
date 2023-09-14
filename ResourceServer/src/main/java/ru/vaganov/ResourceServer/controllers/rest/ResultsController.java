@@ -35,6 +35,14 @@ public class ResultsController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @GetMapping("/{testId}/all")
+    public ResponseEntity<List<ParameterResult>> getResultsByTestId(@PathVariable Long testId){
+        OncologicalTest test = oncologicalService.findTestById(testId);
+        if(test == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        List<ParameterResult> results = oncologicalService.findResultsByTest(test);
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
     @PutMapping("/")
     public ResponseEntity<ParameterResult> updateResult(@RequestBody ParameterResult parameterResult){
         ParameterResult foundRes = oncologicalService.findResultById(parameterResult.getId());

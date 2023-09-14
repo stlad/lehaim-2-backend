@@ -9,7 +9,7 @@ export default function catalogToForm(catalog){
           //console.log(param.name);
           var paramCard= `
           <div class="parameter-card">
-            <input type="number" class="id-placeholder" value="${param.id}"><br> 
+            <input type="number" id="#param-id-${param.id} "class="id-placeholder" value="${param.id}"><br> 
             <div>${param.name} (${param.additionalName}), ${param.unit}</div>
             <div class="line">min: ${param.refMin} max: ${param.refMax} </div>
             <input type="number" id="result-for-param-${param.id}" class="param-input" value="${0}"><br> 
@@ -33,19 +33,24 @@ export default function catalogToForm(catalog){
     let res = second==0 ? 0 : first / second;
     var paramCard= `
     <div class="parameter-card"> 
-      <div>${name}</div>
+      <br><div>${name}</div>
       <input type="number" id="i${firstFieldId}-i${secndFieldId}" class="index-line param-input" value="${res}" disabled ><br> 
     </div>`
 
     $(`.Indexies`).append(paramCard);
 
     $(`#result-for-param-${firstFieldId}`).on("change", ()=>{
-      $(`#i${firstFieldId}-i${secndFieldId}`).val(devideFieldVals(firstFieldId,secndFieldId));
+      $(`#i${firstFieldId}-i${secndFieldId}`).trigger("indexiesChanged");
     });
     
     $(`#result-for-param-${secndFieldId}`).on("change", ()=>{
-      $(`#i${firstFieldId}-i${secndFieldId}`).val(devideFieldVals(firstFieldId,secndFieldId));
+      $(`#i${firstFieldId}-i${secndFieldId}`).trigger("indexiesChanged");
     });
+
+    $(`#i${firstFieldId}-i${secndFieldId}`).on("indexiesChanged",()=>{
+      $(`#i${firstFieldId}-i${secndFieldId}`).val(devideFieldVals(firstFieldId,secndFieldId));
+
+    })
 
   }
 

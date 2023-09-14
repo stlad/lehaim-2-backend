@@ -31,6 +31,10 @@ public class OncologicalService {
         parameterResultRepo.delete(result);
     }
 
+    public List<ParameterResult> findResultsByTest(OncologicalTest test){
+        return parameterResultRepo.findByAttachedTest(test);
+    }
+
 
 
 

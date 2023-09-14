@@ -37,4 +37,16 @@ function getAllTestByPatientId(id, dataFunc){
 }
 
 
-export {getPatientById, getFullGroupedCatalog,getAllTestByPatientId}
+function getAllTestResultsByTestId(id, dataFunc){
+    $.ajax({
+        url: baseUrl + '/results/'+id+'/all',
+        method: 'get',
+        dataType: 'json',
+        success: function(data){
+            dataFunc(data);
+        }
+    });
+
+}
+
+export {getPatientById, getFullGroupedCatalog,getAllTestByPatientId,getAllTestResultsByTestId}
