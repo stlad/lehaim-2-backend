@@ -1,18 +1,26 @@
+import {deleteTestById} from '../requests.js'
 
 export default function testsToTestForm(selector, tests){
     tests.forEach((test) => {
+        console.log(test);
         //console.log(test);
         let season = getSeason(test.testDate);
         //console.log(season);
         let age = getAge(test.patientOwner.birthdate, test.testDate);
         //console.log(age);
         let div=`
+        <div>
+        <div id="delete-test-${test.id}" class="test_btn" style="
+                                                            display: flex;
+                                                            flex-direction: row;">
+        X</div>
         <div class="test-card" id="test-card-${test.id}">
             
             <input type="number" id="id-field" class="id-placeholder" value="${test.id}">
             ${test.testDate} (${age} лет)<br>
             Сезон: ${season};
           </div>
+        </div>
         `
         $(selector).append(div);
         $(`#test-card-${test.id}`).on("click", ()=>{
@@ -22,7 +30,15 @@ export default function testsToTestForm(selector, tests){
             $(`.results-area`).trigger("change");
             $(`.results-area`).trigger("testsfilled");
         })
+
+        $(`#delete-test-${test.id}`).on("click",()=>{
+            deleteTestById(test.id, null);
+            $(selector).trigger("refilltests");
+            }
+        )
     });
+
+
 }
 
 function getAge(birth, moment){
@@ -39,4 +55,9 @@ function getSeason(moment){
         return "Весна";
     else
         return "Осень";
+}
+
+
+function clrForm(selector){
+    $(selector).empty();
 }

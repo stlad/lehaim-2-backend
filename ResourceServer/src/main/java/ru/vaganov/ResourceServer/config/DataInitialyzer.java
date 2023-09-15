@@ -29,7 +29,7 @@ public class DataInitialyzer {
                 .gender(Patient.Gender.Male).birthdate(LocalDate.of(1980,10,1))
                 .alive(true).mainDiagnosis("C50").build();
         patientService.save(p);
-        createRandomOncoTestsForPatient(p, 3);
+        createRandomOncoTestsForPatient(p, 6);
 
 
 

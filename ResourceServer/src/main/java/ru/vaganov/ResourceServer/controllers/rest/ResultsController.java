@@ -14,6 +14,7 @@ import ru.vaganov.ResourceServer.services.CatalogService;
 import ru.vaganov.ResourceServer.services.OncologicalService;
 import ru.vaganov.ResourceServer.services.PatientService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -67,12 +68,35 @@ public class ResultsController {
 
     @GetMapping("/tests/{patientId}/all")
     public ResponseEntity<List<OncologicalTest>> getAllTestsByPatientId(@PathVariable Long patientId){
-        logger.debug("Request to result/stests/" + patientId + "/all");
+        logger.debug("GET Request to result/tests/" + patientId + "/all");
         Patient patient = patientService.findById(patientId);
         if(patient == null )return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         List<OncologicalTest> res = oncologicalService.findAllTestsByPatientOwner(patient);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
-
     }
+
+    @DeleteMapping("/tests/{id}")
+    public ResponseEntity<OncologicalTest> deleteTestById(@PathVariable Long id){
+        logger.debug("DELETE Request to results/tests/" + id);
+        OncologicalTest test = oncologicalService.findTestById(id);
+        if (test==null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        oncologicalService.delete(test);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @PostMapping("/tests/new")
+    public ResponseEntity<OncologicalTest> saveNewTest( @RequestParam(name = "owner_id")Long ownerId,
+                                                        @RequestParam(name = "test_date")LocalDate testDate){
+        logger.debug("POST Request to results/tests/new");
+        Patient patient = patientService.findById(ownerId);
+        if(patient == null) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        OncologicalTest test = OncologicalTest.builder()
+                .patientOwner(patient)
+                .testDate(testDate).build();
+        test = oncologicalService.saveTest(test);
+        return new ResponseEntity<>(test, HttpStatus.OK);
+    }
+
+
 }

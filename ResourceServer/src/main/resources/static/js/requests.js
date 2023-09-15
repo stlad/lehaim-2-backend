@@ -49,4 +49,28 @@ function getAllTestResultsByTestId(id, dataFunc){
 
 }
 
-export {getPatientById, getFullGroupedCatalog,getAllTestByPatientId,getAllTestResultsByTestId}
+function deleteTestById(id,dataFunc){
+    
+    $.ajax({
+        url: baseUrl + '/results/tests/'+id,
+        method: 'delete',
+        dataType: 'json',
+        success: function(data){
+            dataFunc(data);
+        }
+    });
+}
+
+function saveTest(testDate, ownerId, dataFunc){
+    $.ajax({
+        url: baseUrl + `/results/tests/new?owner_id=${ownerId}&test_date=${testDate}`,
+        method: 'post',
+        dataType: 'json',
+        success: function(data){
+            dataFunc(data);
+        }
+    });
+
+}
+
+export {getPatientById, getFullGroupedCatalog,getAllTestByPatientId,getAllTestResultsByTestId,deleteTestById,saveTest}
