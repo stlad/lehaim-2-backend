@@ -1,83 +1,116 @@
 import { catalogData } from "./html_constructors/CatalogForm.js";
 
 let bChart = setBChart();
+let tChart = setTChart();
+let CytocineChart = setCytocineChart();
 
-function getValueFor(name){
-  console.log(catalogData[name].id);
-  console.log($(`#result-for-param-${catalogData[name].id}`).val());
-    return $(`#result-for-param-${catalogData[name].id}`).val();
+//-----------------------------------------
+function setTChart(){
+
 }
 
-function getMinFor(name){
-    return catalogData[name].min;
-}
-function getMaxFor(name){
-    return catalogData[name].max;
+function updateTChart(){
+
 }
 
+function getTChartValues(){
+
+}
+
+//-----------------------------------------
+
+function setCytocineChart(){
+
+}
+
+function updateCytocineChart(){
+
+}
+
+function getTCytocineChart(){
+
+}
 
 
+//-----------------------------------------
 
+function updateBChart(){
+  var option;
+  var values = getBChartValues(),
+
+option = {
+  title: {
+    text: 'Относительные параметры B - клеточного звена иммунитета'
+  },
+  legend: {
+    data: ['', '']
+  },
+  radar: {
+    // shape: 'circle',
+    indicator: [
+      { name: 'NEU/CD19' },
+      { name: 'CD19/CD4' },
+      { name: 'CD19/CD8' },
+      { name: 'NEU/LYMF' }
+    ]
+  },
+  series: [
+    {
+      name: '',
+      type: 'radar',
+      data: [
+        {
+          label: { show: true, },
+          value: [1,1,1,1],
+          name: 'Нижние референтные значения',
+          itemStyle: {
+            color: '#F9713C'
+          },
+          lineStyle: {
+            type: 'dashed'
+          },
+        },
+        {
+          label: { show: true, },
+          value: [3,3,3,3],
+          name: 'Верхние референтные значения',
+          itemStyle: {
+            color: '#F9713C'
+          },
+          lineStyle: {
+            type: 'dashed'
+          },
+        },
+        {
+          label: { show: true, },
+          value: values,
+          name: 'Результат'
+        }
+      ]
+    }
+  ]
+};
+bChart.setOption(option);
+}
 
 
 function setBChart(){
-const ctx = document.getElementById('B-chart').getContext('2d');
+  var chartDom = document.getElementById('B-chart');
+   var myChart = echarts.init(chartDom, null, {
+  width: 800,
+  height: 800
+});
 
-let chart = new Chart(ctx, {
-    type: 'radar',
-    data: {
-      labels: ['NEU/CD19','CD19/CD4','CD19/CD8', 'NEU/LYMF' ],
-      datasets: [{
-        label: 'Нижние референтные значения',
-        data: [0,0,0,0],
-        borderWidth: 1, // С БЭКЕНДА
-        fill: false,
-        borderColor: 'rgb(54, 162, 235)',
-      },
-      {
-        label: 'Результат',
-        data: [],
-        borderWidth: 1, // С БЭКЕНДА
-        fill: false,
-        borderColor: 'rgb(255, 99, 132)'
-      },
-      {
-        label: 'Верхние референтные значения',
-        data: [1, 1,1,1 ],
-        borderWidth: 1, // С БЭКЕНДА
-        fill: false,
-        borderColor: 'rgb(54, 162, 235)',
-      },
-    
-    ]
-    }, 
-    options: {
-        normalized: true,
-        plugins:{
-          title: {
-            display: true,
-            text: 'Относительные параметры B - клеточного звена иммунитета',
-            padding: {
-                top: 10,
-                bottom: 30
-            }
-        }
-        },
-        elements: {
-          line: {
-            borderWidth: 3
-          }
-        }
-      },
-  });
-  chart.resize(600,600);
-  return chart;
+var option;
+option && myChart.setOption(option);
+console.log(myChart);
+return myChart;
 }
 
 
 
 
-function drawBChart(){
+function getBChartValues(){
   console.log(catalogData);
     let NEU = getValueFor("NEU");
     let LYMF = getValueFor("LYMF");
@@ -92,21 +125,25 @@ function drawBChart(){
     let NEU_LYMF = LYMF != 0 ? (NEU/LYMF).toFixed(2) : 0;
     console.log([NEU_CD19, CD19_CD4, CD19_CD8, NEU_LYMF]);
 
-
-    bChart.data.datasets[1].data = [NEU_CD19, CD19_CD4, CD19_CD8, NEU_LYMF];
-    bChart.update();
+    return [NEU_CD19, CD19_CD4, CD19_CD8, NEU_LYMF];
+    
 }
 
+//-----------------------------------------
 
 
-function drawTChart(){
 
+function getValueFor(name){
+  //console.log(catalogData[name].id);
+  //console.log($(`#result-for-param-${catalogData[name].id}`).val());
+    return $(`#result-for-param-${catalogData[name].id}`).val();
 }
 
-
-function drawCytocineChart(){
-
+function getMinFor(name){
+    return catalogData[name].min;
+}
+function getMaxFor(name){
+    return catalogData[name].max;
 }
 
-
-export {drawBChart, drawTChart, drawCytocineChart}
+export {updateBChart, updateTChart, }

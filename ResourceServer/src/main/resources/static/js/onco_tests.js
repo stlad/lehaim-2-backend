@@ -2,7 +2,7 @@ import {addPatientFormToDoc, getPatientFromForm, patientToForm,clearForm} from "
 import {getPatientById, getFullGroupedCatalog, getAllTestByPatientId,getAllTestResultsByTestId} from "./requests.js"
 import testsToTestForm from './html_constructors/TestsForm.js';
 import catalogToForm from "./html_constructors/CatalogForm.js";
-import { drawBChart } from "./charts.js";
+import { updateBChart } from "./charts.js";
 
 let currentPatient ={};
 let tests = {};
@@ -11,6 +11,7 @@ $(document).ready(()=> main());
 
 function main(){
   $(`.results-area`).on("change", ()=>ReedrawCharts());
+  $(`.results-area`).on("testsfilled", ()=>ReedrawCharts());
   fillPatient();
   console.log(currentPatient);
   fillCatalog();
@@ -71,5 +72,5 @@ function resultsToCatalogForm(results){
 
 function ReedrawCharts(){
   console.log("Reedraw Graphs")
-  drawBChart();
+  updateBChart();
 }

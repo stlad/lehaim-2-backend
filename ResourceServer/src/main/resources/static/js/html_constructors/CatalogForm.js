@@ -28,6 +28,8 @@ export default function catalogToForm(catalog){
     }
     addIndexies();
     
+  $(`.results-area`).trigger("testsfilled");
+    
   }
   function addIndexies(){
     addIndexLine(11, 12, "Соотношение CD3+CD4+ / CD3+CD8+");
@@ -38,7 +40,7 @@ export default function catalogToForm(catalog){
   function addIndexLine(firstFieldId, secndFieldId, name){
     let first = $(`#result-for-param-${firstFieldId}`).val();
     let second = $(`#result-for-param-${secndFieldId}`).val();
-    let res = second==0 ? 0 : first / second;
+    let res = second==0 ? 0 : (first / second).toFixed(3);
     var paramCard= `
     <div class="parameter-card"> 
       <br><div>${name}</div>
