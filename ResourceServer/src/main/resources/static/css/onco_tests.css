@@ -54,3 +54,9 @@
     padding-right: 30px;
 
 }
+
+.graphs-area{
+    display: flex;
+    flex-direction: row;
+
+}

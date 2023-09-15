@@ -19,6 +19,7 @@ export default function testsToTestForm(selector, tests){
             $(`#current-test-id`).val(test.id);
             $(`#current-test-date`).val(test.testDate);
             $(`#current-test-date`).trigger("change");
+            $(`.results-area`).trigger("change");
         })
     });
 }

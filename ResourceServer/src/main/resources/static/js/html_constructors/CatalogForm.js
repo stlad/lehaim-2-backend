@@ -1,4 +1,6 @@
+export let catalogData = {
 
+}
 
 
 export default function catalogToForm(catalog){
@@ -6,6 +8,12 @@ export default function catalogToForm(catalog){
     for(var pType in catalog){
   
       catalog[pType].forEach(param => {
+        catalogData[param.additionalName] = {
+          "id":param.id,
+          "min":param.refMin,
+          "max":param.refMax,
+
+        }
           //console.log(param.name);
           var paramCard= `
           <div class="parameter-card">
