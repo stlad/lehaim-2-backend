@@ -33,7 +33,7 @@ public class CatalogService {
             logger.debug("param" + param.toString() + "saved");
         }catch (DataIntegrityViolationException e){
             savedParam =  catalogRepo.findByNameAndAdditionalName(param.getName(), param.getAdditionalName());
-            logger.debug("param" + param.toString() + "already exist");
+            logger.debug("param" + param.toString() + " already exist");
         }
         return savedParam;
     }

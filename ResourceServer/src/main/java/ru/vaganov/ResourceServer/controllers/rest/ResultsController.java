@@ -46,6 +46,7 @@ public class ResultsController {
 
     @PutMapping("/")
     public ResponseEntity<ParameterResult> updateResult(@RequestBody ParameterResult parameterResult){
+        logger.debug("GET Request to results/.. updated result with parameter id: " + parameterResult.getParameter().getId());
         ParameterResult foundRes = oncologicalService.findResultById(parameterResult.getId());
         if (foundRes==null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         foundRes.setValue(parameterResult.getValue());
@@ -88,13 +89,23 @@ public class ResultsController {
     @PostMapping("/tests/new")
     public ResponseEntity<OncologicalTest> saveNewTest( @RequestParam(name = "owner_id")Long ownerId,
                                                         @RequestParam(name = "test_date")LocalDate testDate){
-        logger.debug("POST Request to results/tests/new");
+        logger.debug("POST Request to results/tests/new on date: "+testDate);
         Patient patient = patientService.findById(ownerId);
         if(patient == null) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         OncologicalTest test = OncologicalTest.builder()
                 .patientOwner(patient)
                 .testDate(testDate).build();
         test = oncologicalService.saveTest(test);
+
+        List<Parameter> params = catalogService.findAll();
+        for(Parameter parameter: params){
+            ParameterResult res = ParameterResult.builder()
+                    .value(0d)
+                    .attachedTest(test)
+                    .parameter(parameter)
+                    .build();
+            res = oncologicalService.saveResult(res);
+        }
         return new ResponseEntity<>(test, HttpStatus.OK);
     }
 

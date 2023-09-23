@@ -9,10 +9,8 @@ export default function testsToTestForm(selector, tests){
         let age = getAge(test.patientOwner.birthdate, test.testDate);
         //console.log(age);
         let div=`
-        <div>
-        <div id="delete-test-${test.id}" class="test_btn" style="
-                                                            display: flex;
-                                                            flex-direction: row;">
+        <div style=" display: flex; flex-direction: row;">
+        <div id="delete-test-${test.id}" class="test_btn" >
         X</div>
         <div class="test-card" id="test-card-${test.id}">
             

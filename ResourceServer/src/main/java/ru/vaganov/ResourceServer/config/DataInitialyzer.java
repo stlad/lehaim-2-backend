@@ -38,8 +38,14 @@ public class DataInitialyzer {
                 .alive(false).deathdate(LocalDate.of(1999,11,5))
                 .mainDiagnosis("C50").build();
         patientService.save(p1);
-
         createRandomOncoTestsForPatient(p1, 2);
+
+        Patient p2 = Patient.builder().name("Жопик").lastname("Жопиков").patronymic("Попкович")
+                .gender(Patient.Gender.Female).birthdate(LocalDate.of(1972,10,11))
+                .alive(false).deathdate(LocalDate.of(1999,11,5))
+                .mainDiagnosis("C50").build();
+        patientService.save(p2);
+        createRandomOncoTestsForPatient(p2, 2);
     }
 
     /**

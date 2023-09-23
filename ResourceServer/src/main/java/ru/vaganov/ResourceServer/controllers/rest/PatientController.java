@@ -33,6 +33,7 @@ public class PatientController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id){
+        logger.debug("Request to /patients/" + id);
         Patient patient = patientService.findById(id);
         if (patient==null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
