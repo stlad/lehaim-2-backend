@@ -3,13 +3,11 @@ package ru.vaganov.ResourceServer.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.models.OncologicalTest;
-import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.models.ParameterResult;
 import ru.vaganov.ResourceServer.models.Patient;
 import ru.vaganov.ResourceServer.repositories.OncologicalTestRepo;
 import ru.vaganov.ResourceServer.repositories.ParameterResultRepo;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -51,6 +49,6 @@ public class OncologicalService {
     }
 
     public List<OncologicalTest> findAllTestsByPatientOwner(Patient owner){
-        return oncologicalTestRepo.findByPatientOwner(owner);
+        return oncologicalTestRepo.findByPatientOwnerOrderByTestDateDesc(owner);
     };
 }
