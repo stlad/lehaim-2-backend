@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ru.vaganov</groupId>
 	<artifactId>ResourceServer</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<name>ResourceServer</name>
 	<description>API Server for Medical Analyzer Java Project</description>
 	<properties>

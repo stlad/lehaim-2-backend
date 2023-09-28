@@ -31,9 +31,9 @@ public class DataLoadingConfig {
         return args -> {
             //System.out.println("ЗАГРУЗКА КАТАЛОГА");
             logger.info("Loading catalog from \"Catalog\" file");
-            File file = new ClassPathResource("Catalog").getFile();
+            //File file = new ClassPathResource("Catalog").getFile();
 
-            CsvFileParser<Parameter> parser = new CsvFileParser<>(file);
+            CsvFileParser<Parameter> parser = new CsvFileParser<>("/Catalog");
             parser.exec(str -> {
                 String[] arr = str.split(";");
                 Parameter parameter = Parameter.builder()

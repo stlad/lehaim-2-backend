@@ -14,7 +14,7 @@ public class CsvParserTests {
     public void CorrectFromatParameterParsing() throws IOException {
         File file = new ClassPathResource("Test Catalog").getFile();
 
-        CsvFileParser<Parameter> parser = new CsvFileParser<>(file);
+        CsvFileParser<Parameter> parser = new CsvFileParser<>("/Test Catalog");
         parser.exec(str->{
             String[] arr = str.split(";");
             Parameter parameter = Parameter.builder()
