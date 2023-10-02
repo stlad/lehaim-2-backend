@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ru.vaganov</groupId>
-	<artifactId>ResourceServer</artifactId>
+	<artifactId>resource-server</artifactId>
 	<version>0.1.0</version>
 	<name>ResourceServer</name>
 	<description>API Server for Medical Analyzer Java Project</description>
@@ -77,6 +77,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<image>
+						<name>onco-analyzer-resource-server/${project.artifactId}:${project.version}</name>
+					</image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

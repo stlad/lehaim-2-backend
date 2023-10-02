@@ -62,6 +62,10 @@ public class DataLoadingConfig {
     @Bean
     public CommandLineRunner patientDataLoader(PatientService patientService) {
         return args -> {
+            if(patientService.findAll().size() != 0){
+                logger.info("test patients already loaded");
+                return;
+            }
             logger.info("Loading test patients");
             initialyzer.loadTestPatient();
             logger.info("Test Patients loading completed");
