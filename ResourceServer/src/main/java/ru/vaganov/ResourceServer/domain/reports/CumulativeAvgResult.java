@@ -23,7 +23,7 @@ public class CumulativeAvgResult{
     public void add(ParameterResult res){
         sum+=res.getValue();
         count++;
-        avg = count==0 ? 0 : sum / count;
+        avg = count==0 ? 0 : Math.round((sum / count) * 100.0) / 100.0;;
     }
 
 
@@ -32,6 +32,6 @@ public class CumulativeAvgResult{
         this.setFinalValue(finalRes.getValue());
         this.setSum(0.);
         this.setCount(0);
-        this.setAvg(0.);
+        this.setAvg(finalValue);
     }
 }
