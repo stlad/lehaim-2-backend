@@ -29,6 +29,7 @@ public class ReportController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ReportData> getReportByTestId(@PathVariable Long id){
+        logger.info("Request to /reports/"+id);
         OncologicalTest test = oncologicalService.findTestById(id);
         if(test == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(reportFactory.CreateReportDataByTest(test), HttpStatus.OK);

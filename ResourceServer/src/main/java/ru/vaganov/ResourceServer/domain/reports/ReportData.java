@@ -29,7 +29,7 @@ public class ReportData {
         fullName = String.format("%s %s %s", patient.getLastname(), patient.getName(), patient.getPatronymic());
         gender = patient.getGender();
         birthDate = patient.getBirthdate();
-        age = LocalDate.now().getYear() - test.getTestDate().getYear();
+        age = test.getTestDate().getYear() - birthDate.getYear();
         mainDiagnosis = patient.getMainDiagnosis();
         otherDiagnosis = patient.getOtherDiagnosis();
 
