@@ -1,1 +1,24 @@
 Name;AddName;Unit;Min;Max;ResearchType
+Лейкоциты;WBC;10E9/л;4.5;11;Hematological
+Лимфоциты;LYMF;10E9/л;1;4.8;Hematological
+Моноциты;MON;10E9/л;0;0.8;Hematological
+Нейтрофилы;NEU;10E9/л;1.8;8;Hematological
+Эозинофилы;EOS;10E9/л;0;0.7;Hematological
+Базофилы;BAS;10E9/л;0;0.2;Hematological
+Гемоглобин;HGB;г/л;110;154;Hematological
+Тромбоциты;PLT;10E9/л;150;350;Hematological
+Общие T-лимфоциты;CD45+CD3+;10E9/л;0.8;2.2;Immunological
+Общие B-лимфоциты;CD45+CD19+;10E9/л;0.1;0.5;Immunological
+Общие T-хелперы;CD45+CD3+CD4+;10E9/л;0.6;1.6;Immunological
+Общие T-цитотоксические лимфоциты;CD45+CD3+CD8+;10E9/л;0.19;0.65;Immunological
+Общие NK-клетки;CD45+CD3+;10E9/л;0.15;0.6;Immunological
+NK-клетки цитокинпродуцирующие; CD45+CD3-CD16brightCD56dim;%;93.75;97.5;Immunological
+Циркулирующие иммунные комплексы;-;ед.;40;70;Immunological
+НСТ-тест;спонтанный;%;6;12;Immunological
+НСТ-тест;стимулированный;%;24;80;Immunological
+CD3+IFNy+;стимулированный;%;10.9;18.6;Cytokine
+CD3+IFNy+;спонтанный;%;0;0.5;Cytokine
+CD3+TNFa+;стимулированный;%;31.57;45.7;Cytokine
+CD3+TNFa+;спонтанный;%;0;0.9;Cytokine
+CD3+IL2+;стимулированный;%;31.57;45.7;Cytokine
+CD3+IL2+;спонтанный;%;0;0.5;Cytokine
