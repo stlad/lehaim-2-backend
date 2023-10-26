@@ -30,7 +30,7 @@ public class Solver {
                 exprWithBools.add(cell);
             }
         });
-        System.out.println(exprWithBools);
+//        System.out.println(exprWithBools);
         List<String> exprWithBools1 = new ArrayList<>();
         int i =0;
         while (i<exprWithBools.size()){
