@@ -36,6 +36,8 @@ command-line-runner:
       enabled : true
     patients:
       enabled : true
+    recommendations:
+      enabled : true
 
 
 logging:
