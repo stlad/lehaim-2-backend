@@ -7,15 +7,33 @@ Name;AddName;Unit;Min;Max;ResearchType
 Базофилы;BAS;10E9/л;0;0.2;Hematological
 Гемоглобин;HGB;г/л;110;154;Hematological
 Тромбоциты;PLT;10E9/л;150;350;Hematological
+Эритроциты;RBC;10Е12/л;3.60;5.20;Hematological
+Ср. объем эритроцита;MCV;фл;72.00;100.00;Hematological
+Ср. сод. гем. в эритроците;MCH;пг;27.00;34.00;Hematological
+Ср. конц. гем. в эритроците;MCHC;г/л;300.00;380.00;Hematological
+Распр. эритр. по объему;RDW-CV;%;11.50;18.50;Hematological
+Ср. объем тромбоцита;MPV;фл;3.60;19.80;Hematological
+Тромбокрит;PCT;%;0;100;Hematological
+Распр. тромб. по объему;PDV;%;0;100;Hematological
 Общие T-лимфоциты;CD45+CD3+;10E9/л;0.8;2.2;Immunological
 Общие B-лимфоциты;CD45+CD19+;10E9/л;0.1;0.5;Immunological
 Общие T-хелперы;CD45+CD3+CD4+;10E9/л;0.6;1.6;Immunological
 Общие T-цитотоксические лимфоциты;CD45+CD3+CD8+;10E9/л;0.19;0.65;Immunological
 Общие NK-клетки;CD45+CD3+;10E9/л;0.15;0.6;Immunological
-NK-клетки цитокинпродуцирующие; CD45+CD3-CD16brightCD56dim;%;93.75;97.5;Immunological
+NK-клетки цитолитические; CD45+CD3-CD16brightCD56dim;%;93.75;97.5;Immunological
+NK-клетки цитокинпродуцирующие;CD45+CD3-CD16dim-to-negCD56bright;%;2.50;6.25;Immunological
+TNK-клетки;CD45+CD3+CD16+CD56+;10E9/л;0.5;6;Immunological
+Активированные Т-клетки;CD45+CD3+HLA-DR+;10E9/л;0;0.165;Immunological
+Активированные T-клетки, экспрессирующие a-цепь ИЛ-2;CD45+CD3+CD25+; %;0.50;6.00;Immunological
+IgA;-;г/л;1.60;3.50;Immunological
+IgG;-;г/л;10.00;16.00;Immunological
+IgM;-;г/л;0.90;1.50;Immunological
 Циркулирующие иммунные комплексы;-;ед.;40;70;Immunological
 НСТ-тест;спонтанный;%;6;12;Immunological
 НСТ-тест;стимулированный;%;24;80;Immunological
+Бактерицидная активность лейкоцитов;-;%;27.6;37.4;Immunological
+Поглотительная активность нейтрофилов;-;%;86.1;95.1;Immunological
+Поглотительная активность моноцитов;-;%;74;86.4;Immunological
 CD3+IFNy+;стимулированный;%;10.9;18.6;Cytokine
 CD3+IFNy+;спонтанный;%;0;0.5;Cytokine
 CD3+TNFa+;стимулированный;%;31.57;45.7;Cytokine

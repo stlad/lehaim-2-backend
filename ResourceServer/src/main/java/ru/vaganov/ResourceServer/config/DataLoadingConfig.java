@@ -8,11 +8,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import ru.vaganov.ResourceServer.models.Expression;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.models.Patient;
 import ru.vaganov.ResourceServer.parsers.CsvFileParser;
 import ru.vaganov.ResourceServer.services.CatalogService;
 import ru.vaganov.ResourceServer.services.PatientService;
+import ru.vaganov.ResourceServer.services.RecommendationService;
 
 import java.io.File;
 
@@ -31,7 +33,6 @@ public class DataLoadingConfig {
         return args -> {
             //System.out.println("ЗАГРУЗКА КАТАЛОГА");
             logger.info("Loading catalog from \"Catalog\" file");
-            //File file = new ClassPathResource("Catalog").getFile();
 
             CsvFileParser<Parameter> parser = new CsvFileParser<>("/Catalog");
             parser.exec(str -> {
@@ -69,6 +70,34 @@ public class DataLoadingConfig {
             logger.info("Loading test patients");
             initialyzer.loadTestPatient();
             logger.info("Test Patients loading completed");
+        };
+    }
+
+
+    @ConditionalOnProperty(
+            prefix = "command-line-runner.data-loading.recommendations",
+            value = "enabled",
+            havingValue = "true",
+            matchIfMissing = true)
+    @Bean
+    public CommandLineRunner expressionDataLoader(RecommendationService recommendationService) {
+        return args -> {
+            logger.info("Loading test recommendations");
+            Expression expression1 = Expression.builder()
+                    .expression("!1_>=_4 and !1_<=_11")
+                    .trueResult("Лейкоциты внутри нормы")
+                    .falseResult("Лейкоциты вне нормы")
+                    .build();
+
+
+            Expression expression2 = Expression.builder()
+                    .expression("!2_>=_1 and !2_<=_4.8")
+                    .trueResult("Лимфоциты внутри нормы")
+                    .falseResult("Лимфоциты вне нормы")
+                    .build();
+            recommendationService.saveExpression(expression1);
+            recommendationService.saveExpression(expression2);
+            logger.info("test recomme loading completed");
         };
     }
 }
