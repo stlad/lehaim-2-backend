@@ -20,4 +20,14 @@ public class Expression {
     private String trueResult;
     private String falseResult;
     private String cause;
+
+
+
+    public void updateFieldsBy(Expression changes){
+        if(changes.getExpression()!=null) setExpression(changes.getExpression());
+        if(changes.getTrueResult()!=null) setTrueResult(changes.getTrueResult());
+        if(changes.getFalseResult()!=null) setFalseResult(changes.getFalseResult());
+        if(changes.getCause()!=null) setCause(changes.getCause());
+    }
+
 }

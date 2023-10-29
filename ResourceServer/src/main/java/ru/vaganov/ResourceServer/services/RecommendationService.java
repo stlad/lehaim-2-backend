@@ -20,4 +20,13 @@ public class RecommendationService {
     public Expression saveExpression(Expression expression){
         return expressionRepo.save(expression);
     }
+
+    public void deleteExpression(Expression expression){
+        expressionRepo.delete(expression);
+    }
+
+    public Expression findById(Long id){
+        return expressionRepo.findById(id).orElse(null);
+    }
+
 }

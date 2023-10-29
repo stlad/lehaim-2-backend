@@ -33,6 +33,7 @@ public class RecommendationController {
 
     @GetMapping("/{testId}")
     public ResponseEntity<List<String>> solveTest(@PathVariable Long testId){
+        logger.info("Solving test with id: "+testId);
         OncologicalTest test = oncologicalService.findTestById(testId);
         if(test == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
@@ -47,5 +48,29 @@ public class RecommendationController {
             recs.add(solver.process(expr, resultList));
         }
         return new ResponseEntity<>(recs, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRecommendation(@PathVariable Long id){
+        logger.info("deleting recommendation with id: " + id);
+        Expression expression = recommendationService.findById(id);
+        if(expression == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<Expression> editRecommendation(@RequestBody Expression newExpression){
+        logger.info("editing recommendation with id: " + newExpression.getId());
+        Expression expression = recommendationService.findById(newExpression.getId());
+        if(expression == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+        expression.updateFieldsBy(newExpression);
+        expression = recommendationService.saveExpression(expression);
+        return new ResponseEntity<>(expression, HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Expression>> getAllExpressions(){
+        return new ResponseEntity<>(recommendationService.findAllExpressions(), HttpStatus.OK);
     }
 }
