@@ -1,24 +1,31 @@
 package ru.vaganov.ResourceServer.domain.recommendations;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import ru.vaganov.ResourceServer.models.Expression;
+import ru.vaganov.ResourceServer.models.recommendations.Expression;
 import ru.vaganov.ResourceServer.models.ParameterResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
-public class Solver {
+@Deprecated
+public class BinaryRecommendationSolver{
+
 
     public String process(Expression expression, List<ParameterResult> results){
         Boolean res = parse(expression.getExpression(), results);
         if(res) return  expression.getTrueResult();
         else return  expression.getFalseResult();
+
+        /*  ПРИМЕР ИСПОЛЬЗОВАНИЯ
+
+         List<String> recs = new ArrayList<>();
+        for(Expression expr: expressions) {
+            recs.add(solver.process(expr, resultList));
+        }
+         */
     }
 
-    public Boolean parse(String str, List<ParameterResult> results){
+    private Boolean parse(String str, List<ParameterResult> results){
         String[] a = str.split(" ");
         List<String> exprWithBools = new ArrayList<>();
         Arrays.stream(a).forEach(cell->{

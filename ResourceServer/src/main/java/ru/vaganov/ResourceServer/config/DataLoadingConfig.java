@@ -7,16 +7,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import ru.vaganov.ResourceServer.models.Expression;
+import ru.vaganov.ResourceServer.models.recommendations.Expression;
 import ru.vaganov.ResourceServer.models.Parameter;
-import ru.vaganov.ResourceServer.models.Patient;
+import ru.vaganov.ResourceServer.models.recommendations.IntervalRecommendation;
 import ru.vaganov.ResourceServer.parsers.CsvFileParser;
 import ru.vaganov.ResourceServer.services.CatalogService;
 import ru.vaganov.ResourceServer.services.PatientService;
 import ru.vaganov.ResourceServer.services.RecommendationService;
 
-import java.io.File;
+import java.util.List;
 
 @Configuration
 public class DataLoadingConfig {
@@ -80,24 +79,53 @@ public class DataLoadingConfig {
             havingValue = "true",
             matchIfMissing = true)
     @Bean
-    public CommandLineRunner expressionDataLoader(RecommendationService recommendationService) {
+    public CommandLineRunner expressionDataLoader(RecommendationService recommendationService,CatalogService catalogService) {
         return args -> {
             logger.info("Loading test recommendations");
-            Expression expression1 = Expression.builder()
-                    .expression("!1_>=_4 and !1_<=_11")
-                    .trueResult("Лейкоциты внутри нормы")
-                    .falseResult("Лейкоциты вне нормы")
+            List<Parameter> catalog = catalogService.findAll();
+            /*for(Parameter p: catalog){
+                IntervalRecommendation irec = IntervalRecommendation.builder()
+                        .parameter(p)
+                        .resultIfGreater("Значение "+p.getName()+" ("+p.getAdditionalName()+") ПРЕВЫШАЕТ ДИАПАЗОН")
+                        .resultIfInside("Значение "+p.getName()+" ("+p.getAdditionalName()+") ВНУТРИ ДИАПАЗОНА")
+                        .resultIfLess("Значение "+p.getName()+" ("+p.getAdditionalName()+") НИЖЕ ДИАПАЗОНА")
+                        .build();
+
+                recommendationService.save(irec);
+            }*/
+            IntervalRecommendation irec = IntervalRecommendation.builder()
+                    .parameter(catalogService.findById(1L))
+                    .resultIfGreater("Лейкоциты ПРЕВЫШАЮТ норму => пить чай")
+                    .resultIfInside("Лейкоциты ВНУТРИ нормы => лечение не нужно")
+                    .resultIfLess("Лейкоциты НИЖЕ нормы => пить кофе")
                     .build();
+            recommendationService.save(irec);
+
+            irec = IntervalRecommendation.builder()
+                    .parameter(catalogService.findById(2L))
+                    .resultIfGreater("Лимфоциты ПРЕВЫШАЮТ норму => кушать тортики")
+                    .resultIfInside("Лимфоциты ВНУТРИ нормы => лечение не нужно")
+                    .resultIfLess("Лимфоциты НИЖЕ нормы => кушать пирожки")
+                    .build();
+            recommendationService.save(irec);
+
+            irec = IntervalRecommendation.builder()
+                    .parameter(catalogService.findById(3L))
+                    .resultIfGreater("Моноциты ПРЕВЫШАЮТ норму => кушать конфетки")
+                    .resultIfInside("Моноциты ВНУТРИ нормы => лечение не нужно")
+                    .resultIfLess("Моноциты НИЖЕ нормы => кушать мармеладки")
+                    .build();
+            recommendationService.save(irec);
 
 
-            Expression expression2 = Expression.builder()
-                    .expression("!2_>=_1 and !2_<=_4.8")
-                    .trueResult("Лимфоциты внутри нормы")
-                    .falseResult("Лимфоциты вне нормы")
+            irec = IntervalRecommendation.builder()
+                    .parameter(catalogService.findById(4L))
+                    .resultIfGreater("Нейтрофилы ПРЕВЫШАЮТ норму => смотреть киношки")
+                    .resultIfInside("Нейтрофилы ВНУТРИ нормы => лечение не нужно")
+                    .resultIfLess("Нейтрофилы НИЖЕ нормы => смотреть сериальчики")
                     .build();
-            recommendationService.saveExpression(expression1);
-            recommendationService.saveExpression(expression2);
-            logger.info("test recomme loading completed");
+            recommendationService.save(irec);
+            logger.info("Test recommendations loading completed");
         };
     }
 }

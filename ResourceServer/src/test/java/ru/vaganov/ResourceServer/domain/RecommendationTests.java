@@ -2,13 +2,12 @@ package ru.vaganov.ResourceServer.domain;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.vaganov.ResourceServer.domain.recommendations.Solver;
-import ru.vaganov.ResourceServer.models.Expression;
+import ru.vaganov.ResourceServer.domain.recommendations.BinaryRecommendationSolver;
+import ru.vaganov.ResourceServer.models.recommendations.Expression;
 
 public class RecommendationTests {
 
-    private Solver solver = new Solver();
+    private BinaryRecommendationSolver solver = new BinaryRecommendationSolver();
 
 
     @Test

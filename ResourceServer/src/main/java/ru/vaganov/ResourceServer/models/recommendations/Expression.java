@@ -1,4 +1,4 @@
-package ru.vaganov.ResourceServer.models;
+package ru.vaganov.ResourceServer.models.recommendations;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,8 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Deprecated
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-@Entity
+//@Entity
 public class Expression {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
