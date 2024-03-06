@@ -1,5 +1,6 @@
 package ru.vaganov.ResourceServer.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.vaganov.ResourceServer.models.recommendations.Expression;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.models.recommendations.IntervalRecommendation;
 import ru.vaganov.ResourceServer.parsers.CsvFileParser;
+import ru.vaganov.ResourceServer.repositories.CatalogRepo;
 import ru.vaganov.ResourceServer.services.CatalogService;
 import ru.vaganov.ResourceServer.services.PatientService;
 import ru.vaganov.ResourceServer.services.RecommendationService;
@@ -18,9 +19,8 @@ import ru.vaganov.ResourceServer.services.RecommendationService;
 import java.util.List;
 
 @Configuration
+@Slf4j
 public class DataLoadingConfig {
-
-    Logger logger = LoggerFactory.getLogger(DataLoadingConfig.class);
 
     @ConditionalOnProperty(
             prefix = "command-line-runner.data-loading.catalog",
@@ -28,10 +28,9 @@ public class DataLoadingConfig {
             havingValue = "true",
             matchIfMissing = true)
     @Bean
-    public CommandLineRunner dataLoader(CatalogService catalogService) {
+    public CommandLineRunner dataLoader(CatalogRepo catalogRepo) {
         return args -> {
-            //System.out.println("ЗАГРУЗКА КАТАЛОГА");
-            logger.info("Loading catalog from \"Catalog\" file");
+            log.info("Loading catalog from \"Catalog\" file");
 
             CsvFileParser<Parameter> parser = new CsvFileParser<>("/Catalog");
             parser.exec(str -> {
@@ -46,8 +45,16 @@ public class DataLoadingConfig {
                         .build();
                 return parameter;
 
-            }, catalogService::save);
-            logger.info("Catalog loading completed");
+            }, (parameter)->{
+                if(catalogRepo.existsByNameAndAdditionalName(parameter.getName(), parameter.getAdditionalName())){
+                    log.info("{} already exists, skipping...", parameter);
+                }
+                else{
+                    parameter = catalogRepo.save(parameter);
+                    log.info("{} saved", parameter);
+                }
+            } );
+            log.info("Catalog loading completed");
         };
     }
 
@@ -63,12 +70,12 @@ public class DataLoadingConfig {
     public CommandLineRunner patientDataLoader(PatientService patientService) {
         return args -> {
             if(patientService.findAll().size() != 0){
-                logger.info("test patients already loaded");
+                log.info("test patients already loaded");
                 return;
             }
-            logger.info("Loading test patients");
+            log.info("Loading test patients");
             initialyzer.loadTestPatient();
-            logger.info("Test Patients loading completed");
+            log.info("Test Patients loading completed");
         };
     }
 
@@ -77,22 +84,13 @@ public class DataLoadingConfig {
             prefix = "command-line-runner.data-loading.recommendations",
             value = "enabled",
             havingValue = "true",
-            matchIfMissing = true)
+            matchIfMissing = false)
     @Bean
     public CommandLineRunner expressionDataLoader(RecommendationService recommendationService,CatalogService catalogService) {
         return args -> {
-            logger.info("Loading test recommendations");
+            log.info("Loading test recommendations");
             List<Parameter> catalog = catalogService.findAll();
-            /*for(Parameter p: catalog){
-                IntervalRecommendation irec = IntervalRecommendation.builder()
-                        .parameter(p)
-                        .resultIfGreater("Значение "+p.getName()+" ("+p.getAdditionalName()+") ПРЕВЫШАЕТ ДИАПАЗОН")
-                        .resultIfInside("Значение "+p.getName()+" ("+p.getAdditionalName()+") ВНУТРИ ДИАПАЗОНА")
-                        .resultIfLess("Значение "+p.getName()+" ("+p.getAdditionalName()+") НИЖЕ ДИАПАЗОНА")
-                        .build();
 
-                recommendationService.save(irec);
-            }*/
             IntervalRecommendation irec = IntervalRecommendation.builder()
                     .parameter(catalogService.findById(1L))
                     .resultIfGreater("Лейкоциты ПРЕВЫШАЮТ норму => пить чай")
@@ -125,7 +123,7 @@ public class DataLoadingConfig {
                     .resultIfLess("Нейтрофилы НИЖЕ нормы => смотреть сериальчики")
                     .build();
             recommendationService.save(irec);
-            logger.info("Test recommendations loading completed");
+            log.info("Test recommendations loading completed");
         };
     }
 }

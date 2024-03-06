@@ -18,4 +18,5 @@ public interface CatalogRepo extends JpaRepository<Parameter,Long> {
 
     public List<Parameter> findByResearchTypeOrderById(Parameter.ResearchType type);
 
+    public Boolean existsByNameAndAdditionalName(String name, String addName);
 }

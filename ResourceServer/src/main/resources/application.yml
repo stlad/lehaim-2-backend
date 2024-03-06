@@ -19,7 +19,7 @@ spring:
   jpa:
     generate-ddl : true
     hibernate :
-      ddl-auto : create
+      ddl-auto : update
     properties:
       hibernate:
         dialect : org.hibernate.dialect.PostgreSQLDialect
@@ -37,7 +37,7 @@ command-line-runner:
     patients:
       enabled : true
     recommendations:
-      enabled : true
+      enabled : false
 
 
 logging:
