@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ru.vaganov</groupId>
 	<artifactId>Lehaim-2-backend</artifactId>
-	<version>0.3.1</version>
+	<version>0.0.1</version>
 	<name>Lehaim2</name>
 	<description>API Server for Lehaim 2 Project</description>
 	<properties>
@@ -58,11 +58,6 @@
 			<version>2.2.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
