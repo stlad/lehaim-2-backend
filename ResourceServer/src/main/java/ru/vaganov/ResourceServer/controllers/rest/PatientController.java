@@ -1,66 +1,52 @@
 package ru.vaganov.ResourceServer.controllers.rest;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.vaganov.ResourceServer.models.Patient;
+import ru.vaganov.ResourceServer.models.dto.PatientDTO;
 import ru.vaganov.ResourceServer.services.PatientService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/patients")
+@Tag(name = "Patient API")
+@Slf4j
 public class PatientController {
-    Logger logger = LoggerFactory.getLogger(PatientController.class);
 
     @Autowired
     private PatientService patientService;
 
-
-    @GetMapping("/all")
-    public ResponseEntity<List<Patient>> getALlPatients(){
-        logger.debug("Request to /patients/all");
-
-        return new ResponseEntity<>(patientService.findAll(), HttpStatus.OK);
+    @GetMapping("/")
+    public ResponseEntity<PatientDTO> findPatientById(@RequestParam Long id){
+        PatientDTO dto = patientService.findPatientById(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Patient> getPatientById(@PathVariable Long id){
-        logger.debug("Request to /patients/" + id);
-        Patient patient = patientService.findById(id);
-        if (patient==null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-
-        return new ResponseEntity<>(patient, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Patient> deletePatientById(@PathVariable Long id){
-        Patient pat = patientService.findById(id);
-        if(pat == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        patientService.delete(pat);
-        return new ResponseEntity<>(null,HttpStatus.OK);
-    }
-
-    @PutMapping("/")
-    public ResponseEntity<Patient> updatePatient(@RequestBody Patient patient){
-        Patient patientToChange = patientService.findById(patient.getId());
-        if(patientToChange == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-
-        patientToChange.updateFieldsBy(patient);
-        patientToChange = patientService.save(patientToChange);
-        return new ResponseEntity<>(patientToChange, HttpStatus.OK);
+    @GetMapping("/fullName")
+    public ResponseEntity<PatientDTO> findByFullNameAndBirthdate(
+            @RequestParam String firstname,
+            @RequestParam String lastname,
+            @RequestParam String middlename,
+            @RequestParam LocalDate birthdate){
+        PatientDTO dto = patientService.findPatientByFullNameAndBirthdate(firstname, lastname, middlename, birthdate);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Patient> newPatient(@RequestBody Patient patient){
-        patient = patientService.save(patient);
-        return new ResponseEntity<>(patient, HttpStatus.OK);
+    public ResponseEntity<PatientDTO> createPatient(@RequestBody PatientDTO dto){
+        PatientDTO createdPatient = patientService.savePatient(dto);
+        return new ResponseEntity<>(createdPatient, HttpStatus.OK);
     }
+
+    @PutMapping("/")
+    public ResponseEntity<PatientDTO> editPatient(@RequestParam Long id, @RequestBody PatientDTO dto){
+        return new ResponseEntity<>(patientService.updatePatient(id, dto), HttpStatus.OK);
+    }
+
 }

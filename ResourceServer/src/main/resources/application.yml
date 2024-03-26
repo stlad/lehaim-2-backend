@@ -8,27 +8,17 @@ spring:
     username : postgres
     password : admin
 
-
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    encoding: UTF-8
-    cache: false
-
-
   jpa:
     generate-ddl : true
     hibernate :
-      ddl-auto : create
+      ddl-auto : update
     properties:
       hibernate:
         dialect : org.hibernate.dialect.PostgreSQLDialect
 
-
   output:
     ansi:
       enabled : always
-
 
 command-line-runner:
   data-loading:
@@ -37,7 +27,7 @@ command-line-runner:
     patients:
       enabled : true
     recommendations:
-      enabled : true
+      enabled : false
 
 
 logging:

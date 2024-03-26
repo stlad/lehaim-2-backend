@@ -1,43 +1,72 @@
 package ru.vaganov.ResourceServer.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.vaganov.ResourceServer.config.DataLoadingConfig;
+import ru.vaganov.ResourceServer.exceptions.ValidationException;
+import ru.vaganov.ResourceServer.mappers.PatientMapper;
 import ru.vaganov.ResourceServer.models.Patient;
+import ru.vaganov.ResourceServer.models.dto.PatientDTO;
 import ru.vaganov.ResourceServer.repositories.PatientRepo;
 
-import java.util.List;
+import java.time.LocalDate;
+
 
 @Service
+@Slf4j
 public class PatientService {
-    Logger logger = LoggerFactory.getLogger(PatientService.class);
-    private PatientRepo patientRepo;
-
 
     @Autowired
-    public PatientService(PatientRepo patientRepo) {
-        this.patientRepo = patientRepo;
+    private PatientRepo patientRepo;
+
+    @Autowired
+    private PatientMapper patientMapper;
+
+    public PatientDTO savePatient(PatientDTO dto){
+        if(isPatientPresent(dto))
+            throw new ValidationException(String.format("Patient: %s %s already exists", dto.getLastname(), dto.getName()));
+        Patient patient =patientRepo.save(patientMapper.fromDto(dto));
+
+        return patientMapper.toDto(patient);
     }
 
+    public PatientDTO findPatientById(Long id){
+        Patient patient = patientRepo.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+id));
 
-    public Patient save(Patient patient){
-        patient = patientRepo.save(patient);
-        logger.debug("Patient [" + patient.toString() + "] saved");
-        return patient;
+        return patientMapper.toDto(patient);
     }
 
-    public void delete(Patient patient){
-        patientRepo.delete(patient);
-        logger.debug("Patient [" + patient.toString() + "] deleted");
+    public PatientDTO findPatientByFullNameAndBirthdate(
+            String firstname, String lastname, String middlename, LocalDate birthdate){
+        Patient patient = patientRepo.findByNameAndLastnameAndPatronymicAndBirthdate(firstname, lastname, middlename, birthdate)
+                .orElseThrow(()->new EntityNotFoundException(String.format("Cannot find patient: %s %s %s %s", firstname, lastname, middlename, birthdate)));
+
+        return patientMapper.toDto(patient);
     }
 
+    public PatientDTO updatePatient(Long id, PatientDTO dto){
+        Patient patient = patientRepo.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+id));
+
+        dto.setId(null);
+        patientMapper.updateFromDto(dto, patient);
+        return patientMapper.toDto(patientRepo.save(patient));
+    }
+
+    @Deprecated(forRemoval = true)
     public Patient findById(Long id){
-        return patientRepo.findById(id).orElse(null);
+        return patientRepo.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+id));
     }
 
-    public List<Patient> findAll(){
-        return patientRepo.findAll();
+    private boolean isPatientPresent(PatientDTO dto){
+        return patientRepo.findByNameAndLastnameAndPatronymicAndBirthdate(
+                dto.getName(),
+                dto.getLastname(),
+                dto.getPatronymic(),
+                dto.getBirthdate()).isPresent();
     }
+
 }
