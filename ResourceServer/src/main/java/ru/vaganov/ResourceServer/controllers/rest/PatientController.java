@@ -1,5 +1,6 @@
 package ru.vaganov.ResourceServer.controllers.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,14 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
+    @Operation(summary = "Поиск по ID", description = "Поиск по идентификатору" )
     @GetMapping("/")
     public ResponseEntity<PatientDTO> findPatientById(@RequestParam Long id){
         PatientDTO dto = patientService.findPatientById(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @Operation(summary = "Поиск по ФИО + Дата рождения", description = "Точное совпадение всех полей пациента" )
     @GetMapping("/fullName")
     public ResponseEntity<PatientDTO> findByFullNameAndBirthdate(
             @RequestParam String firstname,
@@ -38,12 +41,14 @@ public class PatientController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @Operation(summary = "Добавление пациента", description = "Создание нового пациента" )
     @PostMapping("/")
     public ResponseEntity<PatientDTO> createPatient(@RequestBody PatientDTO dto){
         PatientDTO createdPatient = patientService.savePatient(dto);
         return new ResponseEntity<>(createdPatient, HttpStatus.OK);
     }
 
+    @Operation(summary = "Обновление пациента", description = "Обновление непустых полей" )
     @PutMapping("/")
     public ResponseEntity<PatientDTO> editPatient(@RequestParam Long id, @RequestBody PatientDTO dto){
         return new ResponseEntity<>(patientService.updatePatient(id, dto), HttpStatus.OK);
