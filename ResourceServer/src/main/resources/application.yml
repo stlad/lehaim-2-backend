@@ -8,14 +8,6 @@ spring:
     username : postgres
     password : admin
 
-
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    encoding: UTF-8
-    cache: false
-
-
   jpa:
     generate-ddl : true
     hibernate :
@@ -24,11 +16,9 @@ spring:
       hibernate:
         dialect : org.hibernate.dialect.PostgreSQLDialect
 
-
   output:
     ansi:
       enabled : always
-
 
 command-line-runner:
   data-loading:

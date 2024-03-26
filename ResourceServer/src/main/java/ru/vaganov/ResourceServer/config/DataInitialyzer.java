@@ -1,34 +1,30 @@
 package ru.vaganov.ResourceServer.config;
 
-import org.hibernate.loader.ast.spi.Loadable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 import ru.vaganov.ResourceServer.models.OncologicalTest;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.models.ParameterResult;
 import ru.vaganov.ResourceServer.models.Patient;
+import ru.vaganov.ResourceServer.repositories.PatientRepo;
 import ru.vaganov.ResourceServer.services.CatalogService;
 import ru.vaganov.ResourceServer.services.OncologicalService;
-import ru.vaganov.ResourceServer.services.PatientService;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Component
 public class DataInitialyzer {
 
     @Autowired private CatalogService catalogService;
-    @Autowired private PatientService patientService;
+    @Autowired private PatientRepo patientRepo;
     @Autowired private OncologicalService oncologicalService;
 
     public void loadTestPatient(){
         Patient p = Patient.builder().name("Иван").lastname("Иванов").patronymic("Иванович")
                 .gender(Patient.Gender.Male).birthdate(LocalDate.of(1980,10,1))
                 .alive(true).mainDiagnosis("C50").build();
-        patientService.save(p);
+        patientRepo.save(p);
         createRandomOncoTestsForPatient(p, 6);
 
 
@@ -37,14 +33,14 @@ public class DataInitialyzer {
                 .gender(Patient.Gender.Female).birthdate(LocalDate.of(1950,2,25))
                 .alive(false).deathdate(LocalDate.of(1999,11,5))
                 .mainDiagnosis("C50").build();
-        patientService.save(p1);
+        patientRepo.save(p1);
         createRandomOncoTestsForPatient(p1, 2);
 
         Patient p2 = Patient.builder().name("Человечек").lastname("Человечков").patronymic("Человечкович")
                 .gender(Patient.Gender.Female).birthdate(LocalDate.of(1972,10,11))
                 .alive(false).deathdate(LocalDate.of(1999,11,5))
                 .mainDiagnosis("C50").build();
-        patientService.save(p2);
+        patientRepo.save(p2);
         createRandomOncoTestsForPatient(p2, 2);
     }
 

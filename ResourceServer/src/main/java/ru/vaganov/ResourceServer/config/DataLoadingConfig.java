@@ -12,6 +12,7 @@ import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.models.recommendations.IntervalRecommendation;
 import ru.vaganov.ResourceServer.parsers.CsvFileParser;
 import ru.vaganov.ResourceServer.repositories.CatalogRepo;
+import ru.vaganov.ResourceServer.repositories.PatientRepo;
 import ru.vaganov.ResourceServer.services.CatalogService;
 import ru.vaganov.ResourceServer.services.PatientService;
 import ru.vaganov.ResourceServer.services.RecommendationService;
@@ -67,9 +68,9 @@ public class DataLoadingConfig {
             havingValue = "true",
             matchIfMissing = true)
     @Bean
-    public CommandLineRunner patientDataLoader(PatientService patientService) {
+    public CommandLineRunner patientDataLoader(PatientRepo patientRepo) {
         return args -> {
-            if(patientService.findAll().size() != 0){
+            if(patientRepo.findAll().size() != 0){
                 log.info("test patients already loaded");
                 return;
             }
