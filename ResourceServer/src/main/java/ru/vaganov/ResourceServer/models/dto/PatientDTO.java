@@ -1,7 +1,5 @@
 package ru.vaganov.ResourceServer.models.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.*;
 import ru.vaganov.ResourceServer.models.Patient;
 
@@ -17,9 +15,11 @@ public class PatientDTO {
     private String patronymic;
     private LocalDate birthdate;
     private LocalDate deathdate;
-    private Boolean alive;
     private String mainDiagnosis;
     private String otherDiagnosis;
     private String info;
     private Patient.Gender gender;
+    private String operationComments;
+    private String diagnosisComments;
+    private String chemotherapyComments;
 }

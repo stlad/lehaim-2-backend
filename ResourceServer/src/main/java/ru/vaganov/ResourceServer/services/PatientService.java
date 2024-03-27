@@ -40,8 +40,15 @@ public class PatientService {
 
     public PatientDTO findPatientByFullNameAndBirthdate(
             String firstname, String lastname, String middlename, LocalDate birthdate){
-        Patient patient = patientRepo.findByNameAndLastnameAndPatronymicAndBirthdate(firstname, lastname, middlename, birthdate)
-                .orElseThrow(()->new EntityNotFoundException(String.format("Cannot find patient: %s %s %s %s", firstname, lastname, middlename, birthdate)));
+        Patient patient;
+        if(middlename==null){
+             patient = patientRepo.findByNameAndLastnameAndBirthdate(firstname, lastname, birthdate)
+                    .orElseThrow(()->new EntityNotFoundException(String.format("Cannot find patient: %s %s %s", firstname, lastname, birthdate)));
+        }
+        else{
+            patient = patientRepo.findByNameAndLastnameAndPatronymicAndBirthdate(firstname, lastname, middlename, birthdate)
+                    .orElseThrow(()->new EntityNotFoundException(String.format("Cannot find patient: %s %s %s %s", firstname, lastname, middlename, birthdate)));
+        }
 
         return patientMapper.toDto(patient);
     }
@@ -68,5 +75,7 @@ public class PatientService {
                 dto.getPatronymic(),
                 dto.getBirthdate()).isPresent();
     }
+
+
 
 }

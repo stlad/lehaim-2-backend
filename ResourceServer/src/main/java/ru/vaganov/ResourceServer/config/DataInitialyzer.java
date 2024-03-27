@@ -23,7 +23,7 @@ public class DataInitialyzer {
     public void loadTestPatient(){
         Patient p = Patient.builder().name("Иван").lastname("Иванов").patronymic("Иванович")
                 .gender(Patient.Gender.Male).birthdate(LocalDate.of(1980,10,1))
-                .alive(true).mainDiagnosis("C50").build();
+                .mainDiagnosis("C50").build();
         patientRepo.save(p);
         createRandomOncoTestsForPatient(p, 6);
 
@@ -31,14 +31,14 @@ public class DataInitialyzer {
 
         Patient p1 = Patient.builder().name("Ирина").lastname("Бупкина").patronymic("Андреевна")
                 .gender(Patient.Gender.Female).birthdate(LocalDate.of(1950,2,25))
-                .alive(false).deathdate(LocalDate.of(1999,11,5))
+                .deathdate(LocalDate.of(1999,11,5))
                 .mainDiagnosis("C50").build();
         patientRepo.save(p1);
         createRandomOncoTestsForPatient(p1, 2);
 
         Patient p2 = Patient.builder().name("Человечек").lastname("Человечков").patronymic("Человечкович")
                 .gender(Patient.Gender.Female).birthdate(LocalDate.of(1972,10,11))
-                .alive(false).deathdate(LocalDate.of(1999,11,5))
+                .deathdate(LocalDate.of(1999,11,5))
                 .mainDiagnosis("C50").build();
         patientRepo.save(p2);
         createRandomOncoTestsForPatient(p2, 2);
