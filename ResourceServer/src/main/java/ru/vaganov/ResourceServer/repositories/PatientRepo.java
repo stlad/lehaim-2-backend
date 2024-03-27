@@ -1,6 +1,7 @@
 package ru.vaganov.ResourceServer.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.vaganov.ResourceServer.models.Patient;
 
@@ -9,6 +10,17 @@ import java.util.Optional;
 
 @Repository
 public interface PatientRepo extends JpaRepository<Patient, Long> {
+
+    @Query("SELECT p FROM Patient p "+
+            "WHERE UPPER(p.name) LIKE UPPER(:firstname) "+
+            "AND UPPER(p.lastname) LIKE UPPER(:lastname) "+
+            "AND UPPER(p.patronymic) LIKE UPPER(:patronymic) "+
+            "AND p.birthdate = :birthdate")
     Optional<Patient> findByNameAndLastnameAndPatronymicAndBirthdate(String firstname, String lastname,
                                                                      String patronymic, LocalDate birthdate);
+    @Query("SELECT p FROM Patient p "+
+            "WHERE UPPER(p.name) LIKE UPPER(:firstname) "+
+            "AND UPPER(p.lastname) LIKE UPPER(:lastname) "+
+            "AND p.birthdate = :birthdate")
+    Optional<Patient> findByNameAndLastnameAndBirthdate(String firstname, String lastname,LocalDate birthdate);
 }

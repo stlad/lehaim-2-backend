@@ -24,8 +24,8 @@ public class PatientController {
     private PatientService patientService;
 
     @Operation(summary = "Поиск по ID", description = "Поиск по идентификатору" )
-    @GetMapping("/")
-    public ResponseEntity<PatientDTO> findPatientById(@RequestParam Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<PatientDTO> findPatientById(@PathVariable Long id){
         PatientDTO dto = patientService.findPatientById(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -35,7 +35,7 @@ public class PatientController {
     public ResponseEntity<PatientDTO> findByFullNameAndBirthdate(
             @RequestParam String firstname,
             @RequestParam String lastname,
-            @RequestParam String middlename,
+            @RequestParam(required = false) String middlename,
             @RequestParam LocalDate birthdate){
         PatientDTO dto = patientService.findPatientByFullNameAndBirthdate(firstname, lastname, middlename, birthdate);
         return new ResponseEntity<>(dto, HttpStatus.OK);
@@ -49,8 +49,8 @@ public class PatientController {
     }
 
     @Operation(summary = "Обновление пациента", description = "Обновление непустых полей" )
-    @PutMapping("/")
-    public ResponseEntity<PatientDTO> editPatient(@RequestParam Long id, @RequestBody PatientDTO dto){
+    @PutMapping("/{id}")
+    public ResponseEntity<PatientDTO> editPatient(@PathVariable Long id, @RequestBody PatientDTO dto){
         return new ResponseEntity<>(patientService.updatePatient(id, dto), HttpStatus.OK);
     }
 

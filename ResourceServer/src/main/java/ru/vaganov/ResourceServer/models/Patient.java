@@ -21,11 +21,14 @@ public class Patient {
 
     private LocalDate birthdate;
     private LocalDate deathdate;
-    private Boolean alive;
     private String mainDiagnosis;
     private String otherDiagnosis;
 
     private String info;
+
+    private String operationComments;
+    private String diagnosisComments;
+    private String chemotherapyComments;
 
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
@@ -34,18 +37,7 @@ public class Patient {
         Male, Female
     }
 
-    public void updateFieldsBy(Patient changes){
-        if(changes.getName()!=null) setName(changes.getName());
-        if(changes.getLastname()!=null) setLastname(changes.getLastname());
-        if(changes.getPatronymic()!=null) setPatronymic(changes.getPatronymic());
-        if(changes.getBirthdate()!=null) setBirthdate(changes.getBirthdate());
-        if(changes.getDeathdate()!=null) setDeathdate(changes.getDeathdate());
-        if(changes.getAlive()!=null) setAlive(changes.getAlive());
-        if(changes.getMainDiagnosis()!=null) setMainDiagnosis(changes.getMainDiagnosis());
-        if(changes.getOtherDiagnosis()!=null) setOtherDiagnosis(changes.getOtherDiagnosis());
-        if(changes.getInfo()!=null) setInfo(changes.getInfo());
-        if(changes.getGender()!=null) setGender(changes.getGender());
-    }
+
 
     @Override
     public String toString(){
