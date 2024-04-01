@@ -3,20 +3,13 @@ package ru.vaganov.ResourceServer.domain;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
 import ru.vaganov.ResourceServer.domain.reports.CumulativeAvgResult;
 import ru.vaganov.ResourceServer.domain.reports.CumulativeAvgTest;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.models.ParameterResult;
-import ru.vaganov.ResourceServer.services.CatalogService;
-import ru.vaganov.ResourceServer.services.OncologicalService;
-import ru.vaganov.ResourceServer.services.PatientService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ReportDataTests {
 

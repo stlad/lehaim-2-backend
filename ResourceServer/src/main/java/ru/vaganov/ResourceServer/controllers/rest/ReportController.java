@@ -1,7 +1,6 @@
 package ru.vaganov.ResourceServer.controllers.rest;
 
 
-import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import ru.vaganov.ResourceServer.domain.reports.ReportData;
 import ru.vaganov.ResourceServer.domain.reports.ReportFactory;
 import ru.vaganov.ResourceServer.models.OncologicalTest;
 import ru.vaganov.ResourceServer.services.CatalogService;
-import ru.vaganov.ResourceServer.services.OncologicalService;
+import ru.vaganov.ResourceServer.services.OncologicalServiceDeprecated;
 import ru.vaganov.ResourceServer.services.PatientService;
 
 @RestController
@@ -23,14 +22,14 @@ public class ReportController {
 
     @Autowired private CatalogService catalogService;
     @Autowired private PatientService patientService;
-    @Autowired private OncologicalService oncologicalService;
+    @Autowired private OncologicalServiceDeprecated oncologicalServiceDeprecated;
     @Autowired private ReportFactory reportFactory;
     Logger logger = LoggerFactory.getLogger(ReportController.class);
 
     @GetMapping("/{id}")
     public ResponseEntity<ReportData> getReportByTestId(@PathVariable Long id){
         logger.info("Request to /reports/"+id);
-        OncologicalTest test = oncologicalService.findTestById(id);
+        OncologicalTest test = oncologicalServiceDeprecated.findTestById(id);
         if(test == null) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(reportFactory.CreateReportDataByTest(test), HttpStatus.OK);
 
