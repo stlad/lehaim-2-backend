@@ -12,4 +12,5 @@ import java.util.List;
 public interface OncologicalTestRepo extends JpaRepository<OncologicalTest, Long> {
     List<OncologicalTest> findByPatientOwnerOrderByTestDateDesc(Patient owner);
 
+    List<OncologicalTest> findByPatientOwner_IdOrderByTestDateDesc(Long ownerId);
 }

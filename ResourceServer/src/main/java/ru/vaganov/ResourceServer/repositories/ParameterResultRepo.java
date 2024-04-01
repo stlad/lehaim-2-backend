@@ -12,4 +12,5 @@ import java.util.List;
 public interface ParameterResultRepo extends JpaRepository<ParameterResult, Long> {
 
     public List<ParameterResult> findByAttachedTest(OncologicalTest test);
+    public List<ParameterResult> findByAttachedTest_Id(Long test);
 }
