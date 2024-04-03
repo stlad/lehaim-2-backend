@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.mappers.ParameterResultMapper;
 import ru.vaganov.ResourceServer.models.ParameterResult;
+import ru.vaganov.ResourceServer.models.dto.ParameterDTO;
 import ru.vaganov.ResourceServer.models.dto.ParameterResultDTO;
 import ru.vaganov.ResourceServer.repositories.ParameterResultRepo;
 
@@ -22,4 +23,5 @@ public class ParameterResultsService {
     public List<ParameterResultDTO> getResultsByTestId(Long testId){
         return resultMapper.toDto(resultRepo.findByAttachedTest_Id(testId));
     }
+
 }

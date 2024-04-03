@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.vaganov.ResourceServer.models.dto.OncologicalTestDTO;
+import ru.vaganov.ResourceServer.models.dto.OncologicalTestRequestDTO;
+import ru.vaganov.ResourceServer.models.dto.ParameterResultDTO;
 import ru.vaganov.ResourceServer.models.dto.PatientDTO;
+import ru.vaganov.ResourceServer.services.OncologicalTestService;
 import ru.vaganov.ResourceServer.services.PatientService;
 
 import java.time.LocalDate;
@@ -22,6 +26,8 @@ public class PatientController {
 
     @Autowired
     private PatientService patientService;
+    @Autowired
+    private OncologicalTestService oncologicalService;
 
     @Operation(summary = "Поиск по ID", description = "Поиск по идентификатору" )
     @GetMapping("/{id}")
@@ -54,4 +60,17 @@ public class PatientController {
         return new ResponseEntity<>(patientService.updatePatient(id, dto), HttpStatus.OK);
     }
 
+    @Operation(summary = "Поиск анализов по пациенту", description = "Поиск всех анализов по идентификатору пациента" )
+    @GetMapping("/{patientId}/test/all")
+    public ResponseEntity<List<OncologicalTestDTO>> getAllTestsByPatientId(@PathVariable Long patientId){
+        return new ResponseEntity<>(oncologicalService.getAllTestByPatientId(patientId), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Создание нового обследования", description = "Создание нового обследования" )
+    @PostMapping("/{patientId}/test/all")
+    public ResponseEntity<List<ParameterResultDTO>> saveNewOncologicalTest(
+            @PathVariable Long patientId,
+            @RequestBody OncologicalTestRequestDTO dto){
+        return new ResponseEntity<>(oncologicalService.saveNewOncologicalTest(patientId, dto), HttpStatus.OK);
+    }
 }

@@ -15,25 +15,19 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/results")
+@RequestMapping("/tests")
 @Tag(name = "Oncological Tests API")
 @Slf4j
-public class ResultsController {
+public class OncologicalTestsController {
 
     @Autowired private OncologicalTestService oncologicalService;
 
-    @Operation(summary = "Поиск анализов по пациенту", description = "Поиск всех анализов по идентификатору пациента" )
-    @GetMapping("/tests/{patientId}/all")
-    public ResponseEntity<List<OncologicalTestDTO>> getAllTestsByPatientId(@PathVariable Long patientId){
-        return new ResponseEntity<>(oncologicalService.getAllTestByPatientId(patientId), HttpStatus.OK);
-    }
 
-    @Operation(summary = "Поиск анализов по пациенту", description = "Поиск всех анализов по идентификатору пациента" )
-    @DeleteMapping("/tests/{testId}")
+    @Operation(summary = "Удаление анализа по id", description = "Удаление анализа по его id" )
+    @DeleteMapping("/{testId}")
     public ResponseEntity deleteTestByTestId(@PathVariable Long testId){
         oncologicalService.deleteTestById(testId);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
-
 
 }
