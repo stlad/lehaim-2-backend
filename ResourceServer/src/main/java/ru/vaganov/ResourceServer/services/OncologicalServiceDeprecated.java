@@ -10,8 +10,8 @@ import ru.vaganov.ResourceServer.repositories.ParameterResultRepo;
 
 import java.util.List;
 
-@Service
-public class OncologicalService {
+@Service @Deprecated(forRemoval = true)
+public class OncologicalServiceDeprecated {
     @Autowired
     ParameterResultRepo parameterResultRepo;
     @Autowired

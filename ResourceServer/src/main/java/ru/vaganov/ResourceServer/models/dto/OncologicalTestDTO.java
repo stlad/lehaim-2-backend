@@ -11,5 +11,4 @@ import java.time.LocalDate;
 public class OncologicalTestDTO {
     private Long id;
     private LocalDate testDate;
-    private PatientDTO patientOwner;
 }

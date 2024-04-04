@@ -8,7 +8,7 @@ import ru.vaganov.ResourceServer.models.ParameterResult;
 import ru.vaganov.ResourceServer.models.Patient;
 import ru.vaganov.ResourceServer.repositories.PatientRepo;
 import ru.vaganov.ResourceServer.services.CatalogService;
-import ru.vaganov.ResourceServer.services.OncologicalService;
+import ru.vaganov.ResourceServer.services.OncologicalServiceDeprecated;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +18,7 @@ public class DataInitialyzer {
 
     @Autowired private CatalogService catalogService;
     @Autowired private PatientRepo patientRepo;
-    @Autowired private OncologicalService oncologicalService;
+    @Autowired private OncologicalServiceDeprecated oncologicalServiceDeprecated;
 
     public void loadTestPatient(){
         Patient p = Patient.builder().name("Иван").lastname("Иванов").patronymic("Иванович")
@@ -61,7 +61,7 @@ public class DataInitialyzer {
                     .patientOwner(patient)
                     .testDate(generated)
                     .build();
-            oncologicalService.saveTest(test);
+            oncologicalServiceDeprecated.saveTest(test);
             createRandomResultsForTest(test, 0.3);
         }
 
@@ -84,7 +84,7 @@ public class DataInitialyzer {
             ParameterResult res = ParameterResult.builder()
                     .attachedTest(test).parameter(param)
                     .value(generatedValue).build();
-            oncologicalService.saveResult(res);
+            oncologicalServiceDeprecated.saveResult(res);
         }
     }
 }

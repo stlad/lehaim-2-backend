@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.vaganov.ResourceServer.models.OncologicalTest;
 import ru.vaganov.ResourceServer.models.ParameterResult;
 import ru.vaganov.ResourceServer.models.Patient;
-import ru.vaganov.ResourceServer.services.OncologicalService;
+import ru.vaganov.ResourceServer.services.OncologicalServiceDeprecated;
 import ru.vaganov.ResourceServer.services.PatientService;
 
 import java.util.List;
@@ -14,20 +14,20 @@ import java.util.List;
 public class ReportFactory {
 
     @Autowired
-    private OncologicalService oncologicalService;
+    private OncologicalServiceDeprecated oncologicalServiceDeprecated;
 
     @Autowired
     private PatientService patientService;
 
     public ReportData CreateReportDataByTest(OncologicalTest test){
         Patient patient= test.getPatientOwner();
-        List<ParameterResult> resultList = oncologicalService.findResultsByTest(test);
+        List<ParameterResult> resultList = oncologicalServiceDeprecated.findResultsByTest(test);
         ReportData data = new ReportData(patient, test, resultList);
 
-        List<OncologicalTest> allTests = oncologicalService.findAllTestsByPatientOwner(patient);
+        List<OncologicalTest> allTests = oncologicalServiceDeprecated.findAllTestsByPatientOwner(patient);
         for(OncologicalTest itertest: allTests){
             if(itertest.getTestDate().isBefore(test.getTestDate())){
-                List<ParameterResult> resultsOfIterTest = oncologicalService.findResultsByTest(itertest);
+                List<ParameterResult> resultsOfIterTest = oncologicalServiceDeprecated.findResultsByTest(itertest);
                 data.addNextTestResults(resultsOfIterTest);
             }
         }

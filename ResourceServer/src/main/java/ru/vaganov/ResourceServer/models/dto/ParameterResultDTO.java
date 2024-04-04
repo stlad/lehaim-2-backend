@@ -11,5 +11,4 @@ public class ParameterResultDTO {
     private Long id;
     private Double value;
     private ParameterDTO parameter;
-    private OncologicalTestDTO attachedTest;
 }

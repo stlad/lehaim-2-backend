@@ -1,5 +1,6 @@
 package ru.vaganov.ResourceServer.controllers.handlers;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,11 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorDTO> handleEntityNotFound(EntityNotFoundException ex){
+        log.error(ex.getMessage() + " | " + ex.getClass().getName());
+        return new ResponseEntity<>(new ErrorDTO(HttpStatus.NOT_FOUND.value(), ex.getMessage(), ex.getClass().getName()), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<ErrorDTO> handleEntityExistsException(EntityExistsException ex){
         log.error(ex.getMessage() + " | " + ex.getClass().getName());
         return new ResponseEntity<>(new ErrorDTO(HttpStatus.NOT_FOUND.value(), ex.getMessage(), ex.getClass().getName()), HttpStatus.NOT_FOUND);
     }
