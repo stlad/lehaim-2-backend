@@ -11,12 +11,9 @@ import java.util.Set;
 @Repository
 public interface CatalogRepo extends JpaRepository<Parameter,Long> {
 
-    public Parameter findByName(String name);
-    public Parameter findByAdditionalName(String abbreviation);
 
     public Parameter findByNameAndAdditionalName(String name, String adName);
 
     public List<Parameter> findByResearchTypeOrderById(Parameter.ResearchType type);
 
-    public Boolean existsByNameAndAdditionalName(String name, String addName);
 }
