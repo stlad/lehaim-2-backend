@@ -30,7 +30,7 @@ public class DataLoadingConfig {
         return args -> {
             log.info("Loading catalog from \"catalog.csv\" file");
 
-            CsvFileParser<Parameter> parser = new CsvFileParser<>("/db/changelog/structure/data/catalog.csv");
+            CsvFileParser<Parameter> parser = new CsvFileParser<>("/db/changelog/data/catalog.csv");
             parser.exec(str -> {
                 String[] arr = str.split(";");
                 Parameter parameter = Parameter.builder()

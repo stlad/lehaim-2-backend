@@ -1,3 +1,5 @@
 databaseChangeLog :
   - include :
       file : db/changelog/structure/structureSummary.yaml
+  - include :
+      file : db/changelog/issues/issuesSummary.yaml

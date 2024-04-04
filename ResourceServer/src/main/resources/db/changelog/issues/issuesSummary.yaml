@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include :
+      file : /load-catalog-data.yaml
+      relativeToChangelogFile : true

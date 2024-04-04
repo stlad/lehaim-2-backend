@@ -14,6 +14,3 @@ databaseChangeLog :
   - include :
       file : /tables/create-interval-recommendation-table.yaml
       relativeToChangelogFile : true
-  - include :
-      file : /migrations/load-catalog-data.yaml
-      relativeToChangelogFile : true
