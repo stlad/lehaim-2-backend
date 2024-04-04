@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id : create-parameter-result-table
+      author : Vaganov V
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: parameter_result
+      changes:
+        - createTable:
+            tableName: parameter_result
+            columns:
+              - column :
+                  name : id
+                  type : bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+
+              - column:
+                  name: test_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_oncological_test_id
+                    referencedTableName: oncological_tests
+                    referencedColumnNames: id
+                    deleteCascade: true
+
+              - column:
+                  name: catalog_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_catalog_id
+                    referencedTableName: catalog
+                    referencedColumnNames: id
+                    deleteCascade: true
+
+              - column:
+                  name: value
+                  type: double

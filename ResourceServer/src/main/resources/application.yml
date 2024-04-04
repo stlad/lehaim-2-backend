@@ -4,17 +4,22 @@ server:
 
 spring:
   datasource:
-    url : jdbc:postgresql://localhost:5432/OncologicalTestsDB
+    url : jdbc:postgresql://localhost:5432/testLehaim_db
     username : postgres
     password : admin
 
   jpa:
     generate-ddl : true
     hibernate :
-      ddl-auto : update
+      ddl-auto : validate
     properties:
       hibernate:
         dialect : org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yml
+    enabled: true
+
 
   output:
     ansi:
@@ -23,7 +28,7 @@ spring:
 command-line-runner:
   data-loading:
     catalog:
-      enabled : true
+      enabled : false
     patients:
       enabled : true
     recommendations:

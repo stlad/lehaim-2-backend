@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id : create-oncological-test-table
+      author : Vaganov V
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: oncological_tests
+      changes:
+        - createTable:
+            tableName: oncological_tests
+            columns:
+              - column :
+                  name : id
+                  type : bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+
+              - column:
+                  name: test_date
+                  type: date
+
+              - column:
+                  name: patient_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_patient_id
+                    referencedTableName: patient
+                    referencedColumnNames: id
+                    deleteCascade: true
+

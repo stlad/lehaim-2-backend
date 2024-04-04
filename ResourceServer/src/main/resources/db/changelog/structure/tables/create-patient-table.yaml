@@ -1,0 +1,80 @@
+databaseChangeLog:
+  - changeSet:
+      id : create-patient-table
+      author : Vaganov V
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: patient
+      changes:
+        - createTable:
+            tableName: patient
+            columns:
+              - column :
+                  name : id
+                  type : bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+
+              - column:
+                  name : name
+                  type : clob
+
+              - column:
+                  name : lastname
+                  type : clob
+
+              - column:
+                  name : patronymic
+                  type : clob
+
+              - column:
+                  name : gender
+                  type : clob
+
+              - column:
+                  name : main_diagnosis
+                  type : clob
+
+              - column:
+                  name : other_diagnosis
+                  type : clob
+
+              - column:
+                  name : info
+                  type : clob
+
+              - column:
+                  name : chemotherapy_comments
+                  type : clob
+
+              - column:
+                  name : diagnosis_comments
+                  type : clob
+
+              - column:
+                  name : operation_comments
+                  type : clob
+
+              - column:
+                  name : alive
+                  type : boolean
+
+              - column :
+                  name : birthdate
+                  type : date
+
+              - column :
+                  name : deathdate
+                  type : date
+
+
+  -  changeSet:
+       id:  addUniqueConstraint-catalog
+       author:  Vaganov V
+       changes:
+         -  addUniqueConstraint:
+              tableName: catalog
+              columnNames:  name, additional_name

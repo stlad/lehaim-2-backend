@@ -1,8 +1,6 @@
 package ru.vaganov.ResourceServer.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,7 +12,6 @@ import ru.vaganov.ResourceServer.parsers.CsvFileParser;
 import ru.vaganov.ResourceServer.repositories.CatalogRepo;
 import ru.vaganov.ResourceServer.repositories.PatientRepo;
 import ru.vaganov.ResourceServer.services.CatalogService;
-import ru.vaganov.ResourceServer.services.PatientService;
 import ru.vaganov.ResourceServer.services.RecommendationService;
 
 import java.util.List;
@@ -31,9 +28,9 @@ public class DataLoadingConfig {
     @Bean
     public CommandLineRunner dataLoader(CatalogRepo catalogRepo) {
         return args -> {
-            log.info("Loading catalog from \"Catalog\" file");
+            log.info("Loading catalog from \"catalog.csv\" file");
 
-            CsvFileParser<Parameter> parser = new CsvFileParser<>("/Catalog");
+            CsvFileParser<Parameter> parser = new CsvFileParser<>("/db/changelog/structure/data/catalog.csv");
             parser.exec(str -> {
                 String[] arr = str.split(";");
                 Parameter parameter = Parameter.builder()
@@ -55,7 +52,7 @@ public class DataLoadingConfig {
                     log.info("{} saved", parameter);
                 }
             } );
-            log.info("Catalog loading completed");
+            log.info("catalog.csv loading completed");
         };
     }
 
