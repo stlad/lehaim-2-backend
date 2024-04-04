@@ -4,6 +4,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vaganov.ResourceServer.exceptions.ValidationException;
 import ru.vaganov.ResourceServer.mappers.OncologicalTestMapper;
 import ru.vaganov.ResourceServer.mappers.ParameterResultMapper;
@@ -21,6 +22,7 @@ import ru.vaganov.ResourceServer.repositories.OncologicalTestRepo;
 import ru.vaganov.ResourceServer.repositories.ParameterResultRepo;
 import ru.vaganov.ResourceServer.repositories.PatientRepo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,7 @@ public class OncologicalTestService {
         oncologicalTestRepo.deleteById(testId);
     }
 
+    @Transactional
     public List<ParameterResultDTO> saveNewOncologicalTest(Long ownerId, OncologicalTestRequestDTO dto){
         Patient patient = patientRepo.findById(ownerId)
                 .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+ownerId));
@@ -71,6 +74,26 @@ public class OncologicalTestService {
                     .parameter(parameter).build();
             finalResult.add(resultMapper.toDto(resultRepo.save(result)));
         };
+        return finalResult;
+    }
+
+    public List<ParameterResultDTO> getAllResultsByTestId(Long testId){
+        return resultMapper.toDto(resultRepo.findByAttachedTest_Id(testId));
+    }
+
+    @Transactional
+    public List<ParameterResultDTO> updateOncologicalTest(
+            Long ownerId, OncologicalTestRequestDTO requestDTO){
+
+        List<ParameterResultDTO> finalResult = new ArrayList<>();
+        for(ParameterResultRequestDTO dto:requestDTO.getResults()){
+            ParameterResult result = resultRepo.findByAttachedTest_PatientOwner_IdAndAttachedTest_TestDateAndParameter_Id(
+                    ownerId, requestDTO.getTestDate(), dto.getCatalogId())
+                    .orElseThrow(()->new EntityNotFoundException("Cannot find result"));
+            result.setValue(dto.getValue());
+            result = resultRepo.save(result);
+            finalResult.add(resultMapper.toDto(result));
+        }
         return finalResult;
     }
 }

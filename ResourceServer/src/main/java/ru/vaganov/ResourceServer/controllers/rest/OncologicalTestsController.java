@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vaganov.ResourceServer.models.dto.OncologicalTestDTO;
+import ru.vaganov.ResourceServer.models.dto.ParameterResultDTO;
 import ru.vaganov.ResourceServer.services.OncologicalTestService;
 
 import java.util.List;
@@ -30,4 +31,9 @@ public class OncologicalTestsController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    @Operation(summary = "Получение всех результатов по ID обследования", description = "Получение всех результатов по ID обследования" )
+    @GetMapping("/{testId}")
+    public ResponseEntity<List<ParameterResultDTO>> getAllResultsByTestId(@PathVariable Long testId){
+        return new ResponseEntity<>(oncologicalService.getAllResultsByTestId(testId), HttpStatus.OK);
+    }
 }
