@@ -17,7 +17,7 @@ spring:
         dialect : org.hibernate.dialect.PostgreSQLDialect
 
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yml
+    change-log: classpath:db/changelog/db.changelog-master.xml
     enabled: true
 
 
@@ -27,12 +27,8 @@ spring:
 
 command-line-runner:
   data-loading:
-    catalog:
-      enabled : false
     patients:
       enabled : true
-    recommendations:
-      enabled : false
 
 
 logging:
