@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Entity
 public class OncologicalTest {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate testDate;
 

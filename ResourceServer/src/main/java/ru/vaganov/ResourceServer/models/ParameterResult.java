@@ -14,7 +14,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class ParameterResult {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double value;
 
