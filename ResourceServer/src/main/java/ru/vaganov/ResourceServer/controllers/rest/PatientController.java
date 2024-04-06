@@ -2,6 +2,7 @@ package ru.vaganov.ResourceServer.controllers.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,7 +68,7 @@ public class PatientController {
     @PostMapping("/{patientId}/test/")
     public ResponseEntity<List<ParameterResultDTO>> saveNewOncologicalTest(
             @PathVariable Long patientId,
-            @RequestBody OncologicalTestRequestDTO dto){
+            @RequestBody @Valid OncologicalTestRequestDTO dto){
         return new ResponseEntity<>(oncologicalService.saveNewOncologicalTest(patientId, dto), HttpStatus.OK);
     }
     @Operation(summary = "Обновление существующего обследования", description = "Обновление существующего обследования" )
