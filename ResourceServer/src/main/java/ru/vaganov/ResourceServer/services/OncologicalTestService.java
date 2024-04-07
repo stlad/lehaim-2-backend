@@ -83,12 +83,18 @@ public class OncologicalTestService {
 
     @Transactional
     public List<ParameterResultDTO> updateOncologicalTest(
-            Long ownerId, OncologicalTestRequestDTO requestDTO){
+            Long ownerId, Long testId, OncologicalTestRequestDTO requestDTO){
+        OncologicalTest test = oncologicalTestRepo.findById(testId)
+                .orElseThrow(()-> new EntityNotFoundException("Cannot find test with id: "+testId));
+        if(requestDTO.getTestDate() != null){
+            test.setTestDate(requestDTO.getTestDate());
+            oncologicalTestRepo.save(test);
+        }
 
         List<ParameterResultDTO> finalResult = new ArrayList<>();
         for(ParameterResultRequestDTO dto:requestDTO.getResults()){
-            ParameterResult result = resultRepo.findByAttachedTest_PatientOwner_IdAndAttachedTest_TestDateAndParameter_Id(
-                    ownerId, requestDTO.getTestDate(), dto.getCatalogId())
+            ParameterResult result = resultRepo.findByAttachedTest_PatientOwner_IdAndAttachedTest_IdAndParameter_Id(
+                    ownerId, testId, dto.getCatalogId())
                     .orElseThrow(()->new EntityNotFoundException("Cannot find result"));
             result.setValue(dto.getValue());
             result = resultRepo.save(result);
