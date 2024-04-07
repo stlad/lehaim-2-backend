@@ -72,10 +72,11 @@ public class PatientController {
         return new ResponseEntity<>(oncologicalService.saveNewOncologicalTest(patientId, dto), HttpStatus.OK);
     }
     @Operation(summary = "Обновление существующего обследования", description = "Обновление существующего обследования" )
-    @PutMapping("/{patientId}/test/")
+    @PutMapping("/{patientId}/test/{testId}")
     public ResponseEntity<List<ParameterResultDTO>> updateOncologicalTest(
             @PathVariable Long patientId,
-            @RequestBody OncologicalTestRequestDTO dto){
-        return new ResponseEntity<>(oncologicalService.updateOncologicalTest(patientId,  dto), HttpStatus.OK);
+            @PathVariable Long testId,
+            @RequestBody @Valid OncologicalTestRequestDTO dto){
+        return new ResponseEntity<>(oncologicalService.updateOncologicalTest(patientId, testId, dto), HttpStatus.OK);
     }
 }

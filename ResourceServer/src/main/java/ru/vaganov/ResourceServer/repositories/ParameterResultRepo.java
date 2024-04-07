@@ -16,6 +16,7 @@ public interface ParameterResultRepo extends JpaRepository<ParameterResult, Long
 
     public List<ParameterResult> findByAttachedTest(OncologicalTest test);
     public List<ParameterResult> findByAttachedTest_Id(Long test);
-    public Optional<ParameterResult> findByAttachedTest_PatientOwner_IdAndAttachedTest_TestDateAndParameter_Id(
-            Long ownerId, LocalDate testDate, Long parameterId);
+    public Optional<ParameterResult> findByAttachedTest_PatientOwner_IdAndAttachedTest_IdAndParameter_Id(
+            Long ownerId, Long testId, Long parameterId);
+
 }
