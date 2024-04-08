@@ -20,6 +20,9 @@ public class Parameter {
     private Double refMin;
     private Double refMax;
 
+    @Column(columnDefinition = "boolean default true", name = "is_active")
+    private Boolean isActive;
+
     @Enumerated(value = EnumType.STRING)
     private ResearchType researchType;
 
