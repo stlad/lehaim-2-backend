@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "catalog", uniqueConstraints={@UniqueConstraint(columnNames={"name", "additionalName"})})
+@Table(name = "parameter_catalog", uniqueConstraints={@UniqueConstraint(columnNames={"name", "additionalName"})})
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class Parameter {

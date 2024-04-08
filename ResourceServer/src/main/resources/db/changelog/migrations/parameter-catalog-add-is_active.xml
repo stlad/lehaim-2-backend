@@ -6,6 +6,6 @@
 
 
     <changeSet id="parameter-catalog-add-is_ctive" author="Vaganov V">
-        <sqlFile path="../sql/parameter-catalog-add-is_active.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="../sql/v1_2_parameter-catalog-add-is_active.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

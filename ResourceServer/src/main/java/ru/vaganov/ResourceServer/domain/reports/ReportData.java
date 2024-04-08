@@ -30,8 +30,8 @@ public class ReportData {
         gender = patient.getGender();
         birthDate = patient.getBirthdate();
         age = test.getTestDate().getYear() - birthDate.getYear();
-        mainDiagnosis = patient.getMainDiagnosis();
-        otherDiagnosis = patient.getOtherDiagnosis();
+        //mainDiagnosis = patient.getMainDiagnosis();
+        //otherDiagnosis = patient.getOtherDiagnosis();
 
         testDate = test.getTestDate();
         results = finalResults;

@@ -7,6 +7,6 @@
 
 
     <changeSet id="load-catalog-data" author="Vaganov V">
-        <sqlFile path="../sql/insert-catalog-data.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="../sql/v1_1_insert-catalog-data.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

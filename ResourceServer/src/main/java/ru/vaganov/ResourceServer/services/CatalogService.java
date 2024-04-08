@@ -6,14 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import ru.vaganov.ResourceServer.config.DataLoadingConfig;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.repositories.CatalogRepo;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class CatalogService {
