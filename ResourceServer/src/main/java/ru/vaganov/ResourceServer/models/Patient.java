@@ -24,9 +24,9 @@ public class Patient {
     private LocalDate birthdate;
     private LocalDate deathdate;
 
-    private String T;
-    private String X;
-    private String M;
+    private String t;
+    private String n;
+    private String m;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.SET_NULL)

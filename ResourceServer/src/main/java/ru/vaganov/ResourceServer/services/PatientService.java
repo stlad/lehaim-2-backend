@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.exceptions.ValidationException;
 import ru.vaganov.ResourceServer.mappers.PatientMapper;
+import ru.vaganov.ResourceServer.models.Diagnosis;
 import ru.vaganov.ResourceServer.models.Patient;
 import ru.vaganov.ResourceServer.models.dto.PatientDTO;
+import ru.vaganov.ResourceServer.repositories.DiagnosisRepo;
 import ru.vaganov.ResourceServer.repositories.PatientRepo;
 
 import java.time.LocalDate;
@@ -23,11 +25,20 @@ public class PatientService {
     @Autowired
     private PatientMapper patientMapper;
 
+    @Autowired
+    private DiagnosisRepo diagnosisRepo;
+
     public PatientDTO savePatient(PatientDTO dto){
         if(isPatientPresent(dto))
             throw new ValidationException(String.format("Patient: %s %s already exists", dto.getLastname(), dto.getName()));
-        Patient patient =patientRepo.save(patientMapper.fromDto(dto));
 
+        Patient patient =patientMapper.fromDto(dto);
+        if(dto.getDiagnosisId() != null){
+            Diagnosis diagnosis = diagnosisRepo.findById(dto.getDiagnosisId())
+                    .orElseThrow(()-> new EntityNotFoundException("Cannot find diagnosis with id: "+dto.getDiagnosisId()));
+            patient.setDiagnosis(diagnosis);
+        }
+        patient = patientRepo.save(patient);
         return patientMapper.toDto(patient);
     }
 
@@ -59,6 +70,11 @@ public class PatientService {
 
         dto.setId(null);
         patientMapper.updateFromDto(dto, patient);
+        if(dto.getDiagnosisId() != null){
+            Diagnosis diagnosis = diagnosisRepo.findById(dto.getDiagnosisId())
+                    .orElseThrow(()-> new EntityNotFoundException("Cannot find diagnosis with id: "+dto.getDiagnosisId()));
+            patient.setDiagnosis(diagnosis);
+        }
         return patientMapper.toDto(patientRepo.save(patient));
     }
 

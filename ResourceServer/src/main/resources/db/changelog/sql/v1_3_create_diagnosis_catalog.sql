@@ -11,6 +11,6 @@ ALTER TABLE patient DROP COLUMN main_diagnosis;
 ALTER TABLE patient DROP COLUMN other_diagnosis;
 ALTER TABLE patient ADD COLUMN diagnosis_id int;
 ALTER TABLE patient ADD COLUMN T varchar(10);
-ALTER TABLE patient ADD COLUMN X varchar(10);
+ALTER TABLE patient ADD COLUMN N varchar(10);
 ALTER TABLE patient ADD COLUMN M varchar(10);
 ALTER TABLE patient ADD FOREIGN KEY (diagnosis_id) references diagnoses_catalog(id) ON DELETE SET NULL ;

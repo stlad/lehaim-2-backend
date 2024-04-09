@@ -23,7 +23,8 @@ public class PatientDTO {
     private String diagnosisComments;
     private String chemotherapyComments;
 
-    private String T;
-    private String X;
-    private String M;
+
+    private String t;
+    private String n;
+    private String m;
 }
