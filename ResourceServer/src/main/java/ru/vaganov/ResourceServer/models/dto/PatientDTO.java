@@ -15,11 +15,16 @@ public class PatientDTO {
     private String patronymic;
     private LocalDate birthdate;
     private LocalDate deathdate;
-    private String mainDiagnosis;
-    private String otherDiagnosis;
+
+    private Integer diagnosisId;
     private String info;
     private Patient.Gender gender;
     private String operationComments;
     private String diagnosisComments;
     private String chemotherapyComments;
+
+
+    private String t;
+    private String n;
+    private String m;
 }

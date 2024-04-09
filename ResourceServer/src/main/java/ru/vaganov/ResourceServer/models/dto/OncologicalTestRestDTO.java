@@ -1,18 +1,18 @@
 package ru.vaganov.ResourceServer.models.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
-public class OncologicalTestRequestDTO{
-
+@Data @Builder
+public class OncologicalTestRestDTO {
+    private Long id;
     private LocalDate testDate;
 
     @NotNull(message = "results must not be null")
-    private List<ParameterResultRequestDTO> results;
+    private List<ParameterResultRestDTO> results;
 }
 

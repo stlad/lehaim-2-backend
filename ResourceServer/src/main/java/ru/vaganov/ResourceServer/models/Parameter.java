@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "catalog", uniqueConstraints={@UniqueConstraint(columnNames={"name", "additionalName"})})
+@Table(name = "parameter_catalog", uniqueConstraints={@UniqueConstraint(columnNames={"name", "additionalName"})})
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor @Builder
 public class Parameter {
@@ -19,6 +19,9 @@ public class Parameter {
     private String unit;
     private Double refMin;
     private Double refMax;
+
+    @Column(columnDefinition = "boolean default true", name = "is_active")
+    private Boolean isActive;
 
     @Enumerated(value = EnumType.STRING)
     private ResearchType researchType;

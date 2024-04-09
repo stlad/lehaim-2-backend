@@ -66,17 +66,26 @@ public class PatientController {
 
     @Operation(summary = "Создание нового обследования", description = "Создание нового обследования" )
     @PostMapping("/{patientId}/test/")
-    public ResponseEntity<List<ParameterResultDTO>> saveNewOncologicalTest(
+    public ResponseEntity<OncologicalTestRestDTO> saveNewOncologicalTest(
             @PathVariable Long patientId,
-            @RequestBody @Valid OncologicalTestRequestDTO dto){
+            @RequestBody @Valid OncologicalTestRestDTO dto){
         return new ResponseEntity<>(oncologicalService.saveNewOncologicalTest(patientId, dto), HttpStatus.OK);
     }
+
     @Operation(summary = "Обновление существующего обследования", description = "Обновление существующего обследования" )
     @PutMapping("/{patientId}/test/{testId}")
-    public ResponseEntity<List<ParameterResultDTO>> updateOncologicalTest(
+    public ResponseEntity<OncologicalTestRestDTO> updateOncologicalTest(
             @PathVariable Long patientId,
             @PathVariable Long testId,
-            @RequestBody @Valid OncologicalTestRequestDTO dto){
+            @RequestBody @Valid OncologicalTestRestDTO dto){
         return new ResponseEntity<>(oncologicalService.updateOncologicalTest(patientId, testId, dto), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Поиск обследования по id", description = "Поиск существующего обследования по id" )
+    @GetMapping("/{patientId}/test/{testId}")
+    public ResponseEntity<OncologicalTestRestDTO> findOncologicalTestByTestId(
+            @PathVariable Long patientId,
+            @PathVariable Long testId){
+        return new ResponseEntity<>(oncologicalService.findOncologicalTestById(patientId, testId), HttpStatus.OK);
     }
 }

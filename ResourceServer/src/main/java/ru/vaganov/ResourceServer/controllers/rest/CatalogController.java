@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.vaganov.ResourceServer.config.DataLoadingConfig;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.services.CatalogService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 @RestController

@@ -7,6 +7,6 @@
 
 
     <changeSet id="create-tables" author="Vaganov V">
-        <sqlFile path="../sql/create-tables.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="../sql/v1_0_create-tables.sql" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

@@ -17,6 +17,7 @@ public class ParameterDTO {
     private Double refMin;
     private Double refMax;
     private Parameter.ResearchType researchType;
+    private Boolean isActive;
 
 
     @Override

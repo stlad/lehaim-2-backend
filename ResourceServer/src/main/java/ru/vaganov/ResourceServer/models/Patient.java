@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
@@ -21,11 +23,17 @@ public class Patient {
 
     private LocalDate birthdate;
     private LocalDate deathdate;
-    private String mainDiagnosis;
-    private String otherDiagnosis;
+
+    private String t;
+    private String n;
+    private String m;
+
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "diagnosis_id", referencedColumnName = "id")
+    private Diagnosis diagnosis;
 
     private String info;
-
     private String operationComments;
     private String diagnosisComments;
     private String chemotherapyComments;

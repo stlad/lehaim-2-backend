@@ -1,12 +1,12 @@
-
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd" >
 
-    <include file="/db/changelog/migrations/create-tables.xml" />
-    <include file="/db/changelog/migrations/load-catalog-data.xml" />
-    <include file="/db/changelog/migrations/parameter-catalog-add-is_active.xml" />
-    <include file="/db/changelog/migrations/create-diagnosis-catalog.xml" />
+
+    <changeSet id="create-tables" author="Vaganov V">
+        <sqlFile path="../sql/v1_3_create_diagnosis_catalog.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="../sql/v1_3_insert_diagnoses_catalog_data.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>
