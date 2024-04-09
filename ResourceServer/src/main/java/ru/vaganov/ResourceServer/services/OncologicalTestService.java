@@ -93,16 +93,23 @@ public class OncologicalTestService {
             test = oncologicalTestRepo.save(test);
         }
 
-        List<ParameterResultRestDTO> results = new ArrayList<>();
         for(ParameterResultRestDTO dto:requestDTO.getResults()){
             ParameterResult result = resultRepo.findByAttachedTest_PatientOwner_IdAndAttachedTest_IdAndParameter_Id(
                     ownerId, testId, dto.getCatalogId())
-                    .orElseThrow(()->new EntityNotFoundException("Cannot find result"));
+                    .orElseGet(()->{
+                        Parameter parameter = catalogRepo.findById(dto.getCatalogId())
+                                .orElseThrow(()-> new EntityNotFoundException("Cannot find parameter with id: "+dto.getCatalogId()));
+                        return ParameterResult.builder()
+                                .parameter(parameter)
+                                .build();
+                    });
+            if(result.getAttachedTest() == null)
+                result.setAttachedTest(test);
             result.setValue(dto.getValue());
             result = resultRepo.save(result);
-            results.add(resultMapper.toRestDto(result));
         }
-
+        List<ParameterResultRestDTO> results = resultRepo.findByAttachedTest_Id(testId)
+                .stream().map(result -> resultMapper.toRestDto(result)).collect(Collectors.toList());
         return OncologicalTestRestDTO.builder()
                 .id(test.getId())
                 .testDate(test.getTestDate())
