@@ -107,9 +107,11 @@ public class OncologicalTestService {
                 result.setAttachedTest(test);
             result.setValue(dto.getValue());
             result = resultRepo.save(result);
+
         }
         List<ParameterResultRestDTO> results = resultRepo.findByAttachedTest_Id(testId)
                 .stream().map(result -> resultMapper.toRestDto(result)).collect(Collectors.toList());
+      
         return OncologicalTestRestDTO.builder()
                 .id(test.getId())
                 .testDate(test.getTestDate())
