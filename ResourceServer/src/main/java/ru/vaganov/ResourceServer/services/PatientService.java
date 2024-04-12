@@ -13,6 +13,7 @@ import ru.vaganov.ResourceServer.repositories.DiagnosisRepo;
 import ru.vaganov.ResourceServer.repositories.PatientRepo;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 
 @Service
@@ -42,7 +43,7 @@ public class PatientService {
         return patientMapper.toDto(patient);
     }
 
-    public PatientDTO findPatientById(Long id){
+    public PatientDTO findPatientById(UUID id){
         Patient patient = patientRepo.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+id));
 
@@ -64,7 +65,7 @@ public class PatientService {
         return patientMapper.toDto(patient);
     }
 
-    public PatientDTO updatePatient(Long id, PatientDTO dto){
+    public PatientDTO updatePatient(UUID id, PatientDTO dto){
         Patient patient = patientRepo.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+id));
 
@@ -79,7 +80,7 @@ public class PatientService {
     }
 
     @Deprecated(forRemoval = true)
-    public Patient findById(Long id){
+    public Patient findById(UUID id){
         return patientRepo.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+id));
     }

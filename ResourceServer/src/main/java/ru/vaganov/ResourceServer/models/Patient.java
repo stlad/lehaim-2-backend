@@ -7,16 +7,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 @Entity
 public class Patient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @UuidGenerator
+    private UUID id;
+
     private String name;
     private String lastname;
     private String patronymic;
@@ -49,6 +53,6 @@ public class Patient {
 
     @Override
     public String toString(){
-        return String.format("(%d) %s %s", getId(), getLastname(), getName());
+        return String.format("(%s) %s %s", getId(), getLastname(), getName());
     }
 }

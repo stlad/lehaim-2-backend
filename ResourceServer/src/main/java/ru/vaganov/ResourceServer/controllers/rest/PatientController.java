@@ -14,6 +14,7 @@ import ru.vaganov.ResourceServer.services.PatientService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -29,7 +30,7 @@ public class PatientController {
 
     @Operation(summary = "Поиск по ID", description = "Поиск по идентификатору" )
     @GetMapping("/{id}")
-    public ResponseEntity<PatientDTO> findPatientById(@PathVariable Long id){
+    public ResponseEntity<PatientDTO> findPatientById(@PathVariable UUID id){
         PatientDTO dto = patientService.findPatientById(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -54,20 +55,20 @@ public class PatientController {
 
     @Operation(summary = "Обновление пациента", description = "Обновление непустых полей" )
     @PutMapping("/{id}")
-    public ResponseEntity<PatientDTO> editPatient(@PathVariable Long id, @RequestBody PatientDTO dto){
+    public ResponseEntity<PatientDTO> editPatient(@PathVariable UUID id, @RequestBody PatientDTO dto){
         return new ResponseEntity<>(patientService.updatePatient(id, dto), HttpStatus.OK);
     }
 
     @Operation(summary = "Поиск анализов по пациенту", description = "Поиск всех анализов по идентификатору пациента" )
     @GetMapping("/{patientId}/test/all")
-    public ResponseEntity<List<OncologicalTestDTO>> getAllTestsByPatientId(@PathVariable Long patientId){
+    public ResponseEntity<List<OncologicalTestDTO>> getAllTestsByPatientId(@PathVariable UUID patientId){
         return new ResponseEntity<>(oncologicalService.getAllTestByPatientId(patientId), HttpStatus.OK);
     }
 
     @Operation(summary = "Создание нового обследования", description = "Создание нового обследования" )
     @PostMapping("/{patientId}/test/")
     public ResponseEntity<OncologicalTestRestDTO> saveNewOncologicalTest(
-            @PathVariable Long patientId,
+            @PathVariable UUID patientId,
             @RequestBody @Valid OncologicalTestRestDTO dto){
         return new ResponseEntity<>(oncologicalService.saveNewOncologicalTest(patientId, dto), HttpStatus.OK);
     }
@@ -75,7 +76,7 @@ public class PatientController {
     @Operation(summary = "Обновление существующего обследования", description = "Обновление существующего обследования" )
     @PutMapping("/{patientId}/test/{testId}")
     public ResponseEntity<OncologicalTestRestDTO> updateOncologicalTest(
-            @PathVariable Long patientId,
+            @PathVariable UUID patientId,
             @PathVariable Long testId,
             @RequestBody @Valid OncologicalTestRestDTO dto){
         return new ResponseEntity<>(oncologicalService.updateOncologicalTest(patientId, testId, dto), HttpStatus.OK);

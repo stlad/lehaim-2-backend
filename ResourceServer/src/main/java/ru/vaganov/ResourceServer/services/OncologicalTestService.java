@@ -22,6 +22,7 @@ import ru.vaganov.ResourceServer.repositories.PatientRepo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,7 +42,7 @@ public class OncologicalTestService {
     private CatalogRepo catalogRepo;
 
 
-    public List<OncologicalTestDTO> getAllTestByPatientId(Long patientId){
+    public List<OncologicalTestDTO> getAllTestByPatientId(UUID patientId){
         return testMapper.toDto(oncologicalTestRepo.findByPatientOwner_IdOrderByTestDateDesc(patientId));
     }
 
@@ -50,7 +51,7 @@ public class OncologicalTestService {
     }
 
     @Transactional
-    public OncologicalTestRestDTO saveNewOncologicalTest(Long ownerId, OncologicalTestRestDTO dto){
+    public OncologicalTestRestDTO saveNewOncologicalTest(UUID ownerId, OncologicalTestRestDTO dto){
         Patient patient = patientRepo.findById(ownerId)
                 .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+ownerId));
         if(oncologicalTestRepo.findByPatientOwner_IdAndTestDate(ownerId, dto.getTestDate()).isPresent())
@@ -85,7 +86,7 @@ public class OncologicalTestService {
 
     @Transactional
     public OncologicalTestRestDTO updateOncologicalTest(
-            Long ownerId, Long testId, OncologicalTestRestDTO requestDTO){
+            UUID ownerId, Long testId, OncologicalTestRestDTO requestDTO){
         OncologicalTest test = oncologicalTestRepo.findById(testId)
                 .orElseThrow(()-> new EntityNotFoundException("Cannot find test with id: "+testId));
         if(requestDTO.getTestDate() != null){

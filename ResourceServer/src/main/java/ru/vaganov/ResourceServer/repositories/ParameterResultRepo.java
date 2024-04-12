@@ -9,6 +9,7 @@ import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 
@@ -17,6 +18,6 @@ public interface ParameterResultRepo extends JpaRepository<ParameterResult, Long
     public List<ParameterResult> findByAttachedTest(OncologicalTest test);
     public List<ParameterResult> findByAttachedTest_Id(Long test);
     public Optional<ParameterResult> findByAttachedTest_PatientOwner_IdAndAttachedTest_IdAndParameter_Id(
-            Long ownerId, Long testId, Long parameterId);
+            UUID ownerId, Long testId, Long parameterId);
 
 }
