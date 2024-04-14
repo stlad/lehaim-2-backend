@@ -85,7 +85,7 @@ public class PatientController {
     @Operation(summary = "Поиск обследования по id", description = "Поиск существующего обследования по id" )
     @GetMapping("/{patientId}/test/{testId}")
     public ResponseEntity<OncologicalTestRestDTO> findOncologicalTestByTestId(
-            @PathVariable Long patientId,
+            @PathVariable UUID patientId,
             @PathVariable Long testId){
         return new ResponseEntity<>(oncologicalService.findOncologicalTestById(patientId, testId), HttpStatus.OK);
     }

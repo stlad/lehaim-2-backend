@@ -120,7 +120,7 @@ public class OncologicalTestService {
                 .build();
     }
 
-    public OncologicalTestRestDTO findOncologicalTestById(Long patientId, Long testId){
+    public OncologicalTestRestDTO findOncologicalTestById(UUID patientId, Long testId){
         OncologicalTest test = oncologicalTestRepo.findById(testId)
                 .orElseThrow(()-> new EntityNotFoundException("Cannot find test with id: "+testId));
 
