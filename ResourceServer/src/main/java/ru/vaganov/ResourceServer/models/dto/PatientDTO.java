@@ -4,12 +4,13 @@ import lombok.*;
 import ru.vaganov.ResourceServer.models.Patient;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data @Builder
 @NoArgsConstructor @AllArgsConstructor
 @EqualsAndHashCode
 public class PatientDTO {
-    private Long id;
+    private UUID id;
     private String name;
     private String lastname;
     private String patronymic;
