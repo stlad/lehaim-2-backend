@@ -1,11 +1,10 @@
 package ru.vaganov.ResourceServer.services;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.exceptions.DiagnosisNotFoundException;
-import ru.vaganov.ResourceServer.exceptions.PatientAlreadyExistsException;
+import ru.vaganov.ResourceServer.exceptions.PatientExistsException;
 import ru.vaganov.ResourceServer.exceptions.PatientNotFoundException;
 import ru.vaganov.ResourceServer.mappers.PatientMapper;
 import ru.vaganov.ResourceServer.models.Diagnosis;
@@ -33,7 +32,7 @@ public class PatientService {
 
     public PatientDTO savePatient(PatientDTO dto){
         if(isPatientPresent(dto))
-            throw new PatientAlreadyExistsException(dto.getLastname(), dto.getName(), dto.getPatronymic());
+            throw new PatientExistsException(dto.getLastname(), dto.getName(), dto.getPatronymic());
 
         Patient patient =patientMapper.fromDto(dto);
         if(dto.getDiagnosisId() != null){

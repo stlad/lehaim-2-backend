@@ -14,7 +14,8 @@ public class LehaimExceptionsHandler {
 
     @ExceptionHandler(LehaimException.class)
     public ResponseEntity<LehaimErrorDTO> handleLehaimExceptions(LehaimException ex){
-        log.error(ex.getMessage() + " | " + ex.getClass().getName());
+        String cause =ex.getCause().getStackTrace()[0].getClassName() + " | " + ex.getCause().getStackTrace()[0].getMethodName();
+        log.error(ex.getMessage() + " | " + ex.getClass().getName()+" | "+cause);
         return new ResponseEntity<>(ex.getErrorDTO(), HttpStatus.valueOf(ex.getHttpCode()));
     }
 }

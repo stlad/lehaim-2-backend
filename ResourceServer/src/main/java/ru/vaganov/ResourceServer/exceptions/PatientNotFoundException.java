@@ -8,7 +8,6 @@ import java.util.UUID;
 public class PatientNotFoundException extends LehaimException {
 
     private final static String baseMessage = "Не найден пациент: ";
-    private final static Integer HTTPCode = 404;
 
     public PatientNotFoundException(UUID id){
         super(baseMessage + "id: " + id.toString());
@@ -28,6 +27,6 @@ public class PatientNotFoundException extends LehaimException {
 
     @Override
     public Integer getHttpCode() {
-        return HTTPCode;
+        return 404;
     }
 }
