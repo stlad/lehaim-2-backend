@@ -4,8 +4,6 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,15 +57,15 @@ public class ApiExceptionHandler {
 
 @Data
 @AllArgsConstructor
-class ErrorDTO{
+class ValidationErrorDTO{
     private Integer code;
-    private String msg;
-    private String error;
+    private Map<String, String> errors;
 }
 
 @Data
 @AllArgsConstructor
-class ValidationErrorDTO{
+class ErrorDTO {
     private Integer code;
-    private Map<String, String> errors;
+    private String msg;
+    private String error;
 }
