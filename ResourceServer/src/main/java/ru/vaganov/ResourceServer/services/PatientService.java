@@ -4,7 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.vaganov.ResourceServer.exceptions.ValidationException;
+import ru.vaganov.ResourceServer.exceptions.DiagnosisNotFoundException;
+import ru.vaganov.ResourceServer.exceptions.PatientAlreadyExistsException;
+import ru.vaganov.ResourceServer.exceptions.PatientNotFoundException;
 import ru.vaganov.ResourceServer.mappers.PatientMapper;
 import ru.vaganov.ResourceServer.models.Diagnosis;
 import ru.vaganov.ResourceServer.models.Patient;
@@ -31,12 +33,12 @@ public class PatientService {
 
     public PatientDTO savePatient(PatientDTO dto){
         if(isPatientPresent(dto))
-            throw new ValidationException(String.format("Patient: %s %s already exists", dto.getLastname(), dto.getName()));
+            throw new PatientAlreadyExistsException(dto.getLastname(), dto.getName(), dto.getPatronymic());
 
         Patient patient =patientMapper.fromDto(dto);
         if(dto.getDiagnosisId() != null){
             Diagnosis diagnosis = diagnosisRepo.findById(dto.getDiagnosisId())
-                    .orElseThrow(()-> new EntityNotFoundException("Cannot find diagnosis with id: "+dto.getDiagnosisId()));
+                    .orElseThrow(()-> new DiagnosisNotFoundException(dto.getDiagnosisId()));
             patient.setDiagnosis(diagnosis);
         }
         patient = patientRepo.save(patient);
@@ -45,7 +47,7 @@ public class PatientService {
 
     public PatientDTO findPatientById(UUID id){
         Patient patient = patientRepo.findById(id)
-                .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+id));
+                .orElseThrow(()->new PatientNotFoundException(id));
 
         return patientMapper.toDto(patient);
     }
@@ -55,11 +57,11 @@ public class PatientService {
         Patient patient;
         if(middlename==null){
              patient = patientRepo.findByNameAndLastnameAndBirthdate(firstname, lastname, birthdate)
-                    .orElseThrow(()->new EntityNotFoundException(String.format("Cannot find patient: %s %s %s", firstname, lastname, birthdate)));
+                    .orElseThrow(()->new PatientNotFoundException(firstname,lastname,"",birthdate));
         }
         else{
             patient = patientRepo.findByNameAndLastnameAndPatronymicAndBirthdate(firstname, lastname, middlename, birthdate)
-                    .orElseThrow(()->new EntityNotFoundException(String.format("Cannot find patient: %s %s %s %s", firstname, lastname, middlename, birthdate)));
+                    .orElseThrow(()->new PatientNotFoundException(firstname,lastname,middlename,birthdate));
         }
 
         return patientMapper.toDto(patient);
@@ -67,13 +69,13 @@ public class PatientService {
 
     public PatientDTO updatePatient(UUID id, PatientDTO dto){
         Patient patient = patientRepo.findById(id)
-                .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+id));
+                .orElseThrow(()->new PatientNotFoundException(id));
 
         dto.setId(null);
         patientMapper.updateFromDto(dto, patient);
         if(dto.getDiagnosisId() != null){
             Diagnosis diagnosis = diagnosisRepo.findById(dto.getDiagnosisId())
-                    .orElseThrow(()-> new EntityNotFoundException("Cannot find diagnosis with id: "+dto.getDiagnosisId()));
+                    .orElseThrow(()-> new DiagnosisNotFoundException(dto.getDiagnosisId()));
             patient.setDiagnosis(diagnosis);
         }
         return patientMapper.toDto(patientRepo.save(patient));
@@ -82,7 +84,7 @@ public class PatientService {
     @Deprecated(forRemoval = true)
     public Patient findById(UUID id){
         return patientRepo.findById(id)
-                .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+id));
+                .orElseThrow(()->new PatientNotFoundException(id));
     }
 
     private boolean isPatientPresent(PatientDTO dto){
