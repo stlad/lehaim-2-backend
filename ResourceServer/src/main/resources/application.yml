@@ -20,6 +20,8 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.xml
     enabled: true
 
+  mvc:
+    log-resolved-exception : false
 
   output:
     ansi:

@@ -5,6 +5,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.vaganov.ResourceServer.exceptions.OncologicalTestExistsException;
+import ru.vaganov.ResourceServer.exceptions.OncologicalTestNotFoundException;
+import ru.vaganov.ResourceServer.exceptions.ParameterNotFoundException;
+import ru.vaganov.ResourceServer.exceptions.PatientNotFoundException;
 import ru.vaganov.ResourceServer.mappers.OncologicalTestMapper;
 import ru.vaganov.ResourceServer.mappers.ParameterResultMapper;
 import ru.vaganov.ResourceServer.models.OncologicalTest;
@@ -53,9 +57,9 @@ public class OncologicalTestService {
     @Transactional
     public OncologicalTestRestDTO saveNewOncologicalTest(UUID ownerId, OncologicalTestRestDTO dto){
         Patient patient = patientRepo.findById(ownerId)
-                .orElseThrow(()->new EntityNotFoundException("Cannot find patient with id: "+ownerId));
+                .orElseThrow(()->new PatientNotFoundException(ownerId));
         if(oncologicalTestRepo.findByPatientOwner_IdAndTestDate(ownerId, dto.getTestDate()).isPresent())
-            throw new EntityExistsException("Test of patient: "+ownerId+" by "+dto.getTestDate()+" already exists");
+            throw new OncologicalTestExistsException(ownerId, dto.getTestDate());
 
         OncologicalTest newTest = new OncologicalTest();
         newTest.setTestDate(dto.getTestDate());
@@ -65,7 +69,7 @@ public class OncologicalTestService {
         List<ParameterResultRestDTO> results = new ArrayList<>();
         for(ParameterResultRestDTO resDTO: dto.getResults()){
             Parameter parameter = catalogRepo.findById(resDTO.getCatalogId())
-                    .orElseThrow(()-> new EntityNotFoundException("Cannot find parameter in catalog with id: "+resDTO.getCatalogId()));
+                    .orElseThrow(()-> new ParameterNotFoundException(resDTO.getCatalogId()));
 
             ParameterResult result = ParameterResult.builder()
                     .attachedTest(newTest)
@@ -88,7 +92,7 @@ public class OncologicalTestService {
     public OncologicalTestRestDTO updateOncologicalTest(
             UUID ownerId, Long testId, OncologicalTestRestDTO requestDTO){
         OncologicalTest test = oncologicalTestRepo.findById(testId)
-                .orElseThrow(()-> new EntityNotFoundException("Cannot find test with id: "+testId));
+                .orElseThrow(()-> new OncologicalTestNotFoundException(testId));
         if(requestDTO.getTestDate() != null){
             test.setTestDate(requestDTO.getTestDate());
             test = oncologicalTestRepo.save(test);
@@ -99,7 +103,7 @@ public class OncologicalTestService {
                     ownerId, testId, dto.getCatalogId())
                     .orElseGet(()->{
                         Parameter parameter = catalogRepo.findById(dto.getCatalogId())
-                                .orElseThrow(()-> new EntityNotFoundException("Cannot find parameter with id: "+dto.getCatalogId()));
+                                .orElseThrow(()-> new ParameterNotFoundException(dto.getCatalogId()));
                         return ParameterResult.builder()
                                 .parameter(parameter)
                                 .build();
@@ -122,7 +126,7 @@ public class OncologicalTestService {
 
     public OncologicalTestRestDTO findOncologicalTestById(UUID patientId, Long testId){
         OncologicalTest test = oncologicalTestRepo.findById(testId)
-                .orElseThrow(()-> new EntityNotFoundException("Cannot find test with id: "+testId));
+                .orElseThrow(()-> new OncologicalTestNotFoundException(testId));
 
         List<ParameterResult> results = resultRepo.findByAttachedTest_Id(testId);
         List<ParameterResultRestDTO> resultDtos = results.stream().map(res->resultMapper.toRestDto(res)).toList();
