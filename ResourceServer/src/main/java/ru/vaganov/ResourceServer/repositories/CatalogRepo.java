@@ -24,4 +24,6 @@ public interface CatalogRepo extends JpaRepository<Parameter,Long> {
             "ORDER BY p.id")
     public List<Parameter> findByResearchTypeOrderById(Parameter.ResearchType type);
 
+    @Query("SELECT p FROM Parameter p WHERE p.isActive = true")
+    List<Parameter> findAllActive();
 }

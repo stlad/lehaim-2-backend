@@ -42,7 +42,7 @@ public class CatalogService {
         return catalogRepo.findByResearchTypeOrderById(type);
     }
     public List<Parameter> findAll(){
-        return catalogRepo.findAll();
+        return catalogRepo.findAllActive();
     }
 
     public Parameter findById(Long id){
