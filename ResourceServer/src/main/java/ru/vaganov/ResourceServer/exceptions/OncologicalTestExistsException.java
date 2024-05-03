@@ -7,7 +7,8 @@ public class OncologicalTestExistsException extends LehaimException{
     private final static String baseMessage = "Уже существует обследование: ";
 
     public OncologicalTestExistsException(UUID ownerId, LocalDate testDate){
-        super(baseMessage+"у пациента: "+ownerId+" от: "+testDate);
+        super(baseMessage+"от: "+testDate);
+        setLogMessage(baseMessage+"у пациента: "+ownerId+" от: "+testDate);
     }
 
     @Override

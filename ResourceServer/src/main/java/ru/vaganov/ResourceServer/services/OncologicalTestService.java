@@ -94,6 +94,9 @@ public class OncologicalTestService {
         OncologicalTest test = oncologicalTestRepo.findById(testId)
                 .orElseThrow(()-> new OncologicalTestNotFoundException(testId));
         if(requestDTO.getTestDate() != null){
+            if(oncologicalTestRepo.findByPatientOwner_IdAndTestDate(ownerId, requestDTO.getTestDate()).isPresent())
+                throw new OncologicalTestExistsException(ownerId, requestDTO.getTestDate());
+
             test.setTestDate(requestDTO.getTestDate());
             test = oncologicalTestRepo.save(test);
         }
