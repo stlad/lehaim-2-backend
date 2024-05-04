@@ -26,6 +26,7 @@ import ru.vaganov.ResourceServer.repositories.PatientRepo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -93,8 +94,10 @@ public class OncologicalTestService {
             UUID ownerId, Long testId, OncologicalTestRestDTO requestDTO){
         OncologicalTest test = oncologicalTestRepo.findById(testId)
                 .orElseThrow(()-> new OncologicalTestNotFoundException(testId));
+        Optional<OncologicalTest> otherTestByDate =
+                oncologicalTestRepo.findByPatientOwner_IdAndTestDate(ownerId, requestDTO.getTestDate());
         if(requestDTO.getTestDate() != null){
-            if(oncologicalTestRepo.findByPatientOwner_IdAndTestDate(ownerId, requestDTO.getTestDate()).isPresent())
+            if(otherTestByDate.isPresent() && !otherTestByDate.get().getId().equals( testId))
                 throw new OncologicalTestExistsException(ownerId, requestDTO.getTestDate());
 
             test.setTestDate(requestDTO.getTestDate());
