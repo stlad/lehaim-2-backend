@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.enums.TestSeason;
+import ru.vaganov.ResourceServer.mappers.ParameterMapper;
 import ru.vaganov.ResourceServer.mappers.ParameterResultMapper;
 import ru.vaganov.ResourceServer.models.OncologicalTest;
+import ru.vaganov.ResourceServer.models.Parameter;
+import ru.vaganov.ResourceServer.models.ParameterResult;
 import ru.vaganov.ResourceServer.models.dto.*;
 import ru.vaganov.ResourceServer.repositories.OncologicalTestRepo;
 import ru.vaganov.ResourceServer.repositories.ParameterResultRepo;
@@ -22,6 +25,8 @@ public class ReportService {
     private OncologicalTestRepo oncologicalTestRepo;
     private ParameterResultRepo resultRepo;
     private ParameterResultMapper resultMapper;
+    private CatalogService catalogService;
+    private ParameterMapper parameterMapper;
 
     public ReportData createReportByTestId(UUID patientId, Long testId){
         ReportData reportData = new ReportData();
@@ -29,7 +34,7 @@ public class ReportService {
         reportData.setTestId(testId);
         reportData.setPatient(patientService.findPatientById(patientId));
         reportData.setCurrentTestDate(test.getTestDate());
-        reportData.setCurrentResults(test.getResults());
+        reportData.setCurrentResults(oncologicalTestService.getAllResultsByTestId(testId));
         reportData.setSeason(TestSeason.ofDate(test.getTestDate()));
 
         List<OncologicalTest> prevTests = oncologicalTestRepo.findAllByPatientOwner_IdAndTestDateBefore(patientId, test.getTestDate());
@@ -39,8 +44,8 @@ public class ReportService {
         }
 
         if(prevTests.size() == 1){
-            List<ParameterResultRestDTO> prevResults = resultRepo.findByAttachedTest_Id(prevTests.get(0).getId())
-                    .stream().map(resultMapper::toRestDto).toList();
+            List<ParameterResultDTO> prevResults = resultRepo.findByAttachedTest_Id(prevTests.get(0).getId())
+                    .stream().map(resultMapper::toDto).toList();
             reportData.setPreviousResults(prevResults);
             return reportData;
         }
@@ -63,10 +68,11 @@ public class ReportService {
     }
 
 
-    private List<ParameterResultRestDTO> calculateAvgs(Map<Long, List<Double>> aggregates){
+    private List<ParameterResultDTO> calculateAvgs(Map<Long, List<Double>> aggregates){
         return aggregates.entrySet().stream().map(entrySet ->{
-            ParameterResultRestDTO dto = new ParameterResultRestDTO();
-            dto.setCatalogId(entrySet.getKey());
+            ParameterResultDTO dto = new ParameterResultDTO();
+            ParameterDTO parameter = catalogService.getDtoById(entrySet.getKey());
+            dto.setParameter(parameter);
             double sum = entrySet.getValue().stream().reduce(0d,Double::sum);
             double average = sum / entrySet.getValue().size();
             dto.setValue(average);
