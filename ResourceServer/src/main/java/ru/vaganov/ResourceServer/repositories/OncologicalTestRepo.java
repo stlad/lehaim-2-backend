@@ -17,4 +17,5 @@ public interface OncologicalTestRepo extends JpaRepository<OncologicalTest, Long
 
     List<OncologicalTest> findByPatientOwner_IdOrderByTestDateDesc(UUID ownerId);
     Optional<OncologicalTest> findByPatientOwner_IdAndTestDate(UUID ownerId, LocalDate testDate);
+    List<OncologicalTest> findAllByPatientOwner_IdAndTestDateBefore(UUID ownerId, LocalDate date);
 }

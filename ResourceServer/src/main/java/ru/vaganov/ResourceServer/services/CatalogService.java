@@ -1,35 +1,37 @@
 package ru.vaganov.ResourceServer.services;
 
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import ru.vaganov.ResourceServer.exceptions.ParameterNotFoundException;
+import ru.vaganov.ResourceServer.mappers.ParameterMapper;
 import ru.vaganov.ResourceServer.models.Parameter;
+import ru.vaganov.ResourceServer.models.dto.ParameterDTO;
 import ru.vaganov.ResourceServer.repositories.CatalogRepo;
 
 import java.util.List;
 
-@Service
+@Service @Slf4j
+@AllArgsConstructor
 public class CatalogService {
 
     private CatalogRepo catalogRepo;
-
-    Logger logger = LoggerFactory.getLogger(CatalogService.class);
-    @Autowired
-    public CatalogService(CatalogRepo catalogRepo) {
-        this.catalogRepo = catalogRepo;
-    }
+    private ParameterMapper parameterMapper;
 
     public Parameter save(Parameter param){
         Parameter savedParam = null ;
         try{
             savedParam = catalogRepo.save(param);
-            logger.debug("param" + param.toString() + "saved");
+            log.debug("param" + param.toString() + "saved");
         }catch (DataIntegrityViolationException e){
             savedParam =  catalogRepo.findByNameAndAdditionalName(param.getName(), param.getAdditionalName());
-            logger.debug("param" + param.toString() + " already exist");
+            log.debug("param" + param.toString() + " already exist");
         }
         return savedParam;
     }
@@ -47,5 +49,11 @@ public class CatalogService {
 
     public Parameter findById(Long id){
         return catalogRepo.findById(id).orElse(null);
+    }
+
+    public ParameterDTO getDtoById(Long id){
+        Parameter parameter = catalogRepo.findById(id).
+            orElseThrow(()-> new ParameterNotFoundException(id));
+        return parameterMapper.toDto(parameter);
     }
 }
