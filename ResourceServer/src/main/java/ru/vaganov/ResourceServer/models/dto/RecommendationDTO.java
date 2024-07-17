@@ -24,4 +24,5 @@ public class RecommendationDTO {
 
     private Long firstParamId;
     private Long secondParamId;
+    private Integer diagnosisId;
 }

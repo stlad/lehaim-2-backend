@@ -25,7 +25,7 @@ public class Recommendation {
     @Column(name = "range_max")
     private Double rangeMax;
 
-    @Column(name = "name")
+    @Column(name = "recommendation_name")
     private String name;
     @Column(name = "conclusion")
     private String conclusion;
@@ -46,4 +46,9 @@ public class Recommendation {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "second_param_id", referencedColumnName = "id")
     private Parameter secondParam;
+
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "diagnosis_id", referencedColumnName = "id")
+    private Diagnosis diagnosis;
 }
