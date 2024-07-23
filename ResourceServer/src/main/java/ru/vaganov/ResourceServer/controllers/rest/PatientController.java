@@ -3,6 +3,7 @@ package ru.vaganov.ResourceServer.controllers.rest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,11 @@ import java.util.UUID;
 @RequestMapping("/patients")
 @Tag(name = "Patient API")
 @Slf4j
+@RequiredArgsConstructor
 public class PatientController {
 
-    @Autowired
-    private PatientService patientService;
-    @Autowired
-    private OncologicalTestService oncologicalService;
+    private final PatientService patientService;
+    private final OncologicalTestService oncologicalService;
 
     @Operation(summary = "Поиск по ID", description = "Поиск по идентификатору" )
     @GetMapping("/{id}")

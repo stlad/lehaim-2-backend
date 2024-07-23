@@ -1,5 +1,8 @@
 package ru.vaganov.ResourceServer.controllers.rest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +19,12 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(value = "/catalog")
+@Tag(name = "Parameter Catalog API")
+@Slf4j
+@RequiredArgsConstructor
 public class CatalogController {
-    Logger logger = LoggerFactory.getLogger(CatalogController.class);
 
-    @Autowired
-    private CatalogService catalogService;
+    private final CatalogService catalogService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Parameter>> getFullCatalog(
@@ -32,7 +36,7 @@ public class CatalogController {
 
     @GetMapping("/all/grouped")
     public ResponseEntity<HashMap<Parameter.ResearchType, List<Parameter>>> getFullCatalogGroupedByResearch(){
-        logger.debug("Request to /catalog/all/grouped");
+        log.debug("Request to /catalog/all/grouped");
         List<Parameter> params = catalogService.findAll();
         HashMap<Parameter.ResearchType, List<Parameter>> map = new HashMap<>();
         for(Parameter p: params){
