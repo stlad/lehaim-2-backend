@@ -10,4 +10,5 @@
     <include file="/db/changelog/migrations/parameter-catalog-add-is_active.xml" />
     <include file="/db/changelog/migrations/create-diagnosis-catalog.xml" />
     <include file="/db/changelog/migrations/v1_4_uuid-migration.xml" />
+    <include file="/db/changelog/migrations/v1_5_create_recommendations_table.xml" />
 </databaseChangeLog>
