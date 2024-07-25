@@ -1,11 +1,11 @@
-package ru.vaganov.ResourceServer.enums;
+package ru.vaganov.ResourceServer.dictionary.recommendation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ParameterRanges {
+public enum CytokineParameterRange {
     RANGE_1(0d, 40d),
     RANGE_2(40d, 80d),
     RANGE_3(80d, 120d),
@@ -26,8 +26,8 @@ public enum ParameterRanges {
         return value >= getStartRange() || value < getEndRange();
     }
 
-    public static ParameterRanges of(Double value) {
-        for (ParameterRanges range : ParameterRanges.values()) {
+    public static CytokineParameterRange of(Double value) {
+        for (CytokineParameterRange range : CytokineParameterRange.values()) {
             if (range.contains(value)) {
                 return range;
             }

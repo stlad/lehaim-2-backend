@@ -1,6 +1,6 @@
 package ru.vaganov.ResourceServer.services;
 
-import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,25 +12,24 @@ import ru.vaganov.ResourceServer.repositories.DiagnosisRepo;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service @Slf4j
+@Service
+@Slf4j
+@RequiredArgsConstructor
 public class DiagnosisCatalogService {
+    private final DiagnosisRepo diagnosisRepo;
 
-    @Autowired
-    private DiagnosisRepo diagnosisRepo;
-    @Autowired
-    private DiagnosisMapper diagnosisMapper;
+    private final DiagnosisMapper diagnosisMapper;
 
-    public List<DiagnosisDTO> findAll(){
+    public List<DiagnosisDTO> findAll() {
         LinkedList<Diagnosis> diagnosisList = diagnosisRepo.findAll();
         diagnosisList.addFirst(diagnosisList.removeLast());
         return diagnosisMapper.toDto(diagnosisList.stream().toList());
     }
 
 
-    public DiagnosisDTO findById(Integer id){
+    public DiagnosisDTO findById(Integer id) {
         return diagnosisMapper.toDto(diagnosisRepo.findById(id)
-                .orElseThrow(()-> new DiagnosisNotFoundException(id)));
+                .orElseThrow(() -> new DiagnosisNotFoundException(id)));
     }
 }
