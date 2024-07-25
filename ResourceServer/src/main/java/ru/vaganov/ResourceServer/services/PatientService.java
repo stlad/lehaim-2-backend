@@ -10,8 +10,8 @@ import ru.vaganov.ResourceServer.mappers.PatientMapper;
 import ru.vaganov.ResourceServer.models.Diagnosis;
 import ru.vaganov.ResourceServer.models.Patient;
 import ru.vaganov.ResourceServer.models.dto.PatientDTO;
-import ru.vaganov.ResourceServer.repositories.DiagnosisRepo;
-import ru.vaganov.ResourceServer.repositories.PatientRepo;
+import ru.vaganov.ResourceServer.repositories.DiagnosisRepository;
+import ru.vaganov.ResourceServer.repositories.PatientRepository;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -22,11 +22,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PatientService {
 
-    private final PatientRepo patientRepo;
+    private final PatientRepository patientRepository;
 
     private final PatientMapper patientMapper;
 
-    private final DiagnosisRepo diagnosisRepo;
+    private final DiagnosisRepository diagnosisRepository;
 
     public PatientDTO savePatient(PatientDTO dto) {
         if (isPatientPresent(dto))
@@ -34,16 +34,16 @@ public class PatientService {
 
         Patient patient = patientMapper.fromDto(dto);
         if (dto.getDiagnosisId() != null) {
-            Diagnosis diagnosis = diagnosisRepo.findById(dto.getDiagnosisId())
+            Diagnosis diagnosis = diagnosisRepository.findById(dto.getDiagnosisId())
                     .orElseThrow(() -> new DiagnosisNotFoundException(dto.getDiagnosisId()));
             patient.setDiagnosis(diagnosis);
         }
-        patient = patientRepo.save(patient);
+        patient = patientRepository.save(patient);
         return patientMapper.toDto(patient);
     }
 
     public PatientDTO findPatientById(UUID id) {
-        Patient patient = patientRepo.findById(id)
+        Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException(id));
 
         return patientMapper.toDto(patient);
@@ -53,10 +53,10 @@ public class PatientService {
             String firstname, String lastname, String middlename, LocalDate birthdate) {
         Patient patient;
         if (middlename == null) {
-            patient = patientRepo.findByNameAndLastnameAndBirthdate(firstname, lastname, birthdate)
+            patient = patientRepository.findByNameAndLastnameAndBirthdate(firstname, lastname, birthdate)
                     .orElseThrow(() -> new PatientNotFoundException(firstname, lastname, "", birthdate));
         } else {
-            patient = patientRepo.findByNameAndLastnameAndPatronymicAndBirthdate(firstname, lastname, middlename, birthdate)
+            patient = patientRepository.findByNameAndLastnameAndPatronymicAndBirthdate(firstname, lastname, middlename, birthdate)
                     .orElseThrow(() -> new PatientNotFoundException(firstname, lastname, middlename, birthdate));
         }
 
@@ -64,27 +64,27 @@ public class PatientService {
     }
 
     public PatientDTO updatePatient(UUID id, PatientDTO dto) {
-        Patient patient = patientRepo.findById(id)
+        Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException(id));
 
         dto.setId(null);
         patientMapper.updateFromDto(dto, patient);
         if (dto.getDiagnosisId() != null) {
-            Diagnosis diagnosis = diagnosisRepo.findById(dto.getDiagnosisId())
+            Diagnosis diagnosis = diagnosisRepository.findById(dto.getDiagnosisId())
                     .orElseThrow(() -> new DiagnosisNotFoundException(dto.getDiagnosisId()));
             patient.setDiagnosis(diagnosis);
         }
-        return patientMapper.toDto(patientRepo.save(patient));
+        return patientMapper.toDto(patientRepository.save(patient));
     }
 
     @Deprecated(forRemoval = true)
     public Patient findById(UUID id) {
-        return patientRepo.findById(id)
+        return patientRepository.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException(id));
     }
 
     private boolean isPatientPresent(PatientDTO dto) {
-        return patientRepo.findByNameAndLastnameAndPatronymicAndBirthdate(
+        return patientRepository.findByNameAndLastnameAndPatronymicAndBirthdate(
                 dto.getName(),
                 dto.getLastname(),
                 dto.getPatronymic(),

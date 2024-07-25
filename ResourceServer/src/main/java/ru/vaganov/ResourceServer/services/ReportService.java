@@ -8,8 +8,8 @@ import ru.vaganov.ResourceServer.mappers.ParameterMapper;
 import ru.vaganov.ResourceServer.mappers.ParameterResultMapper;
 import ru.vaganov.ResourceServer.models.OncologicalTest;
 import ru.vaganov.ResourceServer.models.dto.*;
-import ru.vaganov.ResourceServer.repositories.OncologicalTestRepo;
-import ru.vaganov.ResourceServer.repositories.ParameterResultRepo;
+import ru.vaganov.ResourceServer.repositories.OncologicalTestRepository;
+import ru.vaganov.ResourceServer.repositories.ParameterResultRepository;
 
 import java.util.*;
 
@@ -20,8 +20,8 @@ public class ReportService {
 
     private PatientService patientService;
     private OncologicalTestService oncologicalTestService;
-    private OncologicalTestRepo oncologicalTestRepo;
-    private ParameterResultRepo resultRepo;
+    private OncologicalTestRepository oncologicalTestRepository;
+    private ParameterResultRepository resultRepo;
     private ParameterResultMapper resultMapper;
     private CatalogService catalogService;
     private ParameterMapper parameterMapper;
@@ -35,7 +35,7 @@ public class ReportService {
         reportData.setCurrentResults(oncologicalTestService.getAllResultsByTestId(testId));
         reportData.setSeason(TestSeason.ofDate(test.getTestDate()));
 
-        List<OncologicalTest> prevTests = oncologicalTestRepo.findAllByPatientOwner_IdAndTestDateBefore(patientId, test.getTestDate());
+        List<OncologicalTest> prevTests = oncologicalTestRepository.findAllByPatientOwner_IdAndTestDateBefore(patientId, test.getTestDate());
 
         if(prevTests.size() == 0){
             return reportData;

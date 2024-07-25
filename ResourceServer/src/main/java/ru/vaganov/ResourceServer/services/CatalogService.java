@@ -1,7 +1,6 @@
 package ru.vaganov.ResourceServer.services;
 
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,7 +9,7 @@ import ru.vaganov.ResourceServer.exceptions.ParameterNotFoundException;
 import ru.vaganov.ResourceServer.mappers.ParameterMapper;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.models.dto.ParameterDTO;
-import ru.vaganov.ResourceServer.repositories.CatalogRepo;
+import ru.vaganov.ResourceServer.repositories.CatalogRepository;
 
 import java.util.List;
 
@@ -18,39 +17,39 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class CatalogService {
-    private CatalogRepo catalogRepo;
+    private CatalogRepository catalogRepository;
     private ParameterMapper parameterMapper;
 
     public Parameter save(Parameter param) {
         Parameter savedParam = null;
         try {
-            savedParam = catalogRepo.save(param);
+            savedParam = catalogRepository.save(param);
             log.debug("param" + param.toString() + "saved");
         } catch (DataIntegrityViolationException e) {
-            savedParam = catalogRepo.findByNameAndAdditionalName(param.getName(), param.getAdditionalName());
+            savedParam = catalogRepository.findByNameAndAdditionalName(param.getName(), param.getAdditionalName());
             log.debug("param" + param.toString() + " already exist");
         }
         return savedParam;
     }
 
     public void delete(Parameter parameter) {
-        catalogRepo.delete(parameter);
+        catalogRepository.delete(parameter);
     }
 
     public List<Parameter> findByResearchType(Parameter.ResearchType type) {
-        return catalogRepo.findByResearchTypeOrderById(type);
+        return catalogRepository.findByResearchTypeOrderById(type);
     }
 
     public List<Parameter> findAll() {
-        return catalogRepo.findAllActive();
+        return catalogRepository.findAllActive();
     }
 
     public Parameter findById(Long id) {
-        return catalogRepo.findById(id).orElse(null);
+        return catalogRepository.findById(id).orElse(null);
     }
 
     public ParameterDTO getDtoById(Long id) {
-        Parameter parameter = catalogRepo.findById(id).
+        Parameter parameter = catalogRepository.findById(id).
                 orElseThrow(() -> new ParameterNotFoundException(id));
         return parameterMapper.toDto(parameter);
     }
