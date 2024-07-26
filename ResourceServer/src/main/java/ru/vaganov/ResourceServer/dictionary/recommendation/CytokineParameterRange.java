@@ -23,7 +23,7 @@ public enum CytokineParameterRange {
     private final Double endRange;
 
     public Boolean contains(Double value) {
-        return value >= getStartRange() || value < getEndRange();
+        return value >= getStartRange() && value < getEndRange();
     }
 
     public static CytokineParameterRange of(Double value) {
