@@ -25,19 +25,24 @@ public class CytokineChartState {
     @UuidGenerator
     private UUID id;
 
+    @Column(name = "range_TNFa")
     @Enumerated(EnumType.STRING)
-    private CytokineParameterRange TNFa;
+    private CytokineParameterRange rangeTNFa;
+
+    @Column(name = "range_IFNy")
     @Enumerated(EnumType.STRING)
-    private CytokineParameterRange IFNy;
+    private CytokineParameterRange rangeIFNy;
+
+    @Column(name = "range_IL2")
     @Enumerated(EnumType.STRING)
-    private CytokineParameterRange IL2;
+    private CytokineParameterRange rangeIL2;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "diagnosis_Id", referencedColumnName = "id")
     private Diagnosis diagnosis;
 
-    @ManyToOne
+    @OneToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "recommendation_Id", referencedColumnName = "id")
     private Recommendation recommendation;
