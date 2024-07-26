@@ -9,7 +9,7 @@ import ru.vaganov.ResourceServer.exceptions.PatientNotFoundException;
 import ru.vaganov.ResourceServer.mappers.PatientMapper;
 import ru.vaganov.ResourceServer.models.Diagnosis;
 import ru.vaganov.ResourceServer.models.Patient;
-import ru.vaganov.ResourceServer.models.dto.PatientDTO;
+import ru.vaganov.ResourceServer.dto.PatientDTO;
 import ru.vaganov.ResourceServer.repositories.DiagnosisRepository;
 import ru.vaganov.ResourceServer.repositories.PatientRepository;
 

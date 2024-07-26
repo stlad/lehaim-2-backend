@@ -3,8 +3,8 @@ package ru.vaganov.ResourceServer.mappers;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.vaganov.ResourceServer.models.ParameterResult;
-import ru.vaganov.ResourceServer.models.dto.ParameterResultDTO;
-import ru.vaganov.ResourceServer.models.dto.ParameterResultRestDTO;
+import ru.vaganov.ResourceServer.dto.ParameterResultDTO;
+import ru.vaganov.ResourceServer.dto.ParameterResultRestDTO;
 
 import java.util.List;
 

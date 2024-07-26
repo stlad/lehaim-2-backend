@@ -1,4 +1,4 @@
-package ru.vaganov.ResourceServer.models.dto;
+package ru.vaganov.ResourceServer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

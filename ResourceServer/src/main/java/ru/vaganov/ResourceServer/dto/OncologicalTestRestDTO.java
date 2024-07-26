@@ -1,4 +1,4 @@
-package ru.vaganov.ResourceServer.models.dto;
+package ru.vaganov.ResourceServer.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

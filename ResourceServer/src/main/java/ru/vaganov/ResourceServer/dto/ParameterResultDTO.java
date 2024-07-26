@@ -1,8 +1,6 @@
-package ru.vaganov.ResourceServer.models.dto;
+package ru.vaganov.ResourceServer.dto;
 
 import lombok.*;
-import ru.vaganov.ResourceServer.models.OncologicalTest;
-import ru.vaganov.ResourceServer.models.Parameter;
 
 @Data @Builder
 @AllArgsConstructor @NoArgsConstructor

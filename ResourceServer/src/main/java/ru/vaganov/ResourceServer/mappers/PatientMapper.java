@@ -2,7 +2,7 @@ package ru.vaganov.ResourceServer.mappers;
 
 import org.mapstruct.*;
 import ru.vaganov.ResourceServer.models.Patient;
-import ru.vaganov.ResourceServer.models.dto.PatientDTO;
+import ru.vaganov.ResourceServer.dto.PatientDTO;
 
 import java.util.List;
 

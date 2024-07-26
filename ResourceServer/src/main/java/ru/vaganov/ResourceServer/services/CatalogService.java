@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.exceptions.ParameterNotFoundException;
 import ru.vaganov.ResourceServer.mappers.ParameterMapper;
 import ru.vaganov.ResourceServer.models.Parameter;
-import ru.vaganov.ResourceServer.models.dto.ParameterDTO;
+import ru.vaganov.ResourceServer.dto.ParameterDTO;
 import ru.vaganov.ResourceServer.repositories.CatalogRepository;
 
 import java.util.List;

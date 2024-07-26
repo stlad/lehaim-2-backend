@@ -1,4 +1,4 @@
-package ru.vaganov.ResourceServer.models.dto.recommendation;
+package ru.vaganov.ResourceServer.dto.recommendation;
 
 import lombok.Data;
 import ru.vaganov.ResourceServer.dictionary.ChartType;

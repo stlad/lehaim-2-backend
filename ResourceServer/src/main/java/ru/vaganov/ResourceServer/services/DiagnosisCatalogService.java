@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.exceptions.DiagnosisNotFoundException;
 import ru.vaganov.ResourceServer.mappers.DiagnosisMapper;
 import ru.vaganov.ResourceServer.models.Diagnosis;
-import ru.vaganov.ResourceServer.models.dto.DiagnosisDTO;
+import ru.vaganov.ResourceServer.dto.DiagnosisDTO;
 import ru.vaganov.ResourceServer.repositories.DiagnosisRepository;
 
 import java.util.LinkedList;
