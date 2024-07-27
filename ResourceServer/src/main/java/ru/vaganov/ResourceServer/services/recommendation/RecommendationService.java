@@ -79,4 +79,13 @@ public class RecommendationService {
                 .saveRecommendation(recommendation, patient, results);
         return recommendationMapper.toDTO(recommendation);
     }
+
+    public RecommendationDTO editRecommendation(UUID recommendationId, RecommendationDTO dto){
+        Recommendation recommendation = recommendationRepository.findById(recommendationId)
+                .orElseThrow(()->new RecommendationNotFoundException(recommendationId));
+        recommendationMapper.updateFromDto(dto, recommendation);
+        recommendation.setDateUpdated(LocalDateTime.now());
+        recommendation = recommendationRepository.save(recommendation);
+        return recommendationMapper.toDTO(recommendation);
+    }
 }

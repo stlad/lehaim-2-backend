@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vaganov.ResourceServer.dictionary.ChartType;
 import ru.vaganov.ResourceServer.dto.recommendation.RecommendationDTO;
-import ru.vaganov.ResourceServer.models.recommendations.Recommendation;
 import ru.vaganov.ResourceServer.services.recommendation.RecommendationService;
 
 import java.util.HashMap;
@@ -39,9 +38,18 @@ public class RecommendationController {
             description = "Сохранение рекомедации на основе текщего обследоваия")
     @PostMapping("/{patientId}/{testId}")
     public ResponseEntity<RecommendationDTO> saveReccomendation(@PathVariable UUID patientId,
-                                                      @PathVariable Long testId,
-                                                      @RequestBody RecommendationDTO dto) {
+                                                                @PathVariable Long testId,
+                                                                @RequestBody RecommendationDTO dto) {
         RecommendationDTO newDto = recommendationService.saveNewRecommendation(patientId, testId, dto);
+        return new ResponseEntity<>(newDto, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Обновление рекомендации",
+            description = "Обновление рекомендации")
+    @PutMapping("edit/{recommendationId}")
+    public ResponseEntity<RecommendationDTO> editReccomendation(@PathVariable UUID recommendationId,
+                                                                @RequestBody RecommendationDTO dto) {
+        RecommendationDTO newDto = recommendationService.editRecommendation(recommendationId, dto);
         return new ResponseEntity<>(newDto, HttpStatus.OK);
     }
 
