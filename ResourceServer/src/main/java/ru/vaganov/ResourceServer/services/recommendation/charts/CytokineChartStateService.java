@@ -12,13 +12,16 @@ import ru.vaganov.ResourceServer.models.Patient;
 import ru.vaganov.ResourceServer.models.recommendations.CytokineChartState;
 import ru.vaganov.ResourceServer.models.recommendations.Recommendation;
 import ru.vaganov.ResourceServer.repositories.CytokineChartStateRepository;
+import ru.vaganov.ResourceServer.repositories.RecommendationRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
 public class CytokineChartStateService implements ChartStateService {
     private CytokineChartStateRepository stateRepository;
+    private RecommendationRepository recommendationRepository;
 
     @Override
     public ChartType getChart() {
@@ -27,8 +30,18 @@ public class CytokineChartStateService implements ChartStateService {
 
     @Override
     public Recommendation getRecommendation(Patient patient, List<ParameterResult> results) {
-        Diagnosis diagnosis = patient.getDiagnosis();
-        return null;
+        CytokineChartState state = getState(patient, results);
+        return state.getRecommendation();
+    }
+
+    @Override
+    public Recommendation saveRecommendation(Recommendation recommendation, Patient patient,
+                                             List<ParameterResult> results) {
+        CytokineChartState state = getState(patient, results);
+        recommendation = recommendationRepository.save(recommendation);
+        state.setRecommendation(recommendation);
+        stateRepository.save(state);
+        return recommendation;
     }
 
     private CytokineChartState getState(Patient patient, List<ParameterResult> results) {
@@ -37,8 +50,17 @@ public class CytokineChartStateService implements ChartStateService {
         CytokineParameterRange il2Range = CytokineParameterRange.of(getValue(CytokineChartState.Axis.IL2, results));
         Diagnosis diagnosis = patient.getDiagnosis();
 
-        return stateRepository.findState(diagnosis, tnfRange,ifnyRange,il2Range)
-                .orElseThrow(()->new EntityNotFoundException("Cannot find state"));
+        Optional<CytokineChartState> stateOpt =stateRepository.findState(diagnosis, tnfRange,ifnyRange,il2Range);
+        if(stateOpt.isPresent()){
+            return stateOpt.get();
+        }
+        CytokineChartState state = CytokineChartState.builder()
+                .diagnosis(diagnosis)
+                .rangeIL2(il2Range)
+                .rangeIFNy(ifnyRange)
+                .rangeTNFa(tnfRange)
+                .build();
+        return stateRepository.save(state);
     }
 
     private Double getValue(CytokineChartState.Axis axis, List<ParameterResult> results) {

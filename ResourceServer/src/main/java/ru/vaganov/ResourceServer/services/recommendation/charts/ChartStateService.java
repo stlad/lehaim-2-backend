@@ -20,4 +20,14 @@ public interface ChartStateService {
     Recommendation getRecommendation(Patient patient, List<ParameterResult> results);
 
     //TODO saveRecommendation(), editRecommendation()
+
+    /**
+     * Создать новую рекомендацию на основе текщего обследования и типа графика
+     *
+     * @param recommendation данные для рекомендации ОБЯЗАТЕЛЬНО УКАЗАТЬ chartType
+     * @param patient        Пациент
+     * @param results        Список парметров из обследования
+     * @return рекомендация, соответсвующая состоянию на основе входных параметров
+     */
+    Recommendation saveRecommendation(Recommendation recommendation, Patient patient, List<ParameterResult> results);
 }
