@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS cytokine_chart_states
     range_IFNy        text,
     range_IL2         text,
 
-    diagnosis_id      bigint,
+    diagnosis_id      int,
     recommendation_Id uuid,
 
     FOREIGN KEY (diagnosis_id) REFERENCES diagnoses_catalog (id) ON DELETE CASCADE,

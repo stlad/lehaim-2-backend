@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface CytokineChartStateRepository extends JpaRepository<UUID, CytokineChartState> {
+public interface CytokineChartStateRepository extends JpaRepository<CytokineChartState, UUID> {
     @Query("SELECT c FROM CytokineChartState c " +
             "WHERE c.diagnosis.id = :#{#diagnosis.id} " +
             "AND c.rangeIFNy = :#{#ifny} " +
