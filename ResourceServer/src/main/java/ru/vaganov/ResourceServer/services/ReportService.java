@@ -21,13 +21,13 @@ import java.util.*;
 @Slf4j
 public class ReportService {
 
-    private PatientService patientService;
-    private OncologicalTestService oncologicalTestService;
-    private OncologicalTestRepository oncologicalTestRepository;
-    private ParameterResultRepository resultRepo;
-    private ParameterResultMapper resultMapper;
-    private CatalogService catalogService;
-    private ParameterMapper parameterMapper;
+    private final PatientService patientService;
+    private final OncologicalTestService oncologicalTestService;
+    private final OncologicalTestRepository oncologicalTestRepository;
+    private final ParameterResultRepository resultRepo;
+    private final ParameterResultMapper resultMapper;
+    private final CatalogService catalogService;
+    private final ParameterMapper parameterMapper;
 
     public ReportData createReportByTestId(UUID patientId, Long testId) {
         ReportData reportData = new ReportData();
