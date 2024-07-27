@@ -12,6 +12,7 @@ import ru.vaganov.ResourceServer.dto.recommendation.RecommendationDTO;
 import ru.vaganov.ResourceServer.services.recommendation.RecommendationService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -59,5 +60,12 @@ public class RecommendationController {
     public ResponseEntity<RecommendationDTO> findById(@PathVariable UUID id) {
         RecommendationDTO dto = recommendationService.getRecommendationById(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Поиск по рекомендаций по ID",
+            description = "Поиск по рекомендаций по ID")
+    @GetMapping("/chartTypes")
+    public ResponseEntity<ChartType[]> findallChartTypes() {
+        return new ResponseEntity<>(ChartType.values(), HttpStatus.OK);
     }
 }
