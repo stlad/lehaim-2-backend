@@ -20,8 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class CytokineChartStateService implements ChartStateService {
-    private CytokineChartStateRepository stateRepository;
-    private RecommendationRepository recommendationRepository;
+    private final CytokineChartStateRepository stateRepository;
+    private final RecommendationRepository recommendationRepository;
 
     @Override
     public ChartType getChart() {
@@ -31,7 +31,9 @@ public class CytokineChartStateService implements ChartStateService {
     @Override
     public Recommendation getRecommendation(Patient patient, List<ParameterResult> results) {
         CytokineChartState state = getState(patient, results);
-        return state.getRecommendation();
+        return state.getRecommendation() != null ?
+                state.getRecommendation() :
+                new Recommendation();
     }
 
     @Override

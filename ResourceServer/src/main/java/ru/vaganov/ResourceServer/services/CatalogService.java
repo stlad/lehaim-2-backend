@@ -17,8 +17,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class CatalogService {
-    private CatalogRepository catalogRepository;
-    private ParameterMapper parameterMapper;
+    private final CatalogRepository catalogRepository;
+    private final ParameterMapper parameterMapper;
 
     public Parameter save(Parameter param) {
         Parameter savedParam = null;

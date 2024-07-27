@@ -55,7 +55,7 @@ public class RecommendationService {
 
         for(ChartType key : chartServices.keySet()){
             Recommendation rec  = chartServices.get(key).getRecommendation(patient, results);
-            dto.put(rec.getChartType(), recommendationMapper.toDTO(rec));
+            dto.put(key, recommendationMapper.toDTO(rec));
         }
         return dto;
     }
