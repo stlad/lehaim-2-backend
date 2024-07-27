@@ -1,11 +1,9 @@
 package ru.vaganov.ResourceServer.services.recommendation;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.dictionary.ChartType;
 import ru.vaganov.ResourceServer.exceptions.PatientNotFoundException;
-import ru.vaganov.ResourceServer.models.OncologicalTest;
 import ru.vaganov.ResourceServer.models.ParameterResult;
 import ru.vaganov.ResourceServer.models.Patient;
 import ru.vaganov.ResourceServer.repositories.ParameterResultRepository;
@@ -42,7 +40,7 @@ public class RecommendationService {
         List<ParameterResult> results = resultRepository.findByAttachedTest_Id(testId);
 
         for(ChartType key : chartServices.keySet()){
-            chartServices.get(key).process(patient, results);
+            chartServices.get(key).getRecommendation(patient, results);
         }
     }
 }

@@ -1,10 +1,7 @@
 package ru.vaganov.ResourceServer.models.recommendations;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
@@ -46,4 +43,15 @@ public class CytokineChartState {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "recommendation_Id", referencedColumnName = "id")
     private Recommendation recommendation;
+
+    @Getter
+    @AllArgsConstructor
+    public enum Axis{
+        TNFa(38L,39L),
+        IFNy(36L,37L),
+        IL2(40L,41L);
+
+        private Long firstParamId;
+        private Long secondParamId;
+    }
 }

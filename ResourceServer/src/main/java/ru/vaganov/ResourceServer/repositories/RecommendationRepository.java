@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.vaganov.ResourceServer.models.recommendations.Recommendation;
 
 @Repository
-public interface RecommendationRepo extends JpaRepository<Recommendation, Long> {
+public interface RecommendationRepository extends JpaRepository<Recommendation, Long> {
 }
