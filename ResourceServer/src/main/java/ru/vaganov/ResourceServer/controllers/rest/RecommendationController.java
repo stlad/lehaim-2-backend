@@ -12,7 +12,6 @@ import ru.vaganov.ResourceServer.dto.recommendation.RecommendationDTO;
 import ru.vaganov.ResourceServer.services.recommendation.RecommendationService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,20 +27,18 @@ public class RecommendationController {
 
     @Operation(summary = "Поиск по рекомендаций, подходящих по обследованию",
             description = "Поиск рекомендаций подходящих для обследования")
-    @GetMapping("/{patientId}/{testId}")
-    public ResponseEntity<HashMap<ChartType, RecommendationDTO>> findAllRecommendationByTest(@PathVariable UUID patientId,
-                                                                                             @PathVariable Long testId) {
-        HashMap<ChartType, RecommendationDTO> dto = recommendationService.getRecommendation(patientId, testId);
+    @GetMapping("/{testId}")
+    public ResponseEntity<HashMap<ChartType, RecommendationDTO>> findAllRecommendationByTest(@PathVariable Long testId) {
+        HashMap<ChartType, RecommendationDTO> dto = recommendationService.getRecommendation(testId);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @Operation(summary = "Сохранение рекомедации",
             description = "Сохранение рекомедации на основе текщего обследоваия")
-    @PostMapping("/{patientId}/{testId}")
-    public ResponseEntity<RecommendationDTO> saveReccomendation(@PathVariable UUID patientId,
-                                                                @PathVariable Long testId,
+    @PostMapping("/{testId}")
+    public ResponseEntity<RecommendationDTO> saveReccomendation(@PathVariable Long testId,
                                                                 @RequestBody RecommendationDTO dto) {
-        RecommendationDTO newDto = recommendationService.saveNewRecommendation(patientId, testId, dto);
+        RecommendationDTO newDto = recommendationService.saveNewRecommendation(testId, dto);
         return new ResponseEntity<>(newDto, HttpStatus.OK);
     }
 
