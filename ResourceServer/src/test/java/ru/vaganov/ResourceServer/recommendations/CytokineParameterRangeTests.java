@@ -1,4 +1,4 @@
-package recommendations;
+package ru.vaganov.ResourceServer.recommendations;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -66,6 +66,7 @@ public class CytokineChartStateService implements ChartStateService {
                 getValue(CytokineChartState.Axis.IL2, results, validationErrors));
 
         validateState(validationErrors);
+
         Optional<CytokineChartState> stateOpt = stateRepository.findState(diagnosis, tnfRange, ifnyRange, il2Range);
         if (stateOpt.isPresent()) {
             return stateOpt.get();
