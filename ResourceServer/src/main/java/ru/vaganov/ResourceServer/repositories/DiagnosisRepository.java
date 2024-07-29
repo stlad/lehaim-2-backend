@@ -7,7 +7,7 @@ import ru.vaganov.ResourceServer.models.Diagnosis;
 import java.util.LinkedList;
 
 @Repository
-public interface DiagnosisRepo extends JpaRepository<Diagnosis, Integer> {
+public interface DiagnosisRepository extends JpaRepository<Diagnosis, Integer> {
 
     LinkedList<Diagnosis> findAll();
 }

@@ -1,4 +1,4 @@
-package ru.vaganov.ResourceServer.enums;
+package ru.vaganov.ResourceServer.dictionary;
 
 import java.time.LocalDate;
 import java.util.Set;

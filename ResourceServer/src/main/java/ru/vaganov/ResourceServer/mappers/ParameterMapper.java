@@ -2,7 +2,7 @@ package ru.vaganov.ResourceServer.mappers;
 
 import org.mapstruct.Mapper;
 import ru.vaganov.ResourceServer.models.Parameter;
-import ru.vaganov.ResourceServer.models.dto.ParameterDTO;
+import ru.vaganov.ResourceServer.dto.ParameterDTO;
 
 import java.util.List;
 

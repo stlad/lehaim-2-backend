@@ -7,8 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.vaganov.ResourceServer.models.dto.RecommendationDTO;
-import ru.vaganov.ResourceServer.services.RecommendationService;
+import ru.vaganov.ResourceServer.dictionary.ChartType;
+import ru.vaganov.ResourceServer.dto.recommendation.RecommendationDTO;
+import ru.vaganov.ResourceServer.services.recommendation.RecommendationService;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -20,25 +24,45 @@ public class RecommendationController {
 
     private final RecommendationService recommendationService;
 
-    @Operation(summary = "Поиск по ID", description = "Поиск по идентификатору")
-    @GetMapping("/{id}")
-    public ResponseEntity<RecommendationDTO> findRecommendationById(@PathVariable Long id) {
-        RecommendationDTO dto = recommendationService.findById(id);
+
+    @Operation(summary = "Поиск по рекомендаций, подходящих по обследованию",
+            description = "Поиск рекомендаций подходящих для обследования")
+    @GetMapping("/{testId}")
+    public ResponseEntity<HashMap<ChartType, RecommendationDTO>> findAllRecommendationByTest(@PathVariable Long testId) {
+        HashMap<ChartType, RecommendationDTO> dto = recommendationService.getRecommendation(testId);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @Operation(summary = "Добавление новой рекомендации", description = "Добавление новой рекомендации")
-    @PostMapping("/")
-    public ResponseEntity<RecommendationDTO> saveRecommendation(@RequestBody RecommendationDTO dto) {
-        RecommendationDTO savedDTO = recommendationService.saveRecommendation(dto);
-        return new ResponseEntity<>(savedDTO, HttpStatus.OK);
+    @Operation(summary = "Сохранение рекомедации",
+            description = "Сохранение рекомедации на основе текщего обследоваия")
+    @PostMapping("/{testId}")
+    public ResponseEntity<RecommendationDTO> saveReccomendation(@PathVariable Long testId,
+                                                                @RequestBody RecommendationDTO dto) {
+        RecommendationDTO newDto = recommendationService.saveNewRecommendation(testId, dto);
+        return new ResponseEntity<>(newDto, HttpStatus.OK);
     }
 
-    @Operation(summary = "Редактирование рекомендации", description = "Редактирование рекомендации")
-    @PutMapping("/{id}")
-    public ResponseEntity<RecommendationDTO> editRecommendation(@PathVariable Long id,
+    @Operation(summary = "Обновление рекомендации",
+            description = "Обновление рекомендации")
+    @PutMapping("edit/{recommendationId}")
+    public ResponseEntity<RecommendationDTO> editReccomendation(@PathVariable UUID recommendationId,
                                                                 @RequestBody RecommendationDTO dto) {
-        RecommendationDTO updatedDTO = recommendationService.editRecommendation(id, dto);
-        return new ResponseEntity<>(updatedDTO, HttpStatus.OK);
+        RecommendationDTO newDto = recommendationService.editRecommendation(recommendationId, dto);
+        return new ResponseEntity<>(newDto, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Поиск по рекомендаций по ID",
+            description = "Поиск по рекомендаций по ID")
+    @GetMapping("/get/{id}")
+    public ResponseEntity<RecommendationDTO> findById(@PathVariable UUID id) {
+        RecommendationDTO dto = recommendationService.getRecommendationById(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Поиск по рекомендаций по ID",
+            description = "Поиск по рекомендаций по ID")
+    @GetMapping("/chartTypes")
+    public ResponseEntity<ChartType[]> findallChartTypes() {
+        return new ResponseEntity<>(ChartType.values(), HttpStatus.OK);
     }
 }

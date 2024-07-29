@@ -1,8 +1,6 @@
 package ru.vaganov.ResourceServer.services;
 
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vaganov.ResourceServer.exceptions.OncologicalTestExistsException;
@@ -15,14 +13,14 @@ import ru.vaganov.ResourceServer.models.OncologicalTest;
 import ru.vaganov.ResourceServer.models.Parameter;
 import ru.vaganov.ResourceServer.models.ParameterResult;
 import ru.vaganov.ResourceServer.models.Patient;
-import ru.vaganov.ResourceServer.models.dto.OncologicalTestDTO;
-import ru.vaganov.ResourceServer.models.dto.OncologicalTestRestDTO;
-import ru.vaganov.ResourceServer.models.dto.ParameterResultDTO;
-import ru.vaganov.ResourceServer.models.dto.ParameterResultRestDTO;
-import ru.vaganov.ResourceServer.repositories.CatalogRepo;
-import ru.vaganov.ResourceServer.repositories.OncologicalTestRepo;
-import ru.vaganov.ResourceServer.repositories.ParameterResultRepo;
-import ru.vaganov.ResourceServer.repositories.PatientRepo;
+import ru.vaganov.ResourceServer.dto.OncologicalTestDTO;
+import ru.vaganov.ResourceServer.dto.OncologicalTestRestDTO;
+import ru.vaganov.ResourceServer.dto.ParameterResultDTO;
+import ru.vaganov.ResourceServer.dto.ParameterResultRestDTO;
+import ru.vaganov.ResourceServer.repositories.CatalogRepository;
+import ru.vaganov.ResourceServer.repositories.OncologicalTestRepository;
+import ru.vaganov.ResourceServer.repositories.ParameterResultRepository;
+import ru.vaganov.ResourceServer.repositories.PatientRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,53 +29,54 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class OncologicalTestService {
 
-    @Autowired
-    private OncologicalTestRepo oncologicalTestRepo;
-    @Autowired
-    private OncologicalTestMapper testMapper;
-    @Autowired
-    private PatientRepo patientRepo;
-    @Autowired
-    private ParameterResultRepo resultRepo;
-    @Autowired
-    private ParameterResultMapper resultMapper;
-    @Autowired
-    private CatalogRepo catalogRepo;
+    private final OncologicalTestRepository oncologicalTestRepository;
+
+    private final OncologicalTestMapper testMapper;
+
+    private final PatientRepository patientRepository;
+
+    private final ParameterResultRepository resultRepo;
+
+    private final ParameterResultMapper resultMapper;
+
+    private final CatalogRepository catalogRepository;
 
 
-    public List<OncologicalTestDTO> getAllTestByPatientId(UUID patientId){
-        return testMapper.toDto(oncologicalTestRepo.findByPatientOwner_IdOrderByTestDateDesc(patientId));
+    public List<OncologicalTestDTO> getAllTestByPatientId(UUID patientId) {
+        return testMapper.toDto(oncologicalTestRepository.findByPatientOwner_IdOrderByTestDateDesc(patientId));
     }
 
-    public void deleteTestById(Long testId){
-        oncologicalTestRepo.deleteById(testId);
+    public void deleteTestById(Long testId) {
+        oncologicalTestRepository.deleteById(testId);
     }
 
     @Transactional
-    public OncologicalTestRestDTO saveNewOncologicalTest(UUID ownerId, OncologicalTestRestDTO dto){
-        Patient patient = patientRepo.findById(ownerId)
-                .orElseThrow(()->new PatientNotFoundException(ownerId));
-        if(oncologicalTestRepo.findByPatientOwner_IdAndTestDate(ownerId, dto.getTestDate()).isPresent())
+    public OncologicalTestRestDTO saveNewOncologicalTest(UUID ownerId, OncologicalTestRestDTO dto) {
+        Patient patient = patientRepository.findById(ownerId)
+                .orElseThrow(() -> new PatientNotFoundException(ownerId));
+        if (oncologicalTestRepository.findByPatientOwner_IdAndTestDate(ownerId, dto.getTestDate()).isPresent())
             throw new OncologicalTestExistsException(ownerId, dto.getTestDate());
 
         OncologicalTest newTest = new OncologicalTest();
         newTest.setTestDate(dto.getTestDate());
         newTest.setPatientOwner(patient);
-        newTest = oncologicalTestRepo.save(newTest);
+        newTest = oncologicalTestRepository.save(newTest);
 
         List<ParameterResultRestDTO> results = new ArrayList<>();
-        for(ParameterResultRestDTO resDTO: dto.getResults()){
-            Parameter parameter = catalogRepo.findById(resDTO.getCatalogId())
-                    .orElseThrow(()-> new ParameterNotFoundException(resDTO.getCatalogId()));
+        for (ParameterResultRestDTO resDTO : dto.getResults()) {
+            Parameter parameter = catalogRepository.findById(resDTO.getCatalogId())
+                    .orElseThrow(() -> new ParameterNotFoundException(resDTO.getCatalogId()));
 
             ParameterResult result = ParameterResult.builder()
                     .attachedTest(newTest)
                     .value(resDTO.getValue())
                     .parameter(parameter).build();
             results.add(resultMapper.toRestDto(resultRepo.save(result)));
-        };
+        }
+        ;
         return OncologicalTestRestDTO.builder()
                 .id(newTest.getId())
                 .testDate(newTest.getTestDate())
@@ -85,36 +84,36 @@ public class OncologicalTestService {
                 .build();
     }
 
-    public List<ParameterResultDTO> getAllResultsByTestId(Long testId){
+    public List<ParameterResultDTO> getAllResultsByTestId(Long testId) {
         return resultMapper.toDto(resultRepo.findByAttachedTest_Id(testId));
     }
 
     @Transactional
     public OncologicalTestRestDTO updateOncologicalTest(
-            UUID ownerId, Long testId, OncologicalTestRestDTO requestDTO){
-        OncologicalTest test = oncologicalTestRepo.findById(testId)
-                .orElseThrow(()-> new OncologicalTestNotFoundException(testId));
+            UUID ownerId, Long testId, OncologicalTestRestDTO requestDTO) {
+        OncologicalTest test = oncologicalTestRepository.findById(testId)
+                .orElseThrow(() -> new OncologicalTestNotFoundException(testId));
         Optional<OncologicalTest> otherTestByDate =
-                oncologicalTestRepo.findByPatientOwner_IdAndTestDate(ownerId, requestDTO.getTestDate());
-        if(requestDTO.getTestDate() != null){
-            if(otherTestByDate.isPresent() && !otherTestByDate.get().getId().equals( testId))
+                oncologicalTestRepository.findByPatientOwner_IdAndTestDate(ownerId, requestDTO.getTestDate());
+        if (requestDTO.getTestDate() != null) {
+            if (otherTestByDate.isPresent() && !otherTestByDate.get().getId().equals(testId))
                 throw new OncologicalTestExistsException(ownerId, requestDTO.getTestDate());
 
             test.setTestDate(requestDTO.getTestDate());
-            test = oncologicalTestRepo.save(test);
+            test = oncologicalTestRepository.save(test);
         }
 
-        for(ParameterResultRestDTO dto:requestDTO.getResults()){
+        for (ParameterResultRestDTO dto : requestDTO.getResults()) {
             ParameterResult result = resultRepo.findByAttachedTest_PatientOwner_IdAndAttachedTest_IdAndParameter_Id(
-                    ownerId, testId, dto.getCatalogId())
-                    .orElseGet(()->{
-                        Parameter parameter = catalogRepo.findById(dto.getCatalogId())
-                                .orElseThrow(()-> new ParameterNotFoundException(dto.getCatalogId()));
+                            ownerId, testId, dto.getCatalogId())
+                    .orElseGet(() -> {
+                        Parameter parameter = catalogRepository.findById(dto.getCatalogId())
+                                .orElseThrow(() -> new ParameterNotFoundException(dto.getCatalogId()));
                         return ParameterResult.builder()
                                 .parameter(parameter)
                                 .build();
                     });
-            if(result.getAttachedTest() == null)
+            if (result.getAttachedTest() == null)
                 result.setAttachedTest(test);
             result.setValue(dto.getValue());
             result = resultRepo.save(result);
@@ -122,7 +121,7 @@ public class OncologicalTestService {
         }
         List<ParameterResultRestDTO> results = resultRepo.findByAttachedTest_Id(testId)
                 .stream().map(result -> resultMapper.toRestDto(result)).collect(Collectors.toList());
-      
+
         return OncologicalTestRestDTO.builder()
                 .id(test.getId())
                 .testDate(test.getTestDate())
@@ -130,12 +129,12 @@ public class OncologicalTestService {
                 .build();
     }
 
-    public OncologicalTestRestDTO findOncologicalTestById(UUID patientId, Long testId){
-        OncologicalTest test = oncologicalTestRepo.findById(testId)
-                .orElseThrow(()-> new OncologicalTestNotFoundException(testId));
+    public OncologicalTestRestDTO findOncologicalTestById(UUID patientId, Long testId) {
+        OncologicalTest test = oncologicalTestRepository.findById(testId)
+                .orElseThrow(() -> new OncologicalTestNotFoundException(testId));
 
         List<ParameterResult> results = resultRepo.findByAttachedTest_Id(testId);
-        List<ParameterResultRestDTO> resultDtos = results.stream().map(res->resultMapper.toRestDto(res)).toList();
+        List<ParameterResultRestDTO> resultDtos = results.stream().map(res -> resultMapper.toRestDto(res)).toList();
         return OncologicalTestRestDTO.builder()
                 .id(test.getId())
                 .testDate(test.getTestDate())

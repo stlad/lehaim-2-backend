@@ -1,12 +1,8 @@
 package ru.vaganov.ResourceServer.mappers;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.ResourceServer.models.Diagnosis;
-import ru.vaganov.ResourceServer.models.dto.DiagnosisDTO;
-import ru.vaganov.ResourceServer.repositories.DiagnosisRepo;
+import ru.vaganov.ResourceServer.dto.DiagnosisDTO;
 
 import java.util.List;
 
