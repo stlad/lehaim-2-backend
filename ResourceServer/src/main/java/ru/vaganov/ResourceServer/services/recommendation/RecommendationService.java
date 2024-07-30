@@ -57,11 +57,10 @@ public class RecommendationService {
         for(ChartType key : ChartType.values()){
             Recommendation rec = chartServices.containsKey(key) ?
                     chartServices.get(key).getRecommendation(patient, results) : null;
-
             RecommendationDTO recDto = recommendationMapper.toDTO(rec);
+
             if(recDto == null){
-                recDto = new RecommendationDTO();
-                recDto.setChartType(key);
+                recDto = RecommendationDTO.builder().chartType(key).build();
             }
             dto.put(key, recDto);
         }
