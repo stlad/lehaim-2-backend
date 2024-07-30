@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
 import ru.vaganov.ResourceServer.dictionary.recommendation.CytokineParameterRange;
+import ru.vaganov.ResourceServer.dictionary.recommendation.ParameterChartAxis;
 import ru.vaganov.ResourceServer.models.Diagnosis;
 
 import java.util.UUID;
@@ -46,7 +47,7 @@ public class CytokineChartState {
 
     @Getter
     @AllArgsConstructor
-    public enum Axis{
+    public enum Axis implements ParameterChartAxis {
         TNFa(38L,39L),
         IFNy(36L,37L),
         IL2(40L,41L);

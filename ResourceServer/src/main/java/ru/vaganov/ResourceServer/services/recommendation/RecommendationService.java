@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.vaganov.ResourceServer.dictionary.ChartType;
 import ru.vaganov.ResourceServer.dto.recommendation.RecommendationDTO;
-import ru.vaganov.ResourceServer.exceptions.OncologicalTestExistsException;
 import ru.vaganov.ResourceServer.exceptions.OncologicalTestNotFoundException;
 import ru.vaganov.ResourceServer.exceptions.PatientNotFoundException;
 import ru.vaganov.ResourceServer.exceptions.RecommendationNotFoundException;
@@ -16,7 +15,7 @@ import ru.vaganov.ResourceServer.models.recommendations.Recommendation;
 import ru.vaganov.ResourceServer.repositories.OncologicalTestRepository;
 import ru.vaganov.ResourceServer.repositories.ParameterResultRepository;
 import ru.vaganov.ResourceServer.repositories.PatientRepository;
-import ru.vaganov.ResourceServer.repositories.RecommendationRepository;
+import ru.vaganov.ResourceServer.repositories.recommendation.RecommendationRepository;
 import ru.vaganov.ResourceServer.services.recommendation.charts.ChartStateService;
 
 import java.time.LocalDateTime;

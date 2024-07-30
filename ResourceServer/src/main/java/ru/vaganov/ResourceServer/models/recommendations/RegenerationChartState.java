@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
+import ru.vaganov.ResourceServer.dictionary.recommendation.ParameterChartAxis;
 import ru.vaganov.ResourceServer.dictionary.recommendation.RegenerationParameterRanges;
 import ru.vaganov.ResourceServer.models.Diagnosis;
 
@@ -46,7 +47,7 @@ public class RegenerationChartState {
 
     @Getter
     @AllArgsConstructor
-    public enum Axis {
+    public enum Axis implements ParameterChartAxis {
         NeuLymf(4L, 2L),
         NeuMon(4L, 3L),
         LymfMon(2L, 3L);
