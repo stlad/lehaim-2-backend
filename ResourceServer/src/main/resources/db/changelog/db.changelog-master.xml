@@ -12,4 +12,5 @@
     <include file="/db/changelog/migrations/v1_4_uuid-migration.xml" />
     <include file="/db/changelog/migrations/v1_5_create_recommendations_table.xml" />
     <include file="/db/changelog/migrations/v1_6_create_cytokine_chart_state_table.xml" />
+    <include file="/db/changelog/migrations/v1_7_create_regeneration_state_table.xml" />
 </databaseChangeLog>

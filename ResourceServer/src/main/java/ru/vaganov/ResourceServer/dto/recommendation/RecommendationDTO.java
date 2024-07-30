@@ -1,6 +1,7 @@
 package ru.vaganov.ResourceServer.dto.recommendation;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 import ru.vaganov.ResourceServer.dictionary.ChartType;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
+@Builder
 public class RecommendationDTO {
     private UUID id;
 
