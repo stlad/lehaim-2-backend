@@ -20,10 +20,7 @@ import ru.vaganov.ResourceServer.repositories.RecommendationRepository;
 import ru.vaganov.ResourceServer.services.recommendation.charts.ChartStateService;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,10 +44,9 @@ public class RecommendationService {
         this.recommendationMapper = recommendationMapper;
         this.recommendationRepository = recommendationRepository;
         this.oncologicalTestRepository = oncologicalTestRepository;
-        chartServices = chartStateServiceList.stream().collect(Collectors.toMap(
-                ChartStateService::getChart,
-                service -> service
-        ));
+        chartServices = Arrays.stream(ChartType.values()).
+                collect(Collectors.toMap(chartType -> chartType, null));
+        chartStateServiceList.forEach(service->chartServices.put(service.getChart(), service));
     }
 
     public HashMap<ChartType, RecommendationDTO> getRecommendation(Long testId) {
@@ -59,8 +55,15 @@ public class RecommendationService {
         List<ParameterResult> results = resultRepository.findByAttachedTest_Id(testId);
         Patient patient = getPatientByTestId(testId);
         for(ChartType key : chartServices.keySet()){
-            Recommendation rec  = chartServices.get(key).getRecommendation(patient, results);
-            dto.put(key, recommendationMapper.toDTO(rec));
+            Recommendation rec = chartServices.get(key) != null ?
+                    chartServices.get(key).getRecommendation(patient, results) : null;
+
+            RecommendationDTO recDto = recommendationMapper.toDTO(rec);
+            if(recDto == null){
+                recDto = new RecommendationDTO();
+                recDto.setChartType(key);
+            }
+            dto.put(key, recDto);
         }
         return dto;
     }
