@@ -44,9 +44,10 @@ public class RecommendationService {
         this.recommendationMapper = recommendationMapper;
         this.recommendationRepository = recommendationRepository;
         this.oncologicalTestRepository = oncologicalTestRepository;
-        chartServices = Arrays.stream(ChartType.values()).
-                collect(Collectors.toMap(chartType -> chartType, null));
-        chartStateServiceList.forEach(service->chartServices.put(service.getChart(), service));
+        chartServices = chartStateServiceList.stream().collect(Collectors.toMap(
+                ChartStateService::getChart,
+                service -> service
+        ));
     }
 
     public HashMap<ChartType, RecommendationDTO> getRecommendation(Long testId) {
@@ -54,8 +55,8 @@ public class RecommendationService {
 
         List<ParameterResult> results = resultRepository.findByAttachedTest_Id(testId);
         Patient patient = getPatientByTestId(testId);
-        for(ChartType key : chartServices.keySet()){
-            Recommendation rec = chartServices.get(key) != null ?
+        for(ChartType key : ChartType.values()){
+            Recommendation rec = chartServices.containsKey(key) ?
                     chartServices.get(key).getRecommendation(patient, results) : null;
 
             RecommendationDTO recDto = recommendationMapper.toDTO(rec);

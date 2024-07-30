@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
-import ru.vaganov.ResourceServer.dictionary.recommendation.CytokineParameterRange;
+import ru.vaganov.ResourceServer.dictionary.recommendation.RegenerationParameterRanges;
 import ru.vaganov.ResourceServer.models.Diagnosis;
 
 import java.util.UUID;
@@ -15,24 +15,24 @@ import java.util.UUID;
 @Builder
 @Data
 @Entity
-@Table(name = "cytokine_chart_states")
-public class CytokineChartState {
+@Table(name = "regeneration_chart_states")
+public class RegenerationChartState {
     @Id
     @GeneratedValue
     @UuidGenerator
     private UUID id;
 
-    @Column(name = "range_TNFa")
+    @Column(name = "range_NEU_LYMF")
     @Enumerated(EnumType.STRING)
-    private CytokineParameterRange rangeTNFa;
+    private RegenerationParameterRanges.NEU_LYMF rangeNeuLymf;
 
-    @Column(name = "range_IFNy")
+    @Column(name = "range_NEU_MON")
     @Enumerated(EnumType.STRING)
-    private CytokineParameterRange rangeIFNy;
+    private RegenerationParameterRanges.NEU_MON rangeNeuMon;
 
-    @Column(name = "range_IL2")
+    @Column(name = "range_LYMF_MON")
     @Enumerated(EnumType.STRING)
-    private CytokineParameterRange rangeIL2;
+    private RegenerationParameterRanges.LYMF_MON rangeLymfMon;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -46,10 +46,10 @@ public class CytokineChartState {
 
     @Getter
     @AllArgsConstructor
-    public enum Axis{
-        TNFa(38L,39L),
-        IFNy(36L,37L),
-        IL2(40L,41L);
+    public enum Axis {
+        NeuLymf(4L, 2L),
+        NeuMon(4L, 3L),
+        LymfMon(2L, 3L);
 
         private final Long firstParamId;
         private final Long secondParamId;

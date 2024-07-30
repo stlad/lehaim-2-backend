@@ -1,0 +1,36 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="create_regeneration_state_table" author="Vaganov V">
+        <createTable tableName="regeneration_chart_states">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="range_NEU_LYMF" type="varchar"/>
+            <column name="range_NEU_MON" type="varchar"/>
+            <column name="range_LYMF_MON" type="varchar"/>
+            <column name="diagnosis_id" type="int"/>
+            <column name="recommendation_Id" type="uuid"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="regeneration_state_to_recommendation_fk" author="Vaganov.V">
+        <addForeignKeyConstraint baseTableName="regeneration_chart_states"
+                                 baseColumnNames="recommendation_Id"
+                                 constraintName="regeneration_state_to_recommendation_fk"
+                                 referencedTableName="recommendations"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet id="regeneration_state_to_diagnoses_fk" author="Vaganov.V">
+        <addForeignKeyConstraint baseTableName="regeneration_chart_states"
+                                 baseColumnNames="diagnosis_id"
+                                 constraintName="regeneration_state_to_diagnosis_fk"
+                                 referencedTableName="diagnoses_catalog"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+    </changeSet>
+</databaseChangeLog>
