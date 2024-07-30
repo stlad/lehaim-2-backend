@@ -37,9 +37,7 @@ public class CytokineChartStateService extends ChartStateService {
     @Override
     public Recommendation getRecommendation(Patient patient, List<ParameterResult> results) {
         CytokineChartState state = getState(patient, results);
-        return state.getRecommendation() != null ?
-                state.getRecommendation() :
-                new Recommendation();
+        return state.getRecommendation();
     }
 
     @Override

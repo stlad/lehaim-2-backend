@@ -9,17 +9,17 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="range_NEU_LYMF" type="varchar"/>
-            <column name="range_NEU_MON" type="varchar"/>
-            <column name="range_LYMF_MON" type="varchar"/>
+            <column name="range_neu_lymf" type="varchar"/>
+            <column name="range_neu_mon" type="varchar"/>
+            <column name="range_lymf_mon" type="varchar"/>
             <column name="diagnosis_id" type="int"/>
-            <column name="recommendation_Id" type="uuid"/>
+            <column name="recommendation_id" type="uuid"/>
         </createTable>
     </changeSet>
 
     <changeSet id="regeneration_state_to_recommendation_fk" author="Vaganov.V">
         <addForeignKeyConstraint baseTableName="regeneration_chart_states"
-                                 baseColumnNames="recommendation_Id"
+                                 baseColumnNames="recommendation_id"
                                  constraintName="regeneration_state_to_recommendation_fk"
                                  referencedTableName="recommendations"
                                  referencedColumnNames="id" />

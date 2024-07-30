@@ -54,12 +54,12 @@ public class RecommendationService {
 
         List<ParameterResult> results = resultRepository.findByAttachedTest_Id(testId);
         Patient patient = getPatientByTestId(testId);
-        for(ChartType key : ChartType.values()){
+        for (ChartType key : ChartType.values()) {
             Recommendation rec = chartServices.containsKey(key) ?
                     chartServices.get(key).getRecommendation(patient, results) : null;
             RecommendationDTO recDto = recommendationMapper.toDTO(rec);
 
-            if(recDto == null){
+            if (recDto == null) {
                 recDto = RecommendationDTO.builder().chartType(key).build();
             }
             dto.put(key, recDto);
@@ -67,13 +67,27 @@ public class RecommendationService {
         return dto;
     }
 
-    public RecommendationDTO getRecommendationById(UUID recommendationId){
+    public RecommendationDTO getRecommendation(Long testId, ChartType type) {
+        List<ParameterResult> results = resultRepository.findByAttachedTest_Id(testId);
+        Patient patient = getPatientByTestId(testId);
+        Recommendation rec = chartServices.containsKey(type) ?
+                chartServices.get(type).getRecommendation(patient, results) : null;
+        RecommendationDTO recDto = recommendationMapper.toDTO(rec);
+
+        if (recDto == null) {
+            recDto = RecommendationDTO.builder().chartType(type).build();
+        }
+        return recDto;
+    }
+
+
+    public RecommendationDTO getRecommendationById(UUID recommendationId) {
         Recommendation recommendation = recommendationRepository.findById(recommendationId)
-                .orElseThrow(()-> new RecommendationNotFoundException(recommendationId));
+                .orElseThrow(() -> new RecommendationNotFoundException(recommendationId));
         return recommendationMapper.toDTO(recommendation);
     }
 
-    public RecommendationDTO saveNewRecommendation(Long testId, RecommendationDTO dto){
+    public RecommendationDTO saveNewRecommendation(Long testId, RecommendationDTO dto) {
         Recommendation recommendation = recommendationMapper.fromDTO(dto);
         recommendation.setId(null);
         recommendation.setDateCreated(LocalDateTime.now());
@@ -86,21 +100,21 @@ public class RecommendationService {
         return recommendationMapper.toDTO(recommendation);
     }
 
-    public RecommendationDTO editRecommendation(UUID recommendationId, RecommendationDTO dto){
+    public RecommendationDTO editRecommendation(UUID recommendationId, RecommendationDTO dto) {
         Recommendation recommendation = recommendationRepository.findById(recommendationId)
-                .orElseThrow(()->new RecommendationNotFoundException(recommendationId));
+                .orElseThrow(() -> new RecommendationNotFoundException(recommendationId));
         recommendationMapper.updateFromDto(dto, recommendation);
         recommendation.setDateUpdated(LocalDateTime.now());
         recommendation = recommendationRepository.save(recommendation);
         return recommendationMapper.toDTO(recommendation);
     }
 
-    private Patient getPatientByTestId(Long testId){
+    private Patient getPatientByTestId(Long testId) {
         OncologicalTest test = oncologicalTestRepository.findById(testId)
-                .orElseThrow(()-> new OncologicalTestNotFoundException(testId));
+                .orElseThrow(() -> new OncologicalTestNotFoundException(testId));
         Patient patient = test.getPatientOwner();
-        if(patient == null)
-            throw new PatientNotFoundException("связанный с тестом с id: "+testId);
+        if (patient == null)
+            throw new PatientNotFoundException("связанный с тестом с id: " + testId);
         return patient;
     }
 }

@@ -25,7 +25,7 @@ public class RegenerationParameterRanges {
     @Getter
     @AllArgsConstructor
     public enum NEU_MON implements ParameterRange {
-        RANGE_1(0.4, 4.48),
+        RANGE_1(0d, 4.48),
         RANGE_2(4.48, 6.4),
         RANGE_3(6.4, 12.8),
         RANGE_4(12.8, 32d),

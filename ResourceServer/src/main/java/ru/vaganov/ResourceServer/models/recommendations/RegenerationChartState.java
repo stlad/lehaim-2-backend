@@ -23,15 +23,15 @@ public class RegenerationChartState {
     @UuidGenerator
     private UUID id;
 
-    @Column(name = "range_NEU_LYMF")
+    @Column(name = "range_neu_lymf")
     @Enumerated(EnumType.STRING)
     private RegenerationParameterRanges.NEU_LYMF rangeNeuLymf;
 
-    @Column(name = "range_NEU_MON")
+    @Column(name = "range_neu_mon")
     @Enumerated(EnumType.STRING)
     private RegenerationParameterRanges.NEU_MON rangeNeuMon;
 
-    @Column(name = "range_LYMF_MON")
+    @Column(name = "range_lymf_mon")
     @Enumerated(EnumType.STRING)
     private RegenerationParameterRanges.LYMF_MON rangeLymfMon;
 
@@ -42,7 +42,7 @@ public class RegenerationChartState {
 
     @OneToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "recommendation_Id", referencedColumnName = "id")
+    @JoinColumn(name = "recommendation_id", referencedColumnName = "id")
     private Recommendation recommendation;
 
     @Getter

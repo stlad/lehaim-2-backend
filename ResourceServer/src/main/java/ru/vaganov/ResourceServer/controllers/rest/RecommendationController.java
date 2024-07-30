@@ -65,4 +65,13 @@ public class RecommendationController {
     public ResponseEntity<ChartType[]> findallChartTypes() {
         return new ResponseEntity<>(ChartType.values(), HttpStatus.OK);
     }
+
+    @Operation(summary = "Получение рекомендации для обследования по типу",
+            description = "Получение рекомендации для обследования по типу")
+    @GetMapping("/{testId}/{chartType}")
+    public ResponseEntity<RecommendationDTO> getRecomendationForChart(@PathVariable Long testId,
+                                                                @PathVariable ChartType chartType) {
+        RecommendationDTO newDto = recommendationService.getRecommendation(testId, chartType);
+        return new ResponseEntity<>(newDto, HttpStatus.OK);
+    }
 }
