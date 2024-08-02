@@ -1,3 +1,7 @@
+application:
+  version: @application.version@
+  title: @artifact.name@
+  author: Vaganov V.S.
 
 server:
   port : 8080
