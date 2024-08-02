@@ -10,13 +10,15 @@
     </parent>
     <groupId>ru.vaganov</groupId>
     <artifactId>Lehaim-2-backend</artifactId>
-    <version>0.0.1</version>
+    <version>${application.version}</version>
     <name>Lehaim2</name>
     <description>API Server for Lehaim 2 Project</description>
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <artifact.name>lehaim-2-backend</artifact.name>
+        <application.version>0.1.1</application.version>
     </properties>
     <dependencies>
         <dependency>
@@ -83,13 +85,14 @@
     </dependencies>
 
     <build>
+        <finalName>${artifact.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>onco-analyzer-resource-server/${project.artifactId}:${project.version}</name>
+                        <name>lehaim-2-backend/${project.artifactId}:${project.version}</name>
                     </image>
                     <excludes>
                         <exclude>
@@ -127,5 +130,14 @@
             </plugin>
         </plugins>
     </build>
-
+    <developers>
+        <developer>
+            <id>vvs</id>
+            <name>Vaganov Vladislav</name>
+            <roles>
+                <role>backend-developer</role>
+                <role>database-developer</role>
+            </roles>
+        </developer>
+    </developers>
 </project>
