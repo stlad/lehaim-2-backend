@@ -36,8 +36,8 @@ command-line-runner:
 logging:
   level:
     root: INFO
-    ru.vaganov.ResourceServer.services: DEBUG
-    ru.vaganov.ResourceServer.controllers: DEBUG
+    ru.vaganov.lehaim.services: DEBUG
+    ru.vaganov.lehaim.controllers: DEBUG
 
 springdoc:
   show-actuator: false
