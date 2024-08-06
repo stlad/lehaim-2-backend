@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd">
+
+
+    <changeSet id="drop_foreign_key_regeneration_states" author="Vaganov.VS">
+        <dropForeignKeyConstraint baseTableName="regeneration_chart_states"
+                                  constraintName="regeneration_state_to_recommendation_fk" />
+    </changeSet>
+    <changeSet id="delete_reg_state_and_recs_data" author="Vaganov V">
+        <sqlFile path="../sql/v1_8_remove_regeneration_states_recs.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="regeneration_state_to_recommendation_fk_v2" author="Vaganov.V">
+        <addForeignKeyConstraint baseTableName="regeneration_chart_states"
+                                 baseColumnNames="recommendation_id"
+                                 constraintName="regeneration_state_to_recommendation_fk"
+                                 referencedTableName="recommendations"
+                                 referencedColumnNames="id" 
+                                 onDelete="CASCADE"/>
+    </changeSet>
+    
+    <changeSet id="" author="">
+        <addColumn tableName="">
+            <column name=""></column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
