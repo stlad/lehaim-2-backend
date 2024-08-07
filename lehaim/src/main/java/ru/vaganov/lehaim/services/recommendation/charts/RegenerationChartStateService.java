@@ -58,13 +58,10 @@ public class RegenerationChartStateService extends ChartStateService {
             validationErrors.add("У пациента не указан диагноз");
         }
 
-        var neuMonRange = RegenerationParameterRanges.NEU_MON.of(
-                getDivisionForChartAxis(RegenerationChartState.Axis.NeuMon, results, validationErrors));
-        var neuLymfRange = RegenerationParameterRanges.NEU_LYMF.of(
-                getDivisionForChartAxis(RegenerationChartState.Axis.NeuLymf, results, validationErrors));
-        var lymfMonRange = RegenerationParameterRanges.LYMF_MON.of(
-                getDivisionForChartAxis(RegenerationChartState.Axis.LymfMon, results, validationErrors));
-
+        var neuMonRange = getNeuMonRange1(results, validationErrors);
+        var neuLymfRange = getNeuLymfRange(results, validationErrors);
+        var lymfMonRange = getLymfMonRange(results, validationErrors);
+        // TODO нейтрофилы, лимофицты, гемоглобин
         validateState(validationErrors);
 
         Optional<RegenerationChartState> stateOpt = stateRepository.findState(
@@ -79,5 +76,22 @@ public class RegenerationChartStateService extends ChartStateService {
                 .rangeNeuMon(neuMonRange)
                 .build();
         return stateRepository.save(state);
+    }
+
+    private RegenerationParameterRanges.LYMF_MON getLymfMonRange(List<ParameterResult> results, List<String> validationErrors) {
+        return RegenerationParameterRanges.LYMF_MON.of(
+                getDivisionForChartAxis(RegenerationChartState.Axis.LymfMon, results, validationErrors));
+    }
+
+    private RegenerationParameterRanges.NEU_LYMF getNeuLymfRange(List<ParameterResult> results,
+                                                                 List<String> validationErrors) {
+        return RegenerationParameterRanges.NEU_LYMF.of(
+                getDivisionForChartAxis(RegenerationChartState.Axis.NeuLymf, results, validationErrors));
+    }
+
+    private RegenerationParameterRanges.NEU_MON getNeuMonRange1(List<ParameterResult> results,
+                                                                List<String> validationErrors) {
+        return RegenerationParameterRanges.NEU_MON.of(
+                getDivisionForChartAxis(RegenerationChartState.Axis.NeuMon, results, validationErrors));
     }
 }
