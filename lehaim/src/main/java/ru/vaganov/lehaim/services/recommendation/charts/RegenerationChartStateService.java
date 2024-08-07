@@ -58,14 +58,19 @@ public class RegenerationChartStateService extends ChartStateService {
             validationErrors.add("У пациента не указан диагноз");
         }
 
-        var neuMonRange = getNeuMonRange1(results, validationErrors);
+        var neuMonRange = getNeuMonRange(results, validationErrors);
         var neuLymfRange = getNeuLymfRange(results, validationErrors);
         var lymfMonRange = getLymfMonRange(results, validationErrors);
-        // TODO нейтрофилы, лимофицты, гемоглобин
+
+        var neu = getNeutrophils(results, validationErrors);
+        var leu = getLeukocytes(results, validationErrors);
+        var hgb = getHemoblobin(results, patient, validationErrors);
+        var plt = getPlatelets(results, validationErrors);
+
         validateState(validationErrors);
 
         Optional<RegenerationChartState> stateOpt = stateRepository.findState(
-                diagnosis, neuLymfRange, neuMonRange, lymfMonRange);
+                diagnosis, neuLymfRange, neuMonRange, lymfMonRange, neu, leu, plt, hgb);
         if (stateOpt.isPresent()) {
             return stateOpt.get();
         }
@@ -89,9 +94,37 @@ public class RegenerationChartStateService extends ChartStateService {
                 getDivisionForChartAxis(RegenerationChartState.Axis.NeuLymf, results, validationErrors));
     }
 
-    private RegenerationParameterRanges.NEU_MON getNeuMonRange1(List<ParameterResult> results,
-                                                                List<String> validationErrors) {
+    private RegenerationParameterRanges.NEU_MON getNeuMonRange(List<ParameterResult> results,
+                                                               List<String> validationErrors) {
         return RegenerationParameterRanges.NEU_MON.of(
                 getDivisionForChartAxis(RegenerationChartState.Axis.NeuMon, results, validationErrors));
+    }
+
+    private RegenerationParameterRanges.LEUKOCYTES getLeukocytes(List<ParameterResult> results,
+                                                                 List<String> validationErrors) {
+        return RegenerationParameterRanges.LEUKOCYTES.of(
+                getParamResult(RegenerationChartState.Axis.Leukocytes.getFirstParamId(),
+                        results, validationErrors));
+    }
+
+    private RegenerationParameterRanges.HEMOGLOBIN getHemoblobin(List<ParameterResult> results, Patient patient,
+                                                                 List<String> validationErrors) {
+        return RegenerationParameterRanges.HEMOGLOBIN.of(
+                getParamResult(RegenerationChartState.Axis.Hemoglobin.getFirstParamId(),
+                        results, validationErrors), patient.getGender());
+    }
+
+    private RegenerationParameterRanges.NEUTROPHILS getNeutrophils(List<ParameterResult> results,
+                                                                   List<String> validationErrors) {
+        return RegenerationParameterRanges.NEUTROPHILS.of(
+                getParamResult(RegenerationChartState.Axis.Neutrophils.getFirstParamId(),
+                        results, validationErrors));
+    }
+
+    private RegenerationParameterRanges.PLATELETS getPlatelets(List<ParameterResult> results,
+                                                               List<String> validationErrors) {
+        return RegenerationParameterRanges.PLATELETS.of(
+                getParamResult(RegenerationChartState.Axis.Platelets.getFirstParamId(),
+                        results, validationErrors));
     }
 }

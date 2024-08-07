@@ -8,7 +8,7 @@
 
     <changeSet id="drop_foreign_key_regeneration_states" author="Vaganov.VS">
         <dropForeignKeyConstraint baseTableName="regeneration_chart_states"
-                                  constraintName="regeneration_state_to_recommendation_fk" />
+                                  constraintName="regeneration_state_to_recommendation_fk"/>
     </changeSet>
     <changeSet id="delete_reg_state_and_recs_data" author="Vaganov V">
         <sqlFile path="../sql/v1_8_remove_regeneration_states_recs.sql" relativeToChangelogFile="true"/>
@@ -19,13 +19,22 @@
                                  baseColumnNames="recommendation_id"
                                  constraintName="regeneration_state_to_recommendation_fk"
                                  referencedTableName="recommendations"
-                                 referencedColumnNames="id" 
+                                 referencedColumnNames="id"
                                  onDelete="CASCADE"/>
     </changeSet>
-    
-    <changeSet id="" author="">
-        <addColumn tableName="">
-            <column name=""></column>
+
+    <changeSet id="add_ranges_columns_to_reg_state" author="Vaganov.VS">
+        <addColumn tableName="regeneration_chart_states">
+            <column name="range_neu" type="varchar"/>
+        </addColumn>
+        <addColumn tableName="regeneration_chart_states">
+            <column name="range_leu" type="varchar"/>
+        </addColumn>
+        <addColumn tableName="regeneration_chart_states">
+            <column name="range_plt" type="varchar"/>
+        </addColumn>
+        <addColumn tableName="regeneration_chart_states">
+            <column name="range_hgb" type="varchar"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

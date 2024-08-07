@@ -35,6 +35,22 @@ public class RegenerationChartState {
     @Enumerated(EnumType.STRING)
     private RegenerationParameterRanges.LYMF_MON rangeLymfMon;
 
+    @Column(name = "range_neu")
+    @Enumerated(EnumType.STRING)
+    private RegenerationParameterRanges.LYMF_MON rangeNeu;
+
+    @Column(name = "range_leu")
+    @Enumerated(EnumType.STRING)
+    private RegenerationParameterRanges.LYMF_MON rangeLeu;
+
+    @Column(name = "range_plt")
+    @Enumerated(EnumType.STRING)
+    private RegenerationParameterRanges.LYMF_MON rangePlt;
+
+    @Column(name = "range_hgb")
+    @Enumerated(EnumType.STRING)
+    private RegenerationParameterRanges.LYMF_MON rangeHgb;
+
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "diagnosis_Id", referencedColumnName = "id")
@@ -50,7 +66,11 @@ public class RegenerationChartState {
     public enum Axis implements ParameterChartAxis {
         NeuLymf(4L, 2L),
         NeuMon(4L, 3L),
-        LymfMon(2L, 3L);
+        LymfMon(2L, 3L),
+        Hemoglobin(7L, 7L),
+        Leukocytes(1L,1L),
+        Neutrophils(4L,4L),
+        Platelets(8L,8L);
 
         private final Long firstParamId;
         private final Long secondParamId;
