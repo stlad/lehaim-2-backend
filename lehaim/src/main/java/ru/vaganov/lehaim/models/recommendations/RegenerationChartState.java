@@ -37,19 +37,19 @@ public class RegenerationChartState {
 
     @Column(name = "range_neu")
     @Enumerated(EnumType.STRING)
-    private RegenerationParameterRanges.LYMF_MON rangeNeu;
+    private RegenerationParameterRanges.NEUTROPHILS rangeNeu;
 
     @Column(name = "range_leu")
     @Enumerated(EnumType.STRING)
-    private RegenerationParameterRanges.LYMF_MON rangeLeu;
+    private RegenerationParameterRanges.LEUKOCYTES rangeLeu;
 
     @Column(name = "range_plt")
     @Enumerated(EnumType.STRING)
-    private RegenerationParameterRanges.LYMF_MON rangePlt;
+    private RegenerationParameterRanges.PLATELETS rangePlt;
 
     @Column(name = "range_hgb")
     @Enumerated(EnumType.STRING)
-    private RegenerationParameterRanges.LYMF_MON rangeHgb;
+    private RegenerationParameterRanges.HEMOGLOBIN rangeHgb;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)

@@ -1,6 +1,7 @@
 package ru.vaganov.lehaim.dto;
 
 import lombok.*;
+import ru.vaganov.lehaim.dictionary.Gender;
 import ru.vaganov.lehaim.models.Patient;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public class PatientDTO {
 
     private Integer diagnosisId;
     private String info;
-    private Patient.Gender gender;
+    private Gender gender;
     private String operationComments;
     private String diagnosisComments;
     private String chemotherapyComments;
