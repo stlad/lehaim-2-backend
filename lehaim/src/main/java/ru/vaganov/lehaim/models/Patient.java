@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
+import ru.vaganov.lehaim.dictionary.Gender;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -44,10 +45,6 @@ public class Patient {
 
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
-
-    public enum Gender{
-        Male, Female
-    }
 
 
 

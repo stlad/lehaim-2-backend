@@ -2,6 +2,10 @@ package ru.vaganov.lehaim.dictionary.recommendation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import ru.vaganov.lehaim.dictionary.Gender;
+import ru.vaganov.lehaim.models.Patient;
+
+import java.util.List;
 
 public class RegenerationParameterRanges {
 
@@ -58,37 +62,30 @@ public class RegenerationParameterRanges {
 
     @Getter
     @AllArgsConstructor
-    public enum HEMOGLOBIN_MALE implements ParameterRange {
-        RANGE_1(0d, 70d),
-        RANGE_2(70d, 90d),
-        RANGE_3(90d, 130d),
-        RANGE_4(130d, 161d),
-        RANGE_5(161d, 171d),
-        RANGE_6(171d, 1000d);
+    public enum HEMOGLOBIN implements ParameterRange {
+        FEMALE_RANGE_1(0d, 70d),
+        FEMALE_RANGE_2(70d, 90d),
+        FEMALE_RANGE_3(90d, 120d),
+        FEMALE_RANGE_4(120d, 140d),
+        FEMALE_RANGE_5(140d, 160d),
+        FEMALE_RANGE_6(160d, 1000d),
+        MALE_RANGE_1(0d, 70d),
+        MALE_RANGE_2(70d, 90d),
+        MALE_RANGE_3(90d, 130d),
+        MALE_RANGE_4(130d, 161d),
+        MALE_RANGE_5(161d, 171d),
+        MALE_RANGE_6(171d, 1000d);
 
         private final Double startRange;
         private final Double endRange;
 
-        public static HEMOGLOBIN_MALE of(Double value) {
-            return ParameterRangeUtils.of(value, HEMOGLOBIN_MALE.values());
-        }
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public enum HEMOGLOBIN_FEMALE implements ParameterRange {
-        RANGE_1(0d, 70d),
-        RANGE_2(70d, 90d),
-        RANGE_3(90d, 120d),
-        RANGE_4(120d, 140d),
-        RANGE_5(140d, 160d),
-        RANGE_6(160d, 1000d);
-
-        private final Double startRange;
-        private final Double endRange;
-
-        public static HEMOGLOBIN_FEMALE of(Double value) {
-            return ParameterRangeUtils.of(value, HEMOGLOBIN_FEMALE.values());
+        public static HEMOGLOBIN of(Double value, Gender gender) {
+            HEMOGLOBIN[] values = gender.equals(Gender.Male) ?
+                    new HEMOGLOBIN[]{MALE_RANGE_1, MALE_RANGE_2, MALE_RANGE_3,
+                            MALE_RANGE_4, MALE_RANGE_5, MALE_RANGE_6} :
+                    new HEMOGLOBIN[]{FEMALE_RANGE_1, FEMALE_RANGE_2, FEMALE_RANGE_3,
+                            FEMALE_RANGE_4, FEMALE_RANGE_5, FEMALE_RANGE_6};
+            return ParameterRangeUtils.of(value, values);
         }
     }
 
