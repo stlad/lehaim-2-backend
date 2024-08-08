@@ -109,6 +109,10 @@ public class RegenerationChartStateService extends ChartStateService {
 
     private RegenerationParameterRanges.HEMOGLOBIN getHemoblobin(List<ParameterResult> results, Patient patient,
                                                                  List<String> validationErrors) {
+        if(patient.getGender() == null){
+            validationErrors.add("У пациента не указан пол");
+            return null;
+        }
         return RegenerationParameterRanges.HEMOGLOBIN.of(
                 getParamResult(RegenerationChartState.Axis.Hemoglobin.getFirstParamId(),
                         results, validationErrors), patient.getGender());
