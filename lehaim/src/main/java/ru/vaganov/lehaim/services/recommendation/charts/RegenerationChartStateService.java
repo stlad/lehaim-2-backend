@@ -79,6 +79,10 @@ public class RegenerationChartStateService extends ChartStateService {
                 .rangeLymfMon(lymfMonRange)
                 .rangeNeuLymf(neuLymfRange)
                 .rangeNeuMon(neuMonRange)
+                .rangeHgb(hgb)
+                .rangeLeu(leu)
+                .rangeNeu(neu)
+                .rangePlt(plt)
                 .build();
         return stateRepository.save(state);
     }
@@ -102,33 +106,29 @@ public class RegenerationChartStateService extends ChartStateService {
 
     private RegenerationParameterRanges.LEUKOCYTES getLeukocytes(List<ParameterResult> results,
                                                                  List<String> validationErrors) {
-        return RegenerationParameterRanges.LEUKOCYTES.of(
-                getParamResult(RegenerationChartState.Axis.Leukocytes.getFirstParamId(),
-                        results, validationErrors));
+        Double result = getParamResult(RegenerationChartState.Axis.Leukocytes.getFirstParamId(), results, validationErrors);
+        return result == null ? null : RegenerationParameterRanges.LEUKOCYTES.of(result);
     }
 
     private RegenerationParameterRanges.HEMOGLOBIN getHemoblobin(List<ParameterResult> results, Patient patient,
                                                                  List<String> validationErrors) {
-        if(patient.getGender() == null){
+        if (patient.getGender() == null) {
             validationErrors.add("У пациента не указан пол");
             return null;
         }
-        return RegenerationParameterRanges.HEMOGLOBIN.of(
-                getParamResult(RegenerationChartState.Axis.Hemoglobin.getFirstParamId(),
-                        results, validationErrors), patient.getGender());
+        Double result = getParamResult(RegenerationChartState.Axis.Hemoglobin.getFirstParamId(), results, validationErrors);
+        return result == null ? null : RegenerationParameterRanges.HEMOGLOBIN.of(result, patient.getGender());
     }
 
     private RegenerationParameterRanges.NEUTROPHILS getNeutrophils(List<ParameterResult> results,
                                                                    List<String> validationErrors) {
-        return RegenerationParameterRanges.NEUTROPHILS.of(
-                getParamResult(RegenerationChartState.Axis.Neutrophils.getFirstParamId(),
-                        results, validationErrors));
+        Double result = getParamResult(RegenerationChartState.Axis.Neutrophils.getFirstParamId(),results, validationErrors);
+        return result == null ? null : RegenerationParameterRanges.NEUTROPHILS.of(result);
     }
 
     private RegenerationParameterRanges.PLATELETS getPlatelets(List<ParameterResult> results,
                                                                List<String> validationErrors) {
-        return RegenerationParameterRanges.PLATELETS.of(
-                getParamResult(RegenerationChartState.Axis.Platelets.getFirstParamId(),
-                        results, validationErrors));
+        Double result = getParamResult(RegenerationChartState.Axis.Platelets.getFirstParamId(),results, validationErrors);
+        return result == null ? null : RegenerationParameterRanges.PLATELETS.of(result);
     }
 }
