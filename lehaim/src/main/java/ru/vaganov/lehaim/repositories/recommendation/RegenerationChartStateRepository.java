@@ -17,9 +17,17 @@ public interface RegenerationChartStateRepository extends JpaRepository<Regenera
             "WHERE r.diagnosis.id = :#{#diagnosis.id} " +
             "AND r.rangeNeuLymf = :#{#neuLymf} " +
             "AND r.rangeNeuMon = :#{#neuMon} " +
-            "AND r.rangeLymfMon = :#{#lymfMon}")
+            "AND r.rangeLymfMon = :#{#lymfMon} " +
+            "AND r.rangeNeu = :#{#neu} " +
+            "AND r.rangeLeu = :#{#leu} " +
+            "AND r.rangePlt = :#{#plt} " +
+            "AND r.rangeHgb = :#{#hgb}")
     Optional<RegenerationChartState> findState(@Param("diagnosis") Diagnosis diagnosis,
                                                @Param("neuLymf") RegenerationParameterRanges.NEU_LYMF neuLymf,
                                                @Param("neuMon") RegenerationParameterRanges.NEU_MON neuMon,
-                                               @Param("lymfMon") RegenerationParameterRanges.LYMF_MON lymfMon);
+                                               @Param("lymfMon") RegenerationParameterRanges.LYMF_MON lymfMon,
+                                               @Param("neu") RegenerationParameterRanges.NEUTROPHILS neu,
+                                               @Param("leu") RegenerationParameterRanges.LEUKOCYTES leu,
+                                               @Param("plt") RegenerationParameterRanges.PLATELETS plt,
+                                               @Param("hgb") RegenerationParameterRanges.HEMOGLOBIN hgb);
 }
