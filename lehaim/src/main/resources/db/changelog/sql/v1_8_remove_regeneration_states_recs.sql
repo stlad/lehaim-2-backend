@@ -1,5 +1,5 @@
 DELETE FROM recommendations
-WHERE id = (SELECT r.id
+WHERE id = ANY(SELECT r.id
             FROM regeneration_chart_states rcs
                      INNER JOIN recommendations r ON r.id = rcs.recommendation_id);
 
