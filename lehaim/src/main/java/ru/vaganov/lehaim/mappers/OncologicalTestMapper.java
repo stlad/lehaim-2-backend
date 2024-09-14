@@ -2,7 +2,7 @@ package ru.vaganov.lehaim.mappers;
 
 import org.mapstruct.Mapper;
 import ru.vaganov.lehaim.models.OncologicalTest;
-import ru.vaganov.lehaim.dto.OncologicalTestDTO;
+import ru.vaganov.lehaim.dto.oncotests.OncologicalTestDTO;
 
 import java.util.List;
 

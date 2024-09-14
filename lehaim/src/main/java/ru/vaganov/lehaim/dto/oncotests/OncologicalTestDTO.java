@@ -1,4 +1,4 @@
-package ru.vaganov.lehaim.dto;
+package ru.vaganov.lehaim.dto.oncotests;
 
 import lombok.*;
 

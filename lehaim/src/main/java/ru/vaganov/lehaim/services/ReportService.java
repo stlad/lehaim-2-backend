@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.vaganov.lehaim.dictionary.TestSeason;
-import ru.vaganov.lehaim.dto.OncologicalTestRestDTO;
+import ru.vaganov.lehaim.dto.oncotests.OncologicalTestRestDTO;
 import ru.vaganov.lehaim.dto.ParameterDTO;
 import ru.vaganov.lehaim.dto.ParameterResultDTO;
 import ru.vaganov.lehaim.dto.ReportData;
