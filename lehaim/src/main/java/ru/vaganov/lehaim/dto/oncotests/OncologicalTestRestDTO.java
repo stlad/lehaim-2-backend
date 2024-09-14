@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.dto.ParameterResultRestDTO;
 
 import java.time.LocalDate;
@@ -24,5 +25,9 @@ public class OncologicalTestRestDTO {
 
     @NotNull(message = "results must not be null")
     private List<ParameterResultRestDTO> results;
+
+    @Schema(title = "Возможные графики",
+            description = "Список графиков, которые возможно отобразить по текущему обследованию")
+    List<ChartType> possibleCharts;
 }
 

@@ -7,5 +7,6 @@ public enum ChartType {
     REGENERATION,
     B_CELL,
     T_CELL,
-    CYTOKINE_PAIRS
+    CYTOKINE_PAIRS,
+    SYSTEMIC_INFLAMMATION
 }

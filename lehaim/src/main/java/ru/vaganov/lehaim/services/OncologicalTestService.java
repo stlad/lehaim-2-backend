@@ -65,7 +65,7 @@ public class OncologicalTestService {
         newTest.setPatientOwner(patient);
         newTest = oncologicalTestRepository.save(newTest);
 
-        List<ParameterResultRestDTO> results = new ArrayList<>();
+        List<ParameterResult> results = new ArrayList<>();
         for (ParameterResultRestDTO resDTO : dto.getResults()) {
             Parameter parameter = catalogRepository.findById(resDTO.getCatalogId())
                     .orElseThrow(() -> new ParameterNotFoundException(resDTO.getCatalogId()));
@@ -74,14 +74,9 @@ public class OncologicalTestService {
                     .attachedTest(newTest)
                     .value(resDTO.getValue())
                     .parameter(parameter).build();
-            results.add(resultMapper.toRestDto(resultRepo.save(result)));
+            results.add(resultRepo.save(result));
         }
-        ;
-        return OncologicalTestRestDTO.builder()
-                .id(newTest.getId())
-                .testDate(newTest.getTestDate())
-                .results(results)
-                .build();
+        return testMapper.toRestDto(newTest.getId(), newTest.getTestDate(), results);
     }
 
     public List<ParameterResultDTO> getAllResultsByTestId(Long testId) {
@@ -116,17 +111,11 @@ public class OncologicalTestService {
             if (result.getAttachedTest() == null)
                 result.setAttachedTest(test);
             result.setValue(dto.getValue());
-            result = resultRepo.save(result);
+            resultRepo.save(result);
 
         }
-        List<ParameterResultRestDTO> results = resultRepo.findByAttachedTest_Id(testId)
-                .stream().map(result -> resultMapper.toRestDto(result)).collect(Collectors.toList());
-
-        return OncologicalTestRestDTO.builder()
-                .id(test.getId())
-                .testDate(test.getTestDate())
-                .results(results)
-                .build();
+        List<ParameterResult> results = resultRepo.findByAttachedTest_Id(testId);
+        return testMapper.toRestDto(test.getId(), test.getTestDate(), results);
     }
 
     public OncologicalTestRestDTO findOncologicalTestById(UUID patientId, Long testId) {
@@ -134,11 +123,6 @@ public class OncologicalTestService {
                 .orElseThrow(() -> new OncologicalTestNotFoundException(testId));
 
         List<ParameterResult> results = resultRepo.findByAttachedTest_Id(testId);
-        List<ParameterResultRestDTO> resultDtos = results.stream().map(res -> resultMapper.toRestDto(res)).toList();
-        return OncologicalTestRestDTO.builder()
-                .id(test.getId())
-                .testDate(test.getTestDate())
-                .results(resultDtos)
-                .build();
+        return testMapper.toRestDto(test.getId(), test.getTestDate(), results);
     }
 }
