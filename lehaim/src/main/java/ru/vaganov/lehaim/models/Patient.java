@@ -46,6 +46,7 @@ public class Patient {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
+    private LocalDate operationDate;
 
 
     @Override
