@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor @NoArgsConstructor
-@Schema(title = "ParameterResultRestDTO: Результат обследования по параметру, краткая форма")
+@Schema(description = "Результат обследования по параметру, краткая форма")
 public class ParameterResultRestDTO {
-    @Schema(title = "Идентификатор параметра в каталоге")
+    @Schema(description = "Идентификатор параметра в каталоге")
     private Long catalogId;
 
-    @Schema(title = "Результат обследования для параметра")
+    @Schema(description = "Результат обследования для параметра")
     private Double value;
 }

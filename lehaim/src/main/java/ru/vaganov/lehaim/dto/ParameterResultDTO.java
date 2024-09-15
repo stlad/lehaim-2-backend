@@ -8,14 +8,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@Schema(title = "ParameterResultDTO: Результат обследования по параметру, полная форма")
+@Schema(description = "Результат обследования по параметру, полная форма")
 public class ParameterResultDTO {
-    @Schema(title = "Идентификатор результата")
+    @Schema(description = "Идентификатор результата")
     private Long id;
 
-    @Schema(title = "Результат обследования для параметра")
+    @Schema(description = "Результат обследования для параметра")
     private Double value;
 
-    @Schema(title = "Связанный параметр из каталога")
+    @Schema(description = "Связанный параметр из каталога")
     private ParameterDTO parameter;
 }

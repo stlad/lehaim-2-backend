@@ -9,31 +9,31 @@ import ru.vaganov.lehaim.models.Parameter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Schema(title = "ParameterDTO: Параметр, используемый в обследовании")
+@Schema(description = "Параметр, используемый в обследовании")
 public class ParameterDTO {
 
-    @Schema(title = "Идентификатор параметра из каталога")
+    @Schema(description = "Идентификатор параметра из каталога")
     private Long id;
 
-    @Schema(title = "Название параметра из каталога")
+    @Schema(description = "Название параметра из каталога")
     private String name;
 
-    @Schema(title = "Доп. часть названия параметра из каталога")
+    @Schema(description = "Доп. часть названия параметра из каталога")
     private String additionalName;
 
-    @Schema(title = "Единица измерения")
+    @Schema(description = "Единица измерения")
     private String unit;
 
-    @Schema(title = "Нижнее значение референтного значения нормы")
+    @Schema(description = "Нижнее значение референтного значения нормы")
     private Double refMin;
 
-    @Schema(title = "Верхнее значение референтного значения нормы")
+    @Schema(description = "Верхнее значение референтного значения нормы")
     private Double refMax;
 
-    @Schema(title = "Тип исследования для данного параметра")
+    @Schema(description = "Тип исследования для данного параметра")
     private Parameter.ResearchType researchType;
 
-    @Schema(title = "Используется ли в системе, флаг")
+    @Schema(description = "Используется ли в системе, флаг")
     private Boolean isActive;
 
 

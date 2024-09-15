@@ -14,14 +14,22 @@ import java.util.UUID;
 public class RecommendationDTO {
     private UUID id;
 
+    @Schema(description = "Наименование")
     private String name;
+
+    @Schema(description = "Заключение")
     private String conclusion;
+
+    @Schema(description = "Рекомендация")
     private String recommendation;
 
+    @Schema(description = "Дата и время создания")
     private LocalDateTime dateCreated;
+
+    @Schema(description = "Дата и время обновления")
     private LocalDateTime dateUpdated;
 
-    @Schema(title = "Сообщение об ошибке", description = "Пусто, если ошибок нет")
+    @Schema(description = "Сообщение об ошибке. Пусто, если ошибок нет")
     private String errorMessage;
 
     @NotNull(message = "chartType must not be null")
