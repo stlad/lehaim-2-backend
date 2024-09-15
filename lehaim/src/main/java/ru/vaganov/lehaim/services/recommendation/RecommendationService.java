@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.dto.recommendation.RecommendationDTO;
-import ru.vaganov.lehaim.exceptions.OncologicalTestNotFoundException;
-import ru.vaganov.lehaim.exceptions.PatientNotFoundException;
-import ru.vaganov.lehaim.exceptions.RecommendationNotFoundException;
+import ru.vaganov.lehaim.exceptions.*;
 import ru.vaganov.lehaim.mappers.RecommendationMapper;
 import ru.vaganov.lehaim.models.OncologicalTest;
 import ru.vaganov.lehaim.models.ParameterResult;
@@ -20,6 +18,7 @@ import ru.vaganov.lehaim.services.recommendation.charts.ChartStateService;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,24 +48,30 @@ public class RecommendationService {
         ));
     }
 
-    public HashMap<ChartType, RecommendationDTO> getRecommendation(Long testId) {
-        HashMap<ChartType, RecommendationDTO> dto = new HashMap<>();
+    public Map<ChartType, RecommendationDTO> getRecommendation(Long testId) {
+        Map<ChartType, RecommendationDTO> dto = new EnumMap<>(ChartType.class);
 
         List<ParameterResult> results = resultRepository.findByAttachedTest_Id(testId);
         Patient patient = getPatientByTestId(testId);
         for (ChartType key : ChartType.values()) {
-            Recommendation rec = chartServices.containsKey(key) ?
-                    chartServices.get(key).getRecommendation(patient, results) : null;
-            RecommendationDTO recDto = recommendationMapper.toDTO(rec);
-
-            if (recDto == null) {
-                recDto = RecommendationDTO.builder().chartType(key).build();
+            RecommendationDTO recDto;
+            try {
+                Recommendation rec = chartServices.containsKey(key) ?
+                        chartServices.get(key).getRecommendation(patient, results) : null;
+                recDto = recommendationMapper.toDTO(rec);
+                if (recDto == null) {
+                    recDto = RecommendationDTO.builder().chartType(key).build();
+                }
+            }catch (ChartStateException | NotImplementedException exception ){
+                recDto = RecommendationDTO.builder().errorMessage(exception.getMessage()).chartType(key).build();
             }
+
             dto.put(key, recDto);
         }
         return dto;
     }
 
+    @Deprecated(forRemoval = true)
     public RecommendationDTO getRecommendation(Long testId, ChartType type) {
         List<ParameterResult> results = resultRepository.findByAttachedTest_Id(testId);
         Patient patient = getPatientByTestId(testId);
@@ -79,7 +84,6 @@ public class RecommendationService {
         }
         return recDto;
     }
-
 
     public RecommendationDTO getRecommendationById(UUID recommendationId) {
         Recommendation recommendation = recommendationRepository.findById(recommendationId)

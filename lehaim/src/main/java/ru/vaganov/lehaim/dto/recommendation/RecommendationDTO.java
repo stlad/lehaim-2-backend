@@ -1,5 +1,6 @@
 package ru.vaganov.lehaim.dto.recommendation;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,9 @@ public class RecommendationDTO {
 
     private LocalDateTime dateCreated;
     private LocalDateTime dateUpdated;
+
+    @Schema(title = "Сообщение об ошибке", description = "Пусто, если ошибок нет")
+    private String errorMessage;
 
     @NotNull(message = "chartType must not be null")
     private ChartType chartType;
