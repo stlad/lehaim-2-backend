@@ -12,16 +12,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@Schema(title = "OncologicalTestDTO: Общая информация об обследовании")
+@Schema(description = "Общая информация об обследовании")
 public class OncologicalTestDTO {
 
-    @Schema(title = "Индентификатор")
+    @Schema(description = "Индентификатор")
     private Long id;
 
-    @Schema(title = "Дата обследования")
+    @Schema(description = "Дата обследования", example = "2020-01-01")
     private LocalDate testDate;
 
-    @Schema(title = "Возможные графики",
-            description = "Список графиков, которые возможно отобразить по текущему обследованию")
+    @Schema(description = "Список графиков, которые возможно отобразить по текущему обследованию")
     List<ChartType> possibleCharts;
 }

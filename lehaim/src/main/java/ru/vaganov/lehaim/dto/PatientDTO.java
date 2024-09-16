@@ -12,46 +12,46 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Schema(title = "PatientDTO: Вся информация о пациенте")
+@Schema(description = "Вся информация о пациенте")
 public class PatientDTO {
 
-    @Schema(title = "Идентификатор")
+    @Schema(description = "Идентификатор")
     private UUID id;
 
-    @Schema(title = "Имя ")
+    @Schema(description = "Имя ")
     private String name;
 
-    @Schema(title = "Фамилия ")
+    @Schema(description = "Фамилия ")
     private String lastname;
 
-    @Schema(title = "Отчество ")
+    @Schema(description = "Отчество ")
     private String patronymic;
 
-    @Schema(title = "Дата рождения ")
+    @Schema(description = "Дата рождения ")
     private LocalDate birthdate;
 
-    @Schema(title = "Дата смерти ", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Дата смерти ", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private LocalDate deathdate;
 
-    @Schema(title = "Идентификатор анализа из каталога")
+    @Schema(description = "Идентификатор анализа из каталога")
     private Integer diagnosisId;
 
-    @Schema(title = "Дополнительная информация")
+    @Schema(description = "Дополнительная информация")
     private String info;
 
-    @Schema(title = "Пол")
+    @Schema(description = "Пол")
     private Gender gender;
 
-    @Schema(title = "Комментарии к операции")
+    @Schema(description = "Комментарии к операции")
     private String operationComments;
 
-    @Schema(title = "Коментарии к диагнозу")
+    @Schema(description = "Коментарии к диагнозу")
     private String diagnosisComments;
 
-    @Schema(title = "Комментарии к химиотерапии")
+    @Schema(description = "Комментарии к химиотерапии")
     private String chemotherapyComments;
 
-    @Schema(title = "Дата операции")
+    @Schema(description = "Дата операции")
     private LocalDate operationDate;
 
 

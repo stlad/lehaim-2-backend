@@ -13,21 +13,19 @@ import java.util.List;
 @Data
 @Builder
 @Schema(
-        title = "OncologicalTestRestDTO: Расширенная информация об обследовании",
         description = "Полная информация об обслоедовании, включает в себя результаты анализов"
 )
 public class OncologicalTestRestDTO {
 
-    @Schema(title = "Индентификатор")
+    @Schema(description = "Индентификатор")
     private Long id;
-    @Schema(title = "Дата обследования")
+    @Schema(description = "Дата обследования", example = "2020-01-01")
     private LocalDate testDate;
 
     @NotNull(message = "results must not be null")
     private List<ParameterResultRestDTO> results;
 
-    @Schema(title = "Возможные графики",
-            description = "Список графиков, которые возможно отобразить по текущему обследованию")
+    @Schema(description = "Список графиков, которые возможно отобразить по текущему обследованию")
     List<ChartType> possibleCharts;
 }
 

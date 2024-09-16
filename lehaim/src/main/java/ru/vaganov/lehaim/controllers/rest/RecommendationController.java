@@ -11,7 +11,7 @@ import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.dto.recommendation.RecommendationDTO;
 import ru.vaganov.lehaim.services.recommendation.RecommendationService;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -28,8 +28,8 @@ public class RecommendationController {
     @Operation(summary = "Поиск по рекомендаций, подходящих по обследованию",
             description = "Поиск рекомендаций подходящих для обследования")
     @GetMapping("/{testId}")
-    public ResponseEntity<HashMap<ChartType, RecommendationDTO>> findAllRecommendationByTest(@PathVariable Long testId) {
-        HashMap<ChartType, RecommendationDTO> dto = recommendationService.getRecommendation(testId);
+    public ResponseEntity<Map<ChartType, RecommendationDTO>> findAllRecommendationByTest(@PathVariable Long testId) {
+        Map<ChartType, RecommendationDTO> dto = recommendationService.getRecommendation(testId);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
@@ -67,10 +67,12 @@ public class RecommendationController {
     }
 
     @Operation(summary = "Получение рекомендации для обследования по типу",
-            description = "Получение рекомендации для обследования по типу")
+            description = "Получение рекомендации для обследования по типу",
+            deprecated = true)
     @GetMapping("/{testId}/{chartType}")
+    @Deprecated(forRemoval = true)
     public ResponseEntity<RecommendationDTO> getRecommendationForChart(@PathVariable Long testId,
-                                                                @PathVariable ChartType chartType) {
+                                                                       @PathVariable ChartType chartType) {
         RecommendationDTO newDto = recommendationService.getRecommendation(testId, chartType);
         return new ResponseEntity<>(newDto, HttpStatus.OK);
     }
