@@ -35,10 +35,11 @@ public class RecommendationController {
 
     @Operation(summary = "Сохранение рекомедации",
             description = "Сохранение рекомедации на основе текщего обследоваия")
-    @PostMapping("/{testId}")
-    public ResponseEntity<RecommendationDTO> saveReccomendation(@PathVariable Long testId,
+    @PostMapping("/{testId}/{chartType}")
+    public ResponseEntity<RecommendationDTO> saveReccomendation(@PathVariable(required = true) Long testId,
+                                                                @PathVariable(required = true) ChartType chartType,
                                                                 @RequestBody RecommendationDTO dto) {
-        RecommendationDTO newDto = recommendationService.saveNewRecommendation(testId, dto);
+        RecommendationDTO newDto = recommendationService.saveNewRecommendation(testId, chartType, dto);
         return new ResponseEntity<>(newDto, HttpStatus.OK);
     }
 
