@@ -16,7 +16,7 @@ public class RegenerationParameterRanges {
         RANGE_2(1.17, 1.67),
         RANGE_3(1.67, 2.1),
         RANGE_4(2.1, 5.25),
-        RANGE_5(5.25, 1000d);
+        RANGE_5(5.25, 10000d);
 
         private final Double startRange;
         private final Double endRange;
@@ -33,7 +33,7 @@ public class RegenerationParameterRanges {
         RANGE_2(4.48, 6.4),
         RANGE_3(6.4, 12.8),
         RANGE_4(12.8, 32d),
-        RANGE_5(32d, 1000d);
+        RANGE_5(32d, 10000d);
 
         private final Double startRange;
         private final Double endRange;
@@ -50,7 +50,7 @@ public class RegenerationParameterRanges {
         RANGE_2(2.38, 3.4),
         RANGE_3(3.4, 6.1),
         RANGE_4(6.1, 15.25),
-        RANGE_5(15.25, 1000d);
+        RANGE_5(15.25, 10000d);
 
         private final Double startRange;
         private final Double endRange;
@@ -68,13 +68,13 @@ public class RegenerationParameterRanges {
         FEMALE_RANGE_3(90d, 120d),
         FEMALE_RANGE_4(120d, 140d),
         FEMALE_RANGE_5(140d, 160d),
-        FEMALE_RANGE_6(160d, 1000d),
+        FEMALE_RANGE_6(160d, 10000d),
         MALE_RANGE_1(0d, 70d),
         MALE_RANGE_2(70d, 90d),
         MALE_RANGE_3(90d, 130d),
         MALE_RANGE_4(130d, 161d),
         MALE_RANGE_5(161d, 171d),
-        MALE_RANGE_6(171d, 1000d);
+        MALE_RANGE_6(171d, 10000d);
 
         private final Double startRange;
         private final Double endRange;
@@ -97,7 +97,7 @@ public class RegenerationParameterRanges {
         RANGE_3(2d, 3d),
         RANGE_4(3d, 4d),
         RANGE_5(4d, 15d),
-        RANGE_6(15d, 1000d);
+        RANGE_6(15d, 10000d);
 
         private final Double startRange;
         private final Double endRange;
@@ -117,7 +117,7 @@ public class RegenerationParameterRanges {
         RANGE_2(21d, 50d),
         RANGE_3(50d, 180d),
         RANGE_4(180d, 350d),
-        RANGE_5(350d, 1000d);
+        RANGE_5(350d, 10000d);
 
         private final Double startRange;
         private final Double endRange;
@@ -134,7 +134,7 @@ public class RegenerationParameterRanges {
         RANGE_2(0.75, 1d),
         RANGE_3(1d, 1.5),
         RANGE_4(1.5, 7.61),
-        RANGE_5(7.61, 1000d);
+        RANGE_5(7.61, 10000d);
 
         private final Double startRange;
         private final Double endRange;

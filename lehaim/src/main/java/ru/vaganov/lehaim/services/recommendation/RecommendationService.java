@@ -91,15 +91,16 @@ public class RecommendationService {
         return recommendationMapper.toDTO(recommendation);
     }
 
-    public RecommendationDTO saveNewRecommendation(Long testId, RecommendationDTO dto) {
+    public RecommendationDTO saveNewRecommendation(Long testId, ChartType chartType, RecommendationDTO dto) {
         Recommendation recommendation = recommendationMapper.fromDTO(dto);
         recommendation.setId(null);
         recommendation.setDateCreated(LocalDateTime.now());
+        recommendation.setChartType(chartType);
 
         Patient patient = getPatientByTestId(testId);
         List<ParameterResult> results = resultRepository.findByAttachedTest_Id(testId);
 
-        recommendation = chartServices.get(recommendation.getChartType())
+        recommendation = chartServices.get(chartType)
                 .saveRecommendation(recommendation, patient, results);
         return recommendationMapper.toDTO(recommendation);
     }

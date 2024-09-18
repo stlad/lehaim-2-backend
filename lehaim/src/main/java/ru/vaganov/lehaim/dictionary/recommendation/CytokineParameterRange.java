@@ -10,7 +10,7 @@ public enum CytokineParameterRange implements ParameterRange{
     RANGE_2(40d, 80d),
     RANGE_3(80d, 120d),
     RANGE_4(120d, 160d),
-    RANGE_5(160d, 1000d);
+    RANGE_5(160d, 10000d);
 
     private final Double startRange;
     private final Double endRange;
