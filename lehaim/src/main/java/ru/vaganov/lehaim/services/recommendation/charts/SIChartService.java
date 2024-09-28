@@ -5,12 +5,10 @@ import org.springframework.stereotype.Component;
 import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.dictionary.MostUsedParameters;
 import ru.vaganov.lehaim.dictionary.recommendation.SIParameterRanges;
-import ru.vaganov.lehaim.exceptions.NotImplementedException;
 import ru.vaganov.lehaim.models.Diagnosis;
 import ru.vaganov.lehaim.models.ParameterResult;
 import ru.vaganov.lehaim.models.Patient;
 import ru.vaganov.lehaim.models.recommendations.Recommendation;
-import ru.vaganov.lehaim.models.recommendations.RegenerationChartState;
 import ru.vaganov.lehaim.models.recommendations.SIChartState;
 import ru.vaganov.lehaim.repositories.CatalogRepository;
 import ru.vaganov.lehaim.repositories.recommendation.RecommendationRepository;
@@ -47,7 +45,11 @@ public class SIChartService extends ChartStateService {
 
     @Override
     public Recommendation saveRecommendation(Recommendation recommendation, Patient patient, List<ParameterResult> results) {
-        throw new NotImplementedException();
+        SIChartState state = getState(patient, results);
+        recommendation = recommendationRepository.save(recommendation);
+        state.setRecommendation(recommendation);
+        stateRepository.save(state);
+        return recommendation;
     }
 
     private SIChartState getState(Patient patient, List<ParameterResult> results) {
@@ -107,7 +109,7 @@ public class SIChartService extends ChartStateService {
         if (neu == null || mon == null || lymf == null) {
             return null;
         }
-        if ((lymf + mon )== 0) {
+        if ((lymf + mon) == 0) {
             validationErrors.add("Параметр LYMF+MON равен 0");
             return null;
         }
