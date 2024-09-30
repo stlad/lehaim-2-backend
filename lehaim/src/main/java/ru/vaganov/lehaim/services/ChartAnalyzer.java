@@ -25,22 +25,14 @@ public class ChartAnalyzer {
      * @return Список графиков, которые возможно отообразить
      */
     public static List<ChartType> getPossibleChartsByTEstId(List<ParameterResult> results) {
-        Set<Long> ids = results.stream().map(ParameterResult::getParameter)
-                .map(Parameter::getId).collect(Collectors.toSet());
         List<ChartType> possibleCharts = new ArrayList<>();
         for (ChartType chart : ChartType.values()) {
             boolean canBeProcessed = switch (chart) {
-                case T_CELL -> checkContains(ids, NEU, LYMF, CD3, CD4, CD8)
-                        && checkNotZero(results, LYMF, CD4, CD8, CD3);
-                case B_CELL -> checkContains(ids, NEU, CD19, LYMF, CD8, CD4)
-                        && checkNotZero(results, LYMF, CD4, CD8, CD19);
-                case CYTOKINE_PAIRS ->
-                        checkContains(ids, TNFa_STIM, TNFa_SPON, IFNy_SPON, IFFy_STIM, IL2_SPON, IL2_STIM)
-                                && checkNotZero(results, TNFa_SPON, IFNy_SPON, IL2_SPON);
-                case REGENERATION -> checkContains(ids, NEU, MON, LYMF)
-                        && checkNotZero(results, MON, LYMF);
-                case SYSTEMIC_INFLAMMATION -> checkContains(ids, NEU, LYMF, MON, PLT)
-                        && checkNotZero(results, LYMF, MON);
+                case T_CELL ->  checkResult(results, NEU, LYMF, CD3, CD4, CD8);
+                case B_CELL ->  checkResult(results, NEU, CD19, LYMF, CD8, CD4);
+                case CYTOKINE_PAIRS -> checkResult(results, TNFa_STIM, TNFa_SPON, IFNy_SPON, IFFy_STIM, IL2_SPON, IL2_STIM);
+                case REGENERATION -> checkResult(results, NEU, MON, LYMF);
+                case SYSTEMIC_INFLAMMATION -> checkResult(results, NEU, LYMF, MON, PLT);
             };
             if (canBeProcessed) {
                 possibleCharts.add(chart);
@@ -49,23 +41,15 @@ public class ChartAnalyzer {
         return possibleCharts;
     }
 
-    private static Boolean checkContains(Set<Long> actualIds, MostUsedParameters... params) {
-        return actualIds.containsAll(
-                Arrays.stream(params).map(MostUsedParameters::getId)
-                        .filter(val -> val > 0L)
-                        .collect(Collectors.toSet()));
-    }
-
-    private static Boolean checkNotZero(List<ParameterResult> results, MostUsedParameters... params) {
-        return Arrays.stream(params).allMatch(param -> getValue(results, param.getId()) != 0.);
+    private static Boolean checkResult(List<ParameterResult> results, MostUsedParameters... params) {
+        return Arrays.stream(params).allMatch(param -> {
+            Double value = getValue(results, param.getId());
+            return value != null && !value.equals(0.);
+        });
     }
 
     private static Double getValue(List<ParameterResult> results, Long id) {
-        Optional<ParameterResult> resOpt = results.stream()
-                .filter(res -> res.getParameter().getId().equals(id)).findAny();
-        if (resOpt.isPresent()) {
-            return resOpt.get().getValue();
-        }
-        return 0.;
+        return results.stream().filter(res -> res.getParameter().getId().equals(id)).findAny()
+                .map(ParameterResult::getValue).orElse(null);
     }
 }
