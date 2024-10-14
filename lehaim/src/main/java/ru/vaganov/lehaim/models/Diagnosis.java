@@ -3,6 +3,10 @@ package ru.vaganov.lehaim.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.vaganov.lehaim.models.genes.DiagnosisGene;
+import ru.vaganov.lehaim.models.genes.Gene;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +21,7 @@ public class Diagnosis {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "diagnosis")
+    private List<DiagnosisGene> genes;
 }

@@ -16,4 +16,5 @@
     <include file="/db/changelog/migrations/v1_8_update_regeneration_state_table.xml" />
     <include file="/db/changelog/migrations/v1_9_update_patient_table_operation_date.xml" />
     <include file="/db/changelog/migrations/v1_10_create_systemic_inflammation_state_table.xml" />
+    <include file="/db/changelog/migrations/v1_11_create_genes_tables.xml" />
 </databaseChangeLog>
