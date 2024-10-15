@@ -13,10 +13,7 @@ public interface GeneValuesRepository extends JpaRepository<GeneValue, Long> {
 
     List<GeneValue> findByPatient_Id(UUID id);
 
-    Optional<GeneValue> findByPatient_IdAndDiagnosisGene_Diagnosis_IdAndDiagnosisGene_Gene_Id(UUID id, Integer id1, Long id2);
+    Optional<GeneValue> findByPatient_IdAndDiagnosisGene_Id(UUID patient, Long dgId);
 
-    default Optional<GeneValue> findGeneValueForPatient(UUID patientId, Integer diagnosisId, Long geneId){
-        return findByPatient_IdAndDiagnosisGene_Diagnosis_IdAndDiagnosisGene_Gene_Id(patientId,diagnosisId,geneId);
-    }
 
 }

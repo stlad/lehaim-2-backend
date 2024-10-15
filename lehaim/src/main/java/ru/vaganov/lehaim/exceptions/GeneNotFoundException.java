@@ -6,6 +6,9 @@ public class GeneNotFoundException extends LehaimException{
     public GeneNotFoundException(Long id){
         super(baseMessage+id);
     }
+    public GeneNotFoundException(Integer diagnosisId, Long geneId){
+        super(String.format("Для диагноза %s не может быть гена %s", diagnosisId, geneId));
+    }
 
 
     @Override
