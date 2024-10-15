@@ -15,13 +15,18 @@ import java.util.UUID;
 @Schema(description = "Значение генов для пациента")
 public class GeneValueDTO {
 
+    @Schema(description = "ИД записи")
     private Long id;
 
+    @Schema(description = "ИД пациента")
     private UUID patientId;
 
+    @Schema(description = "ИД гена из каталога")
     private Long geneId;
 
+    @Schema(description = "ИД диагноза из каталога")
     private Integer diagnosisId;
 
+    @Schema(description = "Значение гена")
     private String geneValue;
 }
