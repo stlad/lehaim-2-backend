@@ -18,4 +18,5 @@
     <include file="/db/changelog/migrations/v1_10_create_systemic_inflammation_state_table.xml" />
     <include file="/db/changelog/migrations/v1_11_create_genes_tables.xml" />
     <include file="/db/changelog/migrations/v1_12_insert_genes.xml" />
+    <include file="/db/changelog/migrations/v1_13_alter_genes.xml" />
 </databaseChangeLog>

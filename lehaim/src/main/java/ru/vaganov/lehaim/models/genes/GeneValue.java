@@ -25,6 +25,6 @@ public class GeneValue {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "gene_id", referencedColumnName = "id")
-    private Gene gene;
+    @JoinColumn(name = "diagnosis_gene_id", referencedColumnName = "id")
+    private DiagnosisGene diagnosisGene;
 }
