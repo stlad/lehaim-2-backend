@@ -1,0 +1,66 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="create_genes_tables" author="Vaganov.VS">
+        <createTable tableName="genes_catalog">
+            <column name="id" type="bigserial" remarks="ID гена в каталоге">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="gene_name" type="varchar" remarks="Наименование гена в каталоге"/>
+            <column name="possible_values" type="varchar"
+                    remarks="Строка с возможными значениями генов, записанных через разделитель"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_diagnoses_genes_catalog" author="Vaganov.VS">
+        <createTable tableName="diagnoses_genes_catalog" remarks="Каталог связи диагнозов и генов">
+            <column name="id" type="bigserial" remarks="ID записи">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="gene_id" type="bigserial" remarks="ID гена в каталоге"/>
+            <column name="diagnosis_id" type="serial" remarks="ID диагноза каталоге"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="diagnoses_genes_catalog"
+                                 baseColumnNames="diagnosis_id"
+                                 constraintName="diagnoses_genes_to_diagnosis_fk"
+                                 referencedTableName="diagnoses_catalog"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="diagnoses_genes_catalog"
+                                 baseColumnNames="gene_id"
+                                 constraintName="diagnoses_genes_to_genes_fk"
+                                 referencedTableName="genes_catalog"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="create_gene_value" author="Vaganov.VS">
+        <createTable tableName="gene_value" remarks="Значения генов для пациента">
+            <column name="id" type="bigserial" remarks="ID записи">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="patient_id" type="uuid" remarks="ID пациента"/>
+            <column name="gene_value" type="varchar" remarks="Значение гена для пациента"/>
+            <column name="gene_id" type="bigserial" remarks="ID гена"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="gene_value"
+                                 baseColumnNames="patient_id"
+                                 constraintName="diagnoses_genes_to_patient_fk"
+                                 referencedTableName="patient"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="gene_value"
+                                 baseColumnNames="gene_id"
+                                 constraintName="diagnoses_genes_to_gene_fk"
+                                 referencedTableName="genes_catalog"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>

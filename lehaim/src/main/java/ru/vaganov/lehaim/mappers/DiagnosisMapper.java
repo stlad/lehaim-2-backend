@@ -7,9 +7,9 @@ import ru.vaganov.lehaim.dto.DiagnosisDTO;
 import java.util.List;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {GeneMapper.class})
 public interface DiagnosisMapper {
-    public abstract Diagnosis fromDto(DiagnosisDTO dto);
-    public abstract  DiagnosisDTO toDto(Diagnosis entity);
-    public abstract List<DiagnosisDTO> toDto(List<Diagnosis> entity);
+    Diagnosis fromDto(DiagnosisDTO dto);
+    DiagnosisDTO toDto(Diagnosis entity);
+    List<DiagnosisDTO> toDto(List<Diagnosis> entity);
 }

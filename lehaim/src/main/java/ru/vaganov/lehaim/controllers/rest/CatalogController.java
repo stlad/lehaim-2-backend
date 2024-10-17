@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(value = "/catalog")
-@Tag(name = "Parameter Catalog API")
+@Tag(name = "Каталог Параметров")
 @Slf4j
 @RequiredArgsConstructor
 public class CatalogController {

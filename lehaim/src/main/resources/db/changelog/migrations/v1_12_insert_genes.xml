@@ -1,0 +1,322 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="insert_genes_catalog" author="Vaganov.VS">
+        <!--    C16    -->
+        <insert tableName="genes_catalog">
+            <column name="id" value="1"/>
+            <column name="gene_name" value="PDL"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="2"/>
+            <column name="gene_name" value="HER2neu"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <!--    C18, C19, C20    -->
+        <insert tableName="genes_catalog">
+            <column name="id" value="3"/>
+            <column name="gene_name" value="EGFR"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="4"/>
+            <column name="gene_name" value="RAS/NRAS"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="5"/>
+            <column name="gene_name" value="MSI-H"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <!--    C21    -->
+        <insert tableName="genes_catalog">
+            <column name="id" value="6"/>
+            <column name="gene_name" value="MSI-H"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="7"/>
+            <column name="gene_name" value="PD/PDL1"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <!--    C25    -->
+        <insert tableName="genes_catalog">
+            <column name="id" value="8"/>
+            <column name="gene_name" value="BRCA 1 mut"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="9"/>
+            <column name="gene_name" value="BRCA 2 mut"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <!--    C34    -->
+        <insert tableName="genes_catalog">
+            <column name="id" value="10"/>
+            <column name="gene_name" value="EGFR"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="11"/>
+            <column name="gene_name" value="BRAFmut"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="12"/>
+            <column name="gene_name" value="ROS 1"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="13"/>
+            <column name="gene_name" value="ALK"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <!--    C43    -->
+        <insert tableName="genes_catalog">
+            <column name="id" value="14"/>
+            <column name="gene_name" value="BRAFmut"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="15"/>
+            <column name="gene_name" value="C-kit mut"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="16"/>
+            <column name="gene_name" value="ALK"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="17"/>
+            <column name="gene_name" value="MEK"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <!--    C50    -->
+        <insert tableName="genes_catalog">
+            <column name="id" value="18"/>
+            <column name="gene_name" value="ER"/>
+            <column name="possible_values" value="1;2;3;4;5;6;7;8"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="19"/>
+            <column name="gene_name" value="PR"/>
+            <column name="possible_values" value="1;2;3;4;5"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="20"/>
+            <column name="gene_name" value="Ki67"/>
+            <column name="possible_values" value="%"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="21"/>
+            <column name="gene_name" value="HER2neu"/>
+            <column name="possible_values" value="0;1+;2+;3+"/>
+        </insert>
+        <!--    C61    -->
+        <insert tableName="genes_catalog">
+            <column name="id" value="22"/>
+            <column name="gene_name" value="BRCA"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="23"/>
+            <column name="gene_name" value="MSI-H"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="24"/>
+            <column name="gene_name" value="dMMR"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <!--    C64    -->
+        <insert tableName="genes_catalog">
+            <column name="id" value="25"/>
+            <column name="gene_name" value="ROS 1"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+        <insert tableName="genes_catalog">
+            <column name="id" value="26"/>
+            <column name="gene_name" value="PD/PDL1"/>
+            <column name="possible_values" value="+;-"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert_diagnosis_genes_catalog" author="Vaganov.VS">
+        <!--    C16        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="1"/>
+            <column name="gene_id" value="1"/>
+            <column name="diagnosis_id" value="17"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="2"/>
+            <column name="gene_id" value="2"/>
+            <column name="diagnosis_id" value="17"/>
+        </insert>
+        <!--    C18        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="3"/>
+            <column name="gene_id" value="3"/>
+            <column name="diagnosis_id" value="19"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="4"/>
+            <column name="gene_id" value="4"/>
+            <column name="diagnosis_id" value="19"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="5"/>
+            <column name="gene_id" value="5"/>
+            <column name="diagnosis_id" value="19"/>
+        </insert>
+        <!--    C19        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="6"/>
+            <column name="gene_id" value="3"/>
+            <column name="diagnosis_id" value="20"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="7"/>
+            <column name="gene_id" value="4"/>
+            <column name="diagnosis_id" value="20"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="8"/>
+            <column name="gene_id" value="5"/>
+            <column name="diagnosis_id" value="20"/>
+        </insert>
+        <!--    C20        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="9"/>
+            <column name="gene_id" value="3"/>
+            <column name="diagnosis_id" value="21"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="10"/>
+            <column name="gene_id" value="4"/>
+            <column name="diagnosis_id" value="21"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="11"/>
+            <column name="gene_id" value="5"/>
+            <column name="diagnosis_id" value="21"/>
+        </insert>
+        <!--    C21        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="12"/>
+            <column name="gene_id" value="6"/>
+            <column name="diagnosis_id" value="22"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="13"/>
+            <column name="gene_id" value="7"/>
+            <column name="diagnosis_id" value="22"/>
+        </insert>
+        <!--    C25        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="14"/>
+            <column name="gene_id" value="8"/>
+            <column name="diagnosis_id" value="26"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="15"/>
+            <column name="gene_id" value="9"/>
+            <column name="diagnosis_id" value="26"/>
+        </insert>
+        <!--    C34        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="16"/>
+            <column name="gene_id" value="10"/>
+            <column name="diagnosis_id" value="32"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="17"/>
+            <column name="gene_id" value="11"/>
+            <column name="diagnosis_id" value="32"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="18"/>
+            <column name="gene_id" value="12"/>
+            <column name="diagnosis_id" value="32"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="19"/>
+            <column name="gene_id" value="13"/>
+            <column name="diagnosis_id" value="32"/>
+        </insert>
+        <!--    C43        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="20"/>
+            <column name="gene_id" value="14"/>
+            <column name="diagnosis_id" value="38"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="21"/>
+            <column name="gene_id" value="15"/>
+            <column name="diagnosis_id" value="38"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="22"/>
+            <column name="gene_id" value="16"/>
+            <column name="diagnosis_id" value="38"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="23"/>
+            <column name="gene_id" value="17"/>
+            <column name="diagnosis_id" value="38"/>
+        </insert>
+        <!--    C50        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="24"/>
+            <column name="gene_id" value="18"/>
+            <column name="diagnosis_id" value="45"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="25"/>
+            <column name="gene_id" value="19"/>
+            <column name="diagnosis_id" value="45"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="26"/>
+            <column name="gene_id" value="20"/>
+            <column name="diagnosis_id" value="45"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="27"/>
+            <column name="gene_id" value="21"/>
+            <column name="diagnosis_id" value="45"/>
+        </insert>
+        <!--    C61        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="28"/>
+            <column name="gene_id" value="22"/>
+            <column name="diagnosis_id" value="55"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="29"/>
+            <column name="gene_id" value="23"/>
+            <column name="diagnosis_id" value="55"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="30"/>
+            <column name="gene_id" value="24"/>
+            <column name="diagnosis_id" value="55"/>
+        </insert>
+        <!--    C64        -->
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="31"/>
+            <column name="gene_id" value="25"/>
+            <column name="diagnosis_id" value="58"/>
+        </insert>
+        <insert tableName="diagnoses_genes_catalog">
+            <column name="id" value="32"/>
+            <column name="gene_id" value="26"/>
+            <column name="diagnosis_id" value="58"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

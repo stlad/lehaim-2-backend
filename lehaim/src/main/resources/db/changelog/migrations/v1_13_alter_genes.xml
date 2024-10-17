@@ -1,0 +1,21 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="gene_value_change_fk" author="Vaganov.VS">
+        <dropForeignKeyConstraint baseTableName="gene_value" constraintName="diagnoses_genes_to_gene_fk" />
+        <dropColumn tableName="gene_value" columnName="gene_id"/>
+        <addColumn tableName="gene_value">
+            <column name="diagnosis_gene_id" type="bigserial" remarks="ИД пары диагноз-ген"/>
+        </addColumn>
+        <addForeignKeyConstraint
+                baseTableName="gene_value"
+                baseColumnNames="diagnosis_gene_id"
+                constraintName="gene_value_to_diagnosis_gene_fk"
+                referencedTableName="diagnoses_genes_catalog"
+                referencedColumnNames="id"
+                onDelete="CASCADE" />
+    </changeSet>
+</databaseChangeLog>

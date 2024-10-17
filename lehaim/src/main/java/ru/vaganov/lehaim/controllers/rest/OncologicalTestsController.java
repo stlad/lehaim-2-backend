@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/tests")
-@Tag(name = "Oncological Tests API")
+@Tag(name = "Результаты обследований")
 @Slf4j
 @RequiredArgsConstructor
 public class OncologicalTestsController {
