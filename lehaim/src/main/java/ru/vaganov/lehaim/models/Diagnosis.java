@@ -24,4 +24,5 @@ public class Diagnosis {
 
     @OneToMany(mappedBy = "diagnosis")
     private List<DiagnosisGene> genes;
+
 }

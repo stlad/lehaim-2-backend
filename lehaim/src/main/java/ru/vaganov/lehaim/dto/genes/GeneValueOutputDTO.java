@@ -12,14 +12,11 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Значение генов для пациента")
-public class GeneValueDTO {
+@Schema(description = "Значение генов для пациента (Исходящее)")
+public class GeneValueOutputDTO {
 
     @Schema(description = "ИД записи")
     private Long id;
-
-    @Schema(description = "ИД пациента")
-    private UUID patientId;
 
     @Schema(description = "ИД гена из каталога")
     private Long geneId;

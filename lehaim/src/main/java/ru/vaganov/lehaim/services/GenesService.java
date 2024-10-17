@@ -3,8 +3,11 @@ package ru.vaganov.lehaim.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vaganov.lehaim.dto.genes.GeneDTO;
-import ru.vaganov.lehaim.dto.genes.GeneValueDTO;
+import ru.vaganov.lehaim.dto.genes.GeneValueInputDTO;
+import ru.vaganov.lehaim.dto.genes.GeneValueInputListDTO;
+import ru.vaganov.lehaim.dto.genes.GeneValueOutputListDTO;
 import ru.vaganov.lehaim.exceptions.GeneNotFoundException;
 import ru.vaganov.lehaim.exceptions.PatientNotFoundException;
 import ru.vaganov.lehaim.mappers.GeneMapper;
@@ -18,6 +21,7 @@ import ru.vaganov.lehaim.repositories.genes.DiagnosisGeneRepository;
 import ru.vaganov.lehaim.repositories.genes.GeneCatalogRepository;
 import ru.vaganov.lehaim.repositories.genes.GeneValuesRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -41,14 +45,14 @@ public class GenesService {
         return geneMapper.toDTO(genes);
     }
 
-    public Map<Integer, GeneValueDTO> getGeneValuesForPatient(UUID patientId) {
+    public Map<Integer, GeneValueInputDTO> getGeneValuesForPatient(UUID patientId) {
         if (!patientRepository.existsById(patientId)) {
             throw new PatientNotFoundException(patientId);
         }
 
         return geneValuesRepository.findByPatient_Id(patientId).stream().map(geneMapper::toDTO)
                 .collect(Collectors.toMap(
-                        GeneValueDTO::getDiagnosisId,
+                        GeneValueInputDTO::getDiagnosisId,
                         value -> value
                 ));
     }
@@ -57,9 +61,17 @@ public class GenesService {
         return geneCatalogRepository.findAll();
     }
 
-    public GeneValueDTO saveNewGeneValue(UUID patientId){
-        //TODO сохранение/обновление
-        return null ;
+    @Transactional
+    public GeneValueOutputListDTO saveGeneValues(UUID patientId, GeneValueInputListDTO dto) {
+        if (dto.getPatientId() != null) {
+            patientId = dto.getPatientId();
+        }
+        List<GeneValue> geneValuesResult = new ArrayList<>();
+        for(GeneValueInputDTO value : dto.getValues()){
+            GeneValue target = getGeneValue(patientId, value.getDiagnosisId(), value.getGeneId());
+            target.setGeneValue(value.getGeneValue());
+        }
+        return geneMapper.toListOutputDto(patientId, geneValuesResult);
     }
 
     private GeneValue getGeneValue(UUID patientId, Integer diagnosisId, Long geneId) {
