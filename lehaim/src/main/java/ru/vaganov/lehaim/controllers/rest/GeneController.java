@@ -49,7 +49,7 @@ public class GeneController {
     @PutMapping("/{patientId}")
     public ResponseEntity<GeneValueOutputListDTO> updateGeneValues(@PathVariable UUID patientId,
                                                                    @RequestBody GeneValueInputListDTO dto) {
-        return new ResponseEntity<>(genesService.saveGeneValues(patientId, dto), HttpStatus.OK);
+        return new ResponseEntity<>(genesService.updateGeneValues(patientId, dto), HttpStatus.OK);
     }
 
     @Operation(summary = "Получить значения генов для пациента")
