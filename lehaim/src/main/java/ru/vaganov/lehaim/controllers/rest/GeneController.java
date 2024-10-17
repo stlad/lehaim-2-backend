@@ -14,6 +14,7 @@ import ru.vaganov.lehaim.dto.genes.GeneValueOutputListDTO;
 import ru.vaganov.lehaim.services.GenesService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -26,7 +27,7 @@ public class GeneController {
     private final GenesService genesService;
 
     @Operation(summary = "Получить все гены для диагноза")
-    @GetMapping("/{diagnosisId}")
+    @GetMapping("/diagnosis/{diagnosisId}")
     public ResponseEntity<List<GeneDTO>> findGenesByDiagnosis(@PathVariable Integer diagnosisId) {
         return new ResponseEntity<>(genesService.getGenesByDiagnosis(diagnosisId), HttpStatus.OK);
     }
@@ -47,7 +48,13 @@ public class GeneController {
     @Operation(summary = "Обновить значения генов")
     @PutMapping("/{patientId}")
     public ResponseEntity<GeneValueOutputListDTO> updateGeneValues(@PathVariable UUID patientId,
-                                                                    @RequestBody GeneValueInputListDTO dto) {
+                                                                   @RequestBody GeneValueInputListDTO dto) {
         return new ResponseEntity<>(genesService.saveGeneValues(patientId, dto), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Получить значения генов для пациента")
+    @GetMapping("/{patientId}")
+    public ResponseEntity<Map<Integer, GeneValueOutputDTO>> updateGeneValues(@PathVariable UUID patientId) {
+        return new ResponseEntity<>(genesService.getGeneValuesForPatient(patientId), HttpStatus.OK);
     }
 }

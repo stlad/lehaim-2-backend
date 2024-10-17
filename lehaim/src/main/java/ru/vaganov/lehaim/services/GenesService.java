@@ -60,15 +60,13 @@ public class GenesService {
 
     @Transactional
     public GeneValueOutputListDTO saveGeneValues(UUID patientId, GeneValueInputListDTO dto) {
-        if (dto.getPatientId() != null) {
-            patientId = dto.getPatientId();
-        }
         List<GeneValue> geneValuesResult = new ArrayList<>();
-        for(GeneValueInputDTO value : dto.getValues()){
+        for (GeneValueInputDTO value : dto.getValues()) {
             GeneValue target = getGeneValue(patientId, value.getDiagnosisId(), value.getGeneId());
             target.setGeneValue(value.getGeneValue());
+            geneValuesResult.add(target);
         }
-        return geneMapper.toListOutputDto(patientId, geneValuesResult);
+        return geneMapper.toListOutputDto(patientId, geneValuesRepository.saveAll(geneValuesResult).stream().toList());
     }
 
     private GeneValue getGeneValue(UUID patientId, Integer diagnosisId, Long geneId) {

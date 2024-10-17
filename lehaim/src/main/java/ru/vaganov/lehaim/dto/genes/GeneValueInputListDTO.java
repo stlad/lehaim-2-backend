@@ -15,9 +15,6 @@ import java.util.UUID;
 @Schema(description = "Значения генов")
 public class GeneValueInputListDTO {
 
-    @Schema(description = "ID пациента")
-    private UUID patientId;
-
     @Schema(description = "Значения")
     private List<GeneValueInputDTO> values;
 }
