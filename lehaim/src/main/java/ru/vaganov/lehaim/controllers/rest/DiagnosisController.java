@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/diagnoses")
-@Tag(name = "Diagnosis API")
+@Tag(name = "Каталог Диагнозов")
 @Slf4j
 @RequiredArgsConstructor
 public class DiagnosisController {

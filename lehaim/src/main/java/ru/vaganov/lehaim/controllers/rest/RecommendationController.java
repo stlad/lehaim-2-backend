@@ -17,7 +17,7 @@ import java.util.UUID;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/recommendations")
-@Tag(name = "Recommendation API")
+@Tag(name = "Рекомендации")
 @Slf4j
 @RequiredArgsConstructor
 public class RecommendationController {

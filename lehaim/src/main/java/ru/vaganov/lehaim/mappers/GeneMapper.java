@@ -8,7 +8,6 @@ import ru.vaganov.lehaim.dto.genes.GeneDTO;
 import ru.vaganov.lehaim.dto.genes.GeneValueInputDTO;
 import ru.vaganov.lehaim.dto.genes.GeneValueOutputDTO;
 import ru.vaganov.lehaim.dto.genes.GeneValueOutputListDTO;
-import ru.vaganov.lehaim.models.Patient;
 import ru.vaganov.lehaim.models.genes.DiagnosisGene;
 import ru.vaganov.lehaim.models.genes.Gene;
 import ru.vaganov.lehaim.models.genes.GeneValue;
@@ -29,8 +28,7 @@ public interface GeneMapper {
 
     @Mapping(target = "geneId", source = "diagnosisGene.gene.id")
     @Mapping(target = "diagnosisId", source = "diagnosisGene.diagnosis.id")
-    @Mapping(target = "patientId", source = "patient.id")
-    GeneValueInputDTO toDTO(GeneValue entity);
+    GeneValueInputDTO toInputDTO(GeneValue entity);
 
     @Mapping(target = "geneId", source = "diagnosisGene.gene.id")
     @Mapping(target = "diagnosisId", source = "diagnosisGene.diagnosis.id")

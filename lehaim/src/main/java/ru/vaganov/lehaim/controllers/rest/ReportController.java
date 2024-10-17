@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/reports")
-@Tag(name = "Report API")
+@Tag(name = "Отчеты")
 @Slf4j
 @RequiredArgsConstructor
 public class ReportController {

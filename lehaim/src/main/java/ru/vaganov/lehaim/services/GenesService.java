@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.vaganov.lehaim.dto.genes.GeneDTO;
-import ru.vaganov.lehaim.dto.genes.GeneValueInputDTO;
-import ru.vaganov.lehaim.dto.genes.GeneValueInputListDTO;
-import ru.vaganov.lehaim.dto.genes.GeneValueOutputListDTO;
+import ru.vaganov.lehaim.dto.genes.*;
 import ru.vaganov.lehaim.exceptions.GeneNotFoundException;
 import ru.vaganov.lehaim.exceptions.PatientNotFoundException;
 import ru.vaganov.lehaim.mappers.GeneMapper;
@@ -45,20 +42,20 @@ public class GenesService {
         return geneMapper.toDTO(genes);
     }
 
-    public Map<Integer, GeneValueInputDTO> getGeneValuesForPatient(UUID patientId) {
+    public Map<Integer, GeneValueOutputDTO> getGeneValuesForPatient(UUID patientId) {
         if (!patientRepository.existsById(patientId)) {
             throw new PatientNotFoundException(patientId);
         }
 
-        return geneValuesRepository.findByPatient_Id(patientId).stream().map(geneMapper::toDTO)
+        return geneValuesRepository.findByPatient_Id(patientId).stream().map(geneMapper::toOutputDTO)
                 .collect(Collectors.toMap(
-                        GeneValueInputDTO::getDiagnosisId,
+                        GeneValueOutputDTO::getDiagnosisId,
                         value -> value
                 ));
     }
 
-    public List<Gene> getGeneCatalog() {
-        return geneCatalogRepository.findAll();
+    public List<GeneDTO> getGeneCatalog() {
+        return geneCatalogRepository.findAll().stream().map(geneMapper::toDTO).toList();
     }
 
     @Transactional
