@@ -1,0 +1,12 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="add_note_column_to_onological_test" author="Vaganov.VS">
+        <addColumn tableName="oncological_tests">
+            <column name="test_note" type="varchar" remarks="Заметки к анализу" />
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

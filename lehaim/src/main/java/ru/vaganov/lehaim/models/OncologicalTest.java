@@ -24,4 +24,5 @@ public class OncologicalTest {
     @JoinColumn(name="patient_id", referencedColumnName = "id")
     private Patient patientOwner;
 
+    private String testNote;
 }

@@ -29,6 +29,7 @@ public abstract class OncologicalTestMapper {
                 .getPossibleChartsByTEstId(parameterResultRepository.findByAttachedTest_Id(entity.getId()));
         return OncologicalTestDTO.builder()
                 .id(entity.getId())
+                .testNote(entity.getTestNote())
                 .testDate(entity.getTestDate())
                 .possibleCharts(possibleCharts)
                 .build();
@@ -36,12 +37,14 @@ public abstract class OncologicalTestMapper {
 
     public abstract List<OncologicalTestDTO> toDto(List<OncologicalTest> entity);
 
-    public OncologicalTestRestDTO toRestDto(Long testId, LocalDate testDate, List<ParameterResult> parameterResults) {
+    public OncologicalTestRestDTO toRestDto(Long testId, LocalDate testDate, String testNote,
+                                            List<ParameterResult> parameterResults) {
         return OncologicalTestRestDTO.builder()
                 .id(testId)
                 .testDate(testDate)
                 .results(parameterResultMapper.toRestDto(parameterResults))
                 .possibleCharts(ChartAnalyzer.getPossibleChartsByTEstId(parameterResults))
+                .testNote(testNote)
                 .build();
     };
 }

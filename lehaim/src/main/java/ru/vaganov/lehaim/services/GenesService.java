@@ -69,6 +69,20 @@ public class GenesService {
         return geneMapper.toListOutputDto(patientId, geneValuesRepository.saveAll(geneValuesResult).stream().toList());
     }
 
+    @Transactional
+    public GeneValueOutputListDTO updateGeneValues(UUID patientId, GeneValueInputListDTO dto) {
+        List<GeneValue> geneValuesResult = new ArrayList<>();
+        for (GeneValueInputDTO value : dto.getValues()) {
+            GeneValue target = getGeneValue(patientId, value.getDiagnosisId(), value.getGeneId());
+            if (target.getId() == null) {
+                throw new GeneNotFoundException(patientId, value.getDiagnosisId(), value.getGeneId());
+            }
+            target.setGeneValue(value.getGeneValue());
+            geneValuesResult.add(target);
+        }
+        return geneMapper.toListOutputDto(patientId, geneValuesRepository.saveAll(geneValuesResult).stream().toList());
+    }
+
     private GeneValue getGeneValue(UUID patientId, Integer diagnosisId, Long geneId) {
         Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new PatientNotFoundException(patientId));
         DiagnosisGene diagnosisGene = diagnosisGeneRepository.findByDiagnosis_IdAndGene_Id(diagnosisId, geneId)
