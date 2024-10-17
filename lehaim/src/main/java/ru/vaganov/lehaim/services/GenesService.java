@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.groupingBy;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -42,16 +44,13 @@ public class GenesService {
         return geneMapper.toDTO(genes);
     }
 
-    public Map<Integer, GeneValueOutputDTO> getGeneValuesForPatient(UUID patientId) {
+    public Map<Integer, List<GeneValueOutputDTO>> getGeneValuesForPatient(UUID patientId) {
         if (!patientRepository.existsById(patientId)) {
             throw new PatientNotFoundException(patientId);
         }
 
-        return geneValuesRepository.findByPatient_Id(patientId).stream().map(geneMapper::toOutputDTO)
-                .collect(Collectors.toMap(
-                        GeneValueOutputDTO::getDiagnosisId,
-                        value -> value
-                ));
+       return geneValuesRepository.findByPatient_Id(patientId).stream().map(geneMapper::toOutputDTO)
+                .collect(groupingBy(GeneValueOutputDTO::getDiagnosisId));
     }
 
     public List<GeneDTO> getGeneCatalog() {

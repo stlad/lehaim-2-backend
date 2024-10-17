@@ -54,7 +54,7 @@ public class GeneController {
 
     @Operation(summary = "Получить значения генов для пациента")
     @GetMapping("/{patientId}")
-    public ResponseEntity<Map<Integer, GeneValueOutputDTO>> updateGeneValues(@PathVariable UUID patientId) {
+    public ResponseEntity<Map<Integer, List<GeneValueOutputDTO>>> updateGeneValues(@PathVariable UUID patientId) {
         return new ResponseEntity<>(genesService.getGeneValuesForPatient(patientId), HttpStatus.OK);
     }
 }
