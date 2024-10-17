@@ -23,4 +23,7 @@ public class OncologicalTestDTO {
 
     @Schema(description = "Список графиков, которые возможно отобразить по текущему обследованию")
     List<ChartType> possibleCharts;
+
+    @Schema(description = "Заметки к анализу")
+    private String testNote;
 }

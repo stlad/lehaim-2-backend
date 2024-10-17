@@ -62,6 +62,7 @@ public class OncologicalTestService {
 
         OncologicalTest newTest = new OncologicalTest();
         newTest.setTestDate(dto.getTestDate());
+        newTest.setTestNote(dto.getTestNote());
         newTest.setPatientOwner(patient);
         newTest = oncologicalTestRepository.save(newTest);
 
@@ -76,7 +77,7 @@ public class OncologicalTestService {
                     .parameter(parameter).build();
             results.add(resultRepo.save(result));
         }
-        return testMapper.toRestDto(newTest.getId(), newTest.getTestDate(), results);
+        return testMapper.toRestDto(newTest.getId(), newTest.getTestDate(), newTest.getTestNote(), results);
     }
 
     public List<ParameterResultDTO> getAllResultsByTestId(Long testId) {
@@ -95,6 +96,9 @@ public class OncologicalTestService {
                 throw new OncologicalTestExistsException(ownerId, requestDTO.getTestDate());
 
             test.setTestDate(requestDTO.getTestDate());
+            if(requestDTO.getTestNote() != null){
+                test.setTestNote(requestDTO.getTestNote());
+            }
             test = oncologicalTestRepository.save(test);
         }
 
@@ -115,7 +119,7 @@ public class OncologicalTestService {
 
         }
         List<ParameterResult> results = resultRepo.findByAttachedTest_Id(testId);
-        return testMapper.toRestDto(test.getId(), test.getTestDate(), results);
+        return testMapper.toRestDto(test.getId(), test.getTestDate(), test.getTestNote(), results);
     }
 
     public OncologicalTestRestDTO findOncologicalTestById(UUID patientId, Long testId) {
@@ -123,6 +127,6 @@ public class OncologicalTestService {
                 .orElseThrow(() -> new OncologicalTestNotFoundException(testId));
 
         List<ParameterResult> results = resultRepo.findByAttachedTest_Id(testId);
-        return testMapper.toRestDto(test.getId(), test.getTestDate(), results);
+        return testMapper.toRestDto(test.getId(), test.getTestDate(), test.getTestNote(), results);
     }
 }
