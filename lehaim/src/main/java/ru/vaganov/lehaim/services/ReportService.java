@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.vaganov.lehaim.dictionary.TestSeason;
-import ru.vaganov.lehaim.dto.oncotests.OncologicalTestRestDTO;
 import ru.vaganov.lehaim.dto.ParameterDTO;
 import ru.vaganov.lehaim.dto.ParameterResultDTO;
 import ru.vaganov.lehaim.dto.ReportData;
+import ru.vaganov.lehaim.dto.oncotests.OncologicalTestRestDTO;
 import ru.vaganov.lehaim.mappers.ParameterMapper;
 import ru.vaganov.lehaim.mappers.ParameterResultMapper;
 import ru.vaganov.lehaim.models.OncologicalTest;
@@ -37,6 +37,7 @@ public class ReportService {
         reportData.setCurrentTestDate(test.getTestDate());
         reportData.setCurrentResults(oncologicalTestService.getAllResultsByTestId(testId));
         reportData.setSeason(TestSeason.ofDate(test.getTestDate()));
+        reportData.setCurrentTestNote(test.getTestNote());
 
         List<OncologicalTest> prevTests = oncologicalTestRepository.findAllByPatientOwner_IdAndTestDateBefore(patientId, test.getTestDate());
 

@@ -14,6 +14,7 @@ public class ReportData {
     private PatientDTO patient;
     private Long testId;
     private LocalDate currentTestDate;
+    private String currentTestNote;
     private List<ParameterResultDTO> currentResults;
     private List<ParameterResultDTO> previousResults;
     private TestSeason season;
