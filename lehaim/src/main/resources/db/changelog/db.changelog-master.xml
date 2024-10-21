@@ -20,4 +20,8 @@
     <include file="/db/changelog/migrations/v1_12_insert_genes.xml" />
     <include file="/db/changelog/migrations/v1_13_alter_genes.xml" />
     <include file="/db/changelog/migrations/v1_14_add_note_to_oncological_test.xml" />
+
+
+
+    <include file="/db/changelog/migrations_v2/2024-10-21-changelog.xml" />
 </databaseChangeLog>
