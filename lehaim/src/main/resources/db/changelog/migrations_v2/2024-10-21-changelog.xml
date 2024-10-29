@@ -5,21 +5,35 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
     <changeSet id="resize_m_param" author="Vaganov.VS">
-        <modifyDataType tableName="patient" columnName="m" newDataType="varchar(100)" />
+        <modifyDataType tableName="patient" columnName="m" newDataType="varchar(100)"/>
     </changeSet>
 
     <changeSet id="update_her2neu_and_ki67_gene_possible_values" author="Vaganov.VS">
         <!--        update HER2Neu      -->
-        <update tableName="genes_catalog" >
-            <column name="possible_values" value="0;1+;2+;3+" />
+        <update tableName="genes_catalog">
+            <column name="possible_values" value="0;1+;2+;3+"/>
             <where>id=2</where>
         </update>
 
         <!--        update ki67      -->
-        <update tableName="genes_catalog" >
+        <update tableName="genes_catalog">
             <column name="possible_values"
-                    value="[0-5);[5-10);[10-15);[15-20);[20-25);[25-30);[30-40);[40-50);[50-60);[60-70);[70-80);[80-100]" />
+                    value="[0-5);[5-10);[10-15);[15-20);[20-25);[25-30);[30-40);[40-50);[50-60);[60-70);[70-80);[80-100]"/>
             <where>id=20</where>
         </update>
     </changeSet>
+
+    <changeSet id="update_er_and_pr_gene_possible_values" author="Vaganov.VS">
+        <!--        update ER      -->
+        <update tableName="genes_catalog">
+            <column name="possible_values" value="0;1-2;3-4;5-8"/>
+            <where>id=18</where>
+        </update>
+        <!--        update PR      -->
+        <update tableName="genes_catalog">
+            <column name="possible_values" value="0;1-2;3-4;5-8"/>
+            <where>id=19</where>
+        </update>
+    </changeSet>
+
 </databaseChangeLog>
