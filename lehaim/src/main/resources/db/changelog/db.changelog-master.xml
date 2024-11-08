@@ -24,4 +24,5 @@
 
 
     <include file="/db/changelog/migrations_v2/2024-10-21-changelog.xml" />
+    <include file="/db/changelog/migrations_v2/2024-11-01-changelog.xml" />
 </databaseChangeLog>

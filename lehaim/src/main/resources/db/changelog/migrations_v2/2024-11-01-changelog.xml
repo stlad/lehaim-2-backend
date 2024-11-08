@@ -1,0 +1,27 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="add_g__and__additional_diagnosis__to__patient" author="Vaganov.VS">
+        <addColumn tableName="patient">
+            <column name="g" type="varchar" remarks="G"/>
+        </addColumn>
+        <addColumn tableName="patient">
+            <column name="additional_diagnosis" type="varchar" remarks="Дополнительный диагноз"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="update__possible_values__in__genes" author="Vaganov.VS">
+        <!--        update ki67      -->
+        <update tableName="genes_catalog">
+            <column name="possible_values" value="&lt;1;1-14;15-30;31-70;71-100"/>
+            <where>id=20</where>
+        </update>
+        <update tableName="genes_catalog">
+            <column name="possible_values" value="-(отр.);+(пол.)"/>
+            <where>id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26)</where>
+        </update>
+    </changeSet>
+</databaseChangeLog>
