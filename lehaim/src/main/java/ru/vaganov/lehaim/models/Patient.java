@@ -37,6 +37,7 @@ public class Patient {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "diagnosis_id", referencedColumnName = "id")
     private Diagnosis diagnosis;
+    private String additionalDiagnosis;
 
     private String info;
     private String operationComments;

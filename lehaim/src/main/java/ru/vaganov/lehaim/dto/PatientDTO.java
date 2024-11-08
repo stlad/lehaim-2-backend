@@ -54,8 +54,12 @@ public class PatientDTO {
     @Schema(description = "Дата операции")
     private LocalDate operationDate;
 
+    @Schema(description = "Дополнительный диагноз. Для С50")
+    private String additionalDiagnosis;
+
 
     private String t;
     private String n;
     private String m;
+    private String g;
 }
