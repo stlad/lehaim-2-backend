@@ -32,6 +32,7 @@ public class Patient {
     private String t;
     private String n;
     private String m;
+    private String g;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.SET_NULL)
