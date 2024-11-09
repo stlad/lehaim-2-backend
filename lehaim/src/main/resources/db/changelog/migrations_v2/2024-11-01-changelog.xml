@@ -24,4 +24,10 @@
             <where>id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26)</where>
         </update>
     </changeSet>
+
+    <changeSet id="resize_g_t_n_param" author="Vaganov.VS">
+        <modifyDataType tableName="patient" columnName="t" newDataType="varchar(100)"/>
+        <modifyDataType tableName="patient" columnName="n" newDataType="varchar(100)"/>
+        <modifyDataType tableName="patient" columnName="g" newDataType="varchar(100)"/>
+    </changeSet>
 </databaseChangeLog>
