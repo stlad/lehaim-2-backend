@@ -1,0 +1,38 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="Переименование таблиц" author="Vaganov.VS">
+        <renameTable oldTableName="diagnoses_catalog" newTableName="t_list_diagnosis" />
+        <renameTable oldTableName="diagnoses_genes_catalog" newTableName="t_list_diagnosis_gene" />
+        <renameTable oldTableName="genes_catalog" newTableName="t_list_gene" />
+        <renameTable oldTableName="gene_value" newTableName="t_gene_value" />
+        <renameTable oldTableName="parameter_catalog" newTableName="t_list_parameter" />
+        <renameTable oldTableName="oncological_tests" newTableName="t_oncological_test" />
+        <renameTable oldTableName="parameter_result" newTableName="t_parameter_result" />
+        <renameTable oldTableName="patient" newTableName="t_patient" />
+        <renameTable oldTableName="recommendations" newTableName="t_recommendation" />
+        <renameTable oldTableName="cytokine_chart_states" newTableName="t_cytokine_chart_state" />
+        <renameTable oldTableName="regeneration_chart_states" newTableName="t_regeneration_chart_state" />
+        <renameTable oldTableName="systemic_inflammation_chart_states" newTableName="t_systemic_inflammation_chart_state" />
+    </changeSet>
+
+    <changeSet id="Переименование внешних ключей" author="Vaganov.VS">
+        <renameColumn tableName="t_list_diagnosis_gene" oldColumnName="gene_id" newColumnName="link_gene" />
+        <renameColumn tableName="t_list_diagnosis_gene" oldColumnName="diagnosis_id" newColumnName="link_diagnosis" />
+        <renameColumn tableName="t_oncological_test" oldColumnName="patient_id" newColumnName="link_patient" />
+        <renameColumn tableName="t_parameter_result" oldColumnName="catalog_id" newColumnName="link_parameter" />
+        <renameColumn tableName="t_parameter_result" oldColumnName="test_id" newColumnName="link_oncological_test" />
+        <renameColumn tableName="t_regeneration_chart_state" oldColumnName="diagnosis_id" newColumnName="link_diagnosis" />
+        <renameColumn tableName="t_regeneration_chart_state" oldColumnName="recommendation_id" newColumnName="link_recommendation" />
+        <renameColumn tableName="t_systemic_inflammation_chart_state" oldColumnName="diagnosis_id" newColumnName="link_diagnosis" />
+        <renameColumn tableName="t_systemic_inflammation_chart_state" oldColumnName="recommendation_id" newColumnName="link_recommendation" />
+        <renameColumn tableName="t_cytokine_chart_state" oldColumnName="diagnosis_id" newColumnName="link_diagnosis" />
+        <renameColumn tableName="t_cytokine_chart_state" oldColumnName="recommendation_id" newColumnName="link_recommendation" />
+        <renameColumn tableName="t_gene_value" oldColumnName="patient_id" newColumnName="link_patient" />
+        <renameColumn tableName="t_gene_value" oldColumnName="diagnosis_gene_id" newColumnName="link_diagnosis_gene" />
+        <renameColumn tableName="t_patient" oldColumnName="diagnosis_id" newColumnName="link_diagnosis" />
+    </changeSet>
+</databaseChangeLog>
