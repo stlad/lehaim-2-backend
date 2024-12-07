@@ -13,8 +13,12 @@ import ru.vaganov.lehaim.dictionary.Gender;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
+@Table(name = "t_patient")
 public class Patient {
 
     @Id
@@ -36,7 +40,7 @@ public class Patient {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "diagnosis_id", referencedColumnName = "id")
+    @JoinColumn(name = "link_diagnosis", referencedColumnName = "id")
     private Diagnosis diagnosis;
     private String additionalDiagnosis;
 
@@ -52,7 +56,7 @@ public class Patient {
 
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("(%s) %s %s", getId(), getLastname(), getName());
     }
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 @Data
 @Entity
-@Table(name = "regeneration_chart_states")
+@Table(name = "t_regeneration_chart_state")
 public class RegenerationChartState {
     @Id
     @GeneratedValue
@@ -53,12 +53,12 @@ public class RegenerationChartState {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "diagnosis_Id", referencedColumnName = "id")
+    @JoinColumn(name = "link_diagnosis", referencedColumnName = "id")
     private Diagnosis diagnosis;
 
     @OneToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "recommendation_id", referencedColumnName = "id")
+    @JoinColumn(name = "link_recommendation", referencedColumnName = "id")
     private Recommendation recommendation;
 
     @Getter

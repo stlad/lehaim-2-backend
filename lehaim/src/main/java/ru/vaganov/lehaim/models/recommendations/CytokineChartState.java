@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 @Data
 @Entity
-@Table(name = "cytokine_chart_states")
+@Table(name = "t_cytokine_chart_state")
 public class CytokineChartState {
     @Id
     @GeneratedValue
@@ -37,12 +37,12 @@ public class CytokineChartState {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "diagnosis_Id", referencedColumnName = "id")
+    @JoinColumn(name = "link_diagnosis", referencedColumnName = "id")
     private Diagnosis diagnosis;
 
     @OneToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "recommendation_Id", referencedColumnName = "id")
+    @JoinColumn(name = "link_recommendation", referencedColumnName = "id")
     private Recommendation recommendation;
 
     @Getter
