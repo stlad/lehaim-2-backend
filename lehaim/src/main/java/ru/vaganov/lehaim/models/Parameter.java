@@ -6,9 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "parameter_catalog", uniqueConstraints={@UniqueConstraint(columnNames={"name", "additionalName"})})
+@Table(name = "t_list_parameter", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "additionalName"})})
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor @Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Parameter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,22 +29,22 @@ public class Parameter {
     @Enumerated(value = EnumType.STRING)
     private ResearchType researchType;
 
-    public enum ResearchType{
+    public enum ResearchType {
         Hematological, Immunological, Cytokine, None
     }
 
     @Override
-    public String toString(){
-        return String.format("%s (%s) [%.2f : %.2f]",name,additionalName,refMax,refMax);
+    public String toString() {
+        return String.format("%s (%s) [%.2f : %.2f]", name, additionalName, refMax, refMax);
     }
 
-    public void updateFieldsBy(Parameter changes){
-        if(changes.getName()!=null) setName(changes.getName());
-        if(changes.getAdditionalName()!=null) setAdditionalName(changes.getAdditionalName());
-        if(changes.getUnit()!=null) setUnit(changes.getUnit());
-        if(changes.getRefMin()!=null) setRefMin(changes.getRefMin());
-        if(changes.getRefMax()!=null) setRefMax(changes.getRefMax());
-        if(changes.getResearchType()!=null) setResearchType(changes.getResearchType());
+    public void updateFieldsBy(Parameter changes) {
+        if (changes.getName() != null) setName(changes.getName());
+        if (changes.getAdditionalName() != null) setAdditionalName(changes.getAdditionalName());
+        if (changes.getUnit() != null) setUnit(changes.getUnit());
+        if (changes.getRefMin() != null) setRefMin(changes.getRefMin());
+        if (changes.getRefMax() != null) setRefMax(changes.getRefMax());
+        if (changes.getResearchType() != null) setResearchType(changes.getResearchType());
     }
 
 }

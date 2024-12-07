@@ -12,7 +12,7 @@ import ru.vaganov.lehaim.models.Patient;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "gene_value")
+@Table(name = "t_gene_value")
 public class GeneValue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +22,11 @@ public class GeneValue {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "patient_id", referencedColumnName = "id")
+    @JoinColumn(name = "link_patient", referencedColumnName = "id")
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "diagnosis_gene_id", referencedColumnName = "id")
+    @JoinColumn(name = "link_diagnosis_gene", referencedColumnName = "id")
     private DiagnosisGene diagnosisGene;
 }

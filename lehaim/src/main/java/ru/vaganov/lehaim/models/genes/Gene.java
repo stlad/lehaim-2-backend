@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "genes_catalog")
+@Table(name = "t_list_gene")
 public class Gene {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

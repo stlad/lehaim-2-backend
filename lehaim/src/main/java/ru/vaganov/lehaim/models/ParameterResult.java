@@ -8,8 +8,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-@Data @Builder @NoArgsConstructor @AllArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "t_parameter_result")
 public class ParameterResult {
 
     @Id
@@ -19,16 +23,16 @@ public class ParameterResult {
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "catalog_id", referencedColumnName = "id")
+    @JoinColumn(name = "link_parameter", referencedColumnName = "id")
     private Parameter parameter;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "test_id", referencedColumnName = "id")
+    @JoinColumn(name = "link_oncological_test", referencedColumnName = "id")
     private OncologicalTest attachedTest;
 
-    public boolean isValid(){
-        if(parameter == null) return false;
+    public boolean isValid() {
+        if (parameter == null) return false;
         return parameter.getRefMin() <= value && value <= parameter.getRefMax();
     }
 
