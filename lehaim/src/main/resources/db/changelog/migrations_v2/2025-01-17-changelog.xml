@@ -1,0 +1,39 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="Добавление колонки дефолтных значений для ген" author="IFedik">
+        <addColumn tableName="t_list_gene">
+            <column name="default_value" type="varchar" remarks="Значение по умолчанию" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="Добавление дефолтных значений ген для С50" author="IFedik">
+        <!-- ER-->
+        <update tableName="t_list_gene">
+            <column name="default_value" value="0"/>
+            <where>id=18</where>
+        </update>
+
+        <!-- PR-->
+        <update tableName="t_list_gene">
+            <column name="default_value" value="0"/>
+            <where>id=19</where>
+        </update>
+
+        <!-- Ki67-->
+        <update tableName="t_list_gene">
+            <column name="default_value" value="&lt;1"/>
+            <where>id=20</where>
+        </update>
+
+        <!-- HER2neu-->
+        <update tableName="t_list_gene">
+            <column name="default_value" value="0"/>
+            <where>id=21</where>
+        </update>
+    </changeSet>
+
+</databaseChangeLog>

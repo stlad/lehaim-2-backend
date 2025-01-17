@@ -18,4 +18,7 @@ public class GeneDTO {
     @Schema(description = "Список возможных значений")
     private String[] possibleValues;
 
+    @Schema(description = "Значение по умолчанию")
+    private String defaultValue;
+
 }

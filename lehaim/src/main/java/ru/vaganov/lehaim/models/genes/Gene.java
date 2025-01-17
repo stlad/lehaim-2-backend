@@ -18,4 +18,6 @@ public class Gene {
     private String geneName;
 
     private String possibleValues;
+
+    private String defaultValue;
 }

@@ -41,5 +41,6 @@ public interface GeneMapper {
     @Mapping(target = "id", source = "gene.id")
     @Mapping(target = "geneName", source = "gene.geneName")
     @Mapping(target = "possibleValues", expression = "java(diagnosisGene.getGene().getPossibleValues().split(\"" + SEPARATOR + "\"))")
+    @Mapping(target = "defaultValue", source = "gene.defaultValue")
     GeneDTO extractGeneDTO(DiagnosisGene diagnosisGene);
 }
