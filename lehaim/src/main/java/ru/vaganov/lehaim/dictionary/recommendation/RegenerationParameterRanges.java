@@ -3,20 +3,19 @@ package ru.vaganov.lehaim.dictionary.recommendation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import ru.vaganov.lehaim.dictionary.Gender;
-import ru.vaganov.lehaim.models.Patient;
-
-import java.util.List;
 
 public class RegenerationParameterRanges {
 
     @Getter
     @AllArgsConstructor
     public enum NEU_LYMF implements ParameterRange {
-        RANGE_1(0d, 1.17),
-        RANGE_2(1.17, 1.67),
-        RANGE_3(1.67, 2.1),
-        RANGE_4(2.1, 5.25),
-        RANGE_5(5.25, 10000d);
+        RANGE_1(0d, 0.5),
+        RANGE_2(0.5, 0.85),
+        RANGE_3(0.85, 1.17),
+        RANGE_4(1.17, 1.67),
+        RANGE_5(1.67, 2.1),
+        RANGE_6(2.1, 5.25),
+        RANGE_7(5.25, 10000d);
 
         private final Double startRange;
         private final Double endRange;
@@ -29,11 +28,13 @@ public class RegenerationParameterRanges {
     @Getter
     @AllArgsConstructor
     public enum NEU_MON implements ParameterRange {
-        RANGE_1(0d, 4.48),
-        RANGE_2(4.48, 6.4),
-        RANGE_3(6.4, 12.8),
-        RANGE_4(12.8, 32d),
-        RANGE_5(32d, 10000d);
+        RANGE_1(0d, 2.1),
+        RANGE_2(2.1, 3.2),
+        RANGE_3(3.2, 4.48),
+        RANGE_4(4.48, 6.4),
+        RANGE_5(6.4, 12.8),
+        RANGE_6(12.8, 32d),
+        RANGE_7(32d, 10000d);
 
         private final Double startRange;
         private final Double endRange;
@@ -46,11 +47,13 @@ public class RegenerationParameterRanges {
     @Getter
     @AllArgsConstructor
     public enum LYMF_MON implements ParameterRange {
-        RANGE_1(0d, 2.38),
-        RANGE_2(2.38, 3.4),
-        RANGE_3(3.4, 6.1),
-        RANGE_4(6.1, 15.25),
-        RANGE_5(15.25, 10000d);
+        RANGE_1(0d, 1.1),
+        RANGE_2(1.1, 1.7),
+        RANGE_3(1.7, 2.38),
+        RANGE_4(2.38, 3.4),
+        RANGE_5(3.4, 6.1),
+        RANGE_6(6.1, 15.25),
+        RANGE_7(15.25, 10000d);
 
         private final Double startRange;
         private final Double endRange;
