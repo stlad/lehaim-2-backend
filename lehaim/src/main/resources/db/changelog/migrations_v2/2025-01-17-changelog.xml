@@ -36,4 +36,10 @@
         </update>
     </changeSet>
 
+    <changeSet id="Отчистка таблиц с рекомендациями из-за изменений диапазонов" author="Vaganov Vladislav">
+        <delete tableName="t_cytokine_chart_state" />
+        <delete tableName="t_systemic_inflammation_chart_state" />
+        <delete tableName="t_regeneration_chart_state" />
+        <delete tableName="t_recommendation" />
+    </changeSet>
 </databaseChangeLog>
