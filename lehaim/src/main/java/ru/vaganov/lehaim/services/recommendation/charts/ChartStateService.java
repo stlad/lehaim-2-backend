@@ -77,12 +77,25 @@ public abstract class ChartStateService {
      */
     protected Double getDivisionForChartAxis(ParameterChartAxis axis, List<ParameterResult> results,
                                              List<String> validationErrors) {
-        Double firstParam = getParamResult(axis.getFirstParamId(), results, validationErrors);
-        Double secondParam = getParamResult(axis.getSecondParamId(), results, validationErrors);
+        return getDivisionOfParameters(axis.getFirstParamId(), axis.getSecondParamId(), results, validationErrors);
+    }
+
+
+    /** Получить значение-отношение двух параметров. Если невозможно - записать в список ошибок
+     * @param firstParamId идонтификатор 1 параметра
+     * @param secondParamId идонтификатор 2 параметра
+     * @param results список результатов в обследовании
+     * @param validationErrors список ошибок
+     * @return значние-отношения параметров для оси
+     */
+    protected Double getDivisionOfParameters(Long firstParamId, Long secondParamId, List<ParameterResult> results,
+                                   List<String> validationErrors){
+        Double firstParam = getParamResult(firstParamId, results, validationErrors);
+        Double secondParam = getParamResult(secondParamId, results, validationErrors);
         if (firstParam == null || secondParam == null || secondParam == 0) {
             if (secondParam != null && secondParam == 0) {
-                Parameter param = catalogRepository.findById(axis.getSecondParamId())
-                        .orElseThrow(() -> new ParameterNotFoundException(axis.getSecondParamId()));
+                Parameter param = catalogRepository.findById(secondParamId)
+                        .orElseThrow(() -> new ParameterNotFoundException(secondParamId));
                 validationErrors.add("Значение параметра " + param.toString() + " не должно быть 0");
             }
             return 0d;
