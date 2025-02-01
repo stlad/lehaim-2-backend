@@ -37,19 +37,4 @@ public class TParameterRanges {
             return ParameterRangeUtils.of(value, TParameterRanges.CD4.values());
         }
     }
-
-    @Getter
-    @AllArgsConstructor
-    public enum CD8 implements ParameterRange {
-        RANGE_1(0d, 0.52);
-
-        private final Double startRange;
-        private final Double endRange;
-
-        public static TParameterRanges.CD8 of(Double value) {
-            return ParameterRangeUtils.of(value, TParameterRanges.CD8.values());
-        }
-    }
-
-
 }

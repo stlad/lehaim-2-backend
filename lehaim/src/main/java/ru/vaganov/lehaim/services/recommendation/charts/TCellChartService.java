@@ -5,14 +5,11 @@ import org.springframework.stereotype.Component;
 import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.dictionary.MostUsedParameters;
 import ru.vaganov.lehaim.dictionary.recommendation.TParameterRanges;
-import ru.vaganov.lehaim.exceptions.NotImplementedException;
 import ru.vaganov.lehaim.models.ParameterResult;
 import ru.vaganov.lehaim.models.Patient;
 import ru.vaganov.lehaim.models.recommendations.Recommendation;
-import ru.vaganov.lehaim.models.recommendations.SIChartState;
 import ru.vaganov.lehaim.models.recommendations.TChartState;
 import ru.vaganov.lehaim.repositories.CatalogRepository;
-import ru.vaganov.lehaim.repositories.recommendation.CytokineChartStateRepository;
 import ru.vaganov.lehaim.repositories.recommendation.RecommendationRepository;
 import ru.vaganov.lehaim.repositories.recommendation.TChartStateRepository;
 
@@ -40,12 +37,17 @@ public class TCellChartService extends ChartStateService {
 
     @Override
     public Recommendation saveRecommendation(Recommendation recommendation, Patient patient, List<ParameterResult> results) {
-        throw new NotImplementedException();
+        TChartState state = getState(patient, results);
+        recommendation = recommendationRepository.save(recommendation);
+        state.setRecommendation(recommendation);
+        stateRepository.save(state);
+        return recommendation;
     }
 
     @Override
     public Recommendation getRecommendation(Patient patient, List<ParameterResult> results) {
-        throw new NotImplementedException();
+        TChartState state = getState(patient, results);
+        return state.getRecommendation();
     }
 
 
@@ -75,11 +77,12 @@ public class TCellChartService extends ChartStateService {
         }
 
         validateState(validationErrors);
-//        Optional<SIChartState> stateOpt = stateRepository.findState(diagnosis, siriRange, pivRange, neuDensityRange);
-//        if (stateOpt.isPresent()) {
-//            return stateOpt.get();
-//        }
-        return stateRepository.save(stateBuilder.build());
+
+        var state = stateBuilder.build();
+        Optional<TChartState> stateOpt = stateRepository.findState(state.getDiagnosis(),
+                state.getCd4compareCd8(), state.getRangeCd4(), state.getRangeNeuLymf());
+
+        return stateOpt.orElseGet(() -> stateRepository.save(state));
     }
 
     private Integer compareCd4ToCd8(List<ParameterResult> results, List<String> validationErrors) {
@@ -120,7 +123,7 @@ public class TCellChartService extends ChartStateService {
      */
     private void processCD4LessCD8(TChartState.TChartStateBuilder stateBuilder,
                                    List<ParameterResult> results, List<String> validationErrors) {
-        stateBuilder.rangeNeuLymf(getNeuLymfRange(results,validationErrors));
+        stateBuilder.rangeNeuLymf(getNeuLymfRange(results, validationErrors));
     }
 
     private TParameterRanges.NEU_LYMF getNeuLymfRange(List<ParameterResult> results,
