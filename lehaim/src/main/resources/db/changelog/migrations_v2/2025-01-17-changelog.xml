@@ -42,4 +42,33 @@
         <delete tableName="t_regeneration_chart_state" />
         <delete tableName="t_recommendation" />
     </changeSet>
+
+    <changeSet id="Добавдение таблиц состояний Т-клеточного звена" author="Vaganov Vladislav">
+
+        <createTable tableName="t_tcell_chart_state">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="cd4_compare_cd8" type="int" remarks="результат сравнение cd4 и cd8. Возможные значения: -1,0,1"/>
+            <column name="range_neu_lymf" type="varchar" remarks="Принадлежность диапазона по оси neu/lymf"/>
+            <column name="range_cd4" type="varchar"
+                    remarks="Принадлежность диапазона по  cd4"/>
+            <column name="link_diagnosis" type="int" remarks="ID диагноза"/>
+            <column name="link_recommendation" type="uuid" remarks="ID связанной рекомендации"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="t_tcell_chart_state"
+                                 baseColumnNames="link_diagnosis"
+                                 constraintName="t_tcell_chart_state_to_diagnosis_fk"
+                                 referencedTableName="t_list_diagnosis"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+
+        <addForeignKeyConstraint baseTableName="t_tcell_chart_state"
+                                 baseColumnNames="link_recommendation"
+                                 constraintName="t_tcell_chart_state_to_recommendation_fk"
+                                 referencedTableName="t_recommendation"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+    </changeSet>
 </databaseChangeLog>

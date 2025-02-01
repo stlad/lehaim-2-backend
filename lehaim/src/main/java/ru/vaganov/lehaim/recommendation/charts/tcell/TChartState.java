@@ -18,7 +18,7 @@ import java.util.UUID;
 @Builder
 @Data
 @Entity
-@Table(name = "t_cytokine_chart_state")
+@Table(name = "t_tcell_chart_state")
 public class TChartState {
     @Id
     @GeneratedValue
