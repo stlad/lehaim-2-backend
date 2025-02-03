@@ -55,4 +55,17 @@
             <where>id=19</where>
         </update>
     </changeSet>
+
+    <changeSet id="Обновление значение по умлочанию для ER и PR генов" author="Vaganov Vladislav">
+        <!-- ER-->
+        <update tableName="t_list_gene" >
+            <column name="default_value" value="&lt;1"/>
+            <where>id=18</where>
+        </update>
+        <!-- PR-->
+        <update tableName="t_list_gene" >
+            <column name="default_value" value="&lt;1"/>
+            <where>id=19</where>
+        </update>
+    </changeSet>
 </databaseChangeLog>
