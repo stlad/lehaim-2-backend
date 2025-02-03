@@ -42,4 +42,17 @@
         <delete tableName="t_regeneration_chart_state" />
         <delete tableName="t_recommendation" />
     </changeSet>
+
+    <changeSet id="Обновление диапазонов для ER и PR генов" author="Vaganov Vladislav">
+        <!-- ER-->
+        <update tableName="t_list_gene" >
+            <column name="possible_values" value="&lt;1;1-2;3-4;5-8"/>
+            <where>id=18</where>
+        </update>
+        <!-- PR-->
+        <update tableName="t_list_gene" >
+            <column name="possible_values" value="&lt;1;1-2;3-4;5-8"/>
+            <where>id=19</where>
+        </update>
+    </changeSet>
 </databaseChangeLog>
