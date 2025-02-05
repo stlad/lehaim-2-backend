@@ -56,7 +56,7 @@ public class OncologicalTestBuilder {
         return this;
     }
 
-    public OncologicalTest build() {
+    public OncologicalTest buildAndSave() {
         oncologicalTestRepository.save(this.oncologicalTest);
         parameterResultRepository.saveAll(this.results);
         return oncologicalTest;

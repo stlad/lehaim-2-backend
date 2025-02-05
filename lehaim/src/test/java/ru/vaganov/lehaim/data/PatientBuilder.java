@@ -1,7 +1,5 @@
 package ru.vaganov.lehaim.data;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import ru.vaganov.lehaim.models.Patient;
 import ru.vaganov.lehaim.repositories.DiagnosisRepository;
 import ru.vaganov.lehaim.repositories.PatientRepository;
@@ -26,22 +24,27 @@ public class PatientBuilder {
                 .build();
     }
 
-    public PatientBuilder withName(String name){
+    public PatientBuilder withName(String name) {
         patient.setName(name);
         return this;
     }
 
-    public PatientBuilder withLastname(String lastName){
+    public PatientBuilder withLastname(String lastName) {
         patient.setLastname(lastName);
         return this;
     }
 
-    public PatientBuilder withPatronymic(String patronymic){
+    public PatientBuilder withPatronymic(String patronymic) {
         patient.setPatronymic(patronymic);
         return this;
     }
 
-    public Patient build(){
+    public PatientBuilder withDiagnosis(String diagnosisCode) {
+        patient.setDiagnosis(diagnosisRepository.findByCode(diagnosisCode).orElseThrow());
+        return this;
+    }
+
+    public Patient buildAndSave() {
         return patientRepository.save(this.patient);
     }
 }

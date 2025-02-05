@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -28,4 +29,7 @@ public class OncologicalTest {
     private Patient patientOwner;
 
     private String testNote;
+
+    @OneToMany(mappedBy = "attachedTest", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<ParameterResult> results;
 }
