@@ -7,9 +7,9 @@ import ru.vaganov.lehaim.dictionary.MostUsedParameters;
 import ru.vaganov.lehaim.models.ParameterResult;
 import ru.vaganov.lehaim.models.Patient;
 import ru.vaganov.lehaim.recommendation.Recommendation;
+import ru.vaganov.lehaim.recommendation.RecommendationRepository;
 import ru.vaganov.lehaim.recommendation.charts.ChartStateService;
 import ru.vaganov.lehaim.repositories.CatalogRepository;
-import ru.vaganov.lehaim.recommendation.RecommendationRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class TCellChartService extends ChartStateService {
 
     @Override
     public Recommendation saveRecommendation(Recommendation recommendation, Patient patient, List<ParameterResult> results) {
-        log.info("Получение рекомендации для пациента {}",patient.getId());
+        log.info("Получение рекомендации для пациента {}", patient.getId());
         TChartState state = getState(patient, results);
         recommendation = recommendationRepository.save(recommendation);
         state.setRecommendation(recommendation);
@@ -58,21 +58,12 @@ public class TCellChartService extends ChartStateService {
         stateBuilder.diagnosis(patient.getDiagnosis());
         stateBuilder.cd4compareCd8(cd4ToCd8);
 
-        switch (cd4ToCd8) {
-            case 1: {
-                processCD4GreaterCD8(stateBuilder, results, validationErrors);
-                break;
-            }
-            case 0: {
-                processCD4EqualCD8(stateBuilder, results, validationErrors);
-                break;
-            }
-            case -1: {
-                processCD4LessCD8(stateBuilder, results, validationErrors);
-                break;
-            }
-            default:
-                throw new IllegalStateException("Не удалось обработать CD4 или CD8");
+        if (cd4ToCd8 != null && cd4ToCd8 == 1) {
+            processCD4GreaterCD8(stateBuilder, results, validationErrors);
+        } else if (cd4ToCd8 != null && cd4ToCd8 == 0) {
+            processCD4EqualCD8(stateBuilder, results, validationErrors);
+        } else if (cd4ToCd8 != null && cd4ToCd8 == -1) {
+            processCD4LessCD8(stateBuilder, results, validationErrors);
         }
 
         validateState(validationErrors);
@@ -87,7 +78,8 @@ public class TCellChartService extends ChartStateService {
     private Integer compareCd4ToCd8(List<ParameterResult> results, List<String> validationErrors) {
         var cd4 = getParamResult(MostUsedParameters.CD4.getId(), results, validationErrors);
         var cd8 = getParamResult(MostUsedParameters.CD8.getId(), results, validationErrors);
-        return cd4.compareTo(cd8);
+        return cd4 != null && cd8 != null
+                ? cd4.compareTo(cd8) : null;
     }
 
     /**

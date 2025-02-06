@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.BaseContextTest;
 import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.dictionary.MostUsedParameters;
+import ru.vaganov.lehaim.exceptions.ChartStateException;
 import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
 import ru.vaganov.lehaim.repositories.ParameterResultRepository;
 
@@ -126,6 +127,22 @@ class TCellChartServiceTest extends BaseContextTest {
         var recommendation2 = tCellChartService.getRecommendation(patient2, results2);
         Assertions.assertNull(recommendation2);
         Assertions.assertEquals(2, stateRepository.count());
+    }
+
+    @Test
+    void saveRecommendation_Throws_whenNoParams() {
+        var patient1 = testData.patient().withDiagnosis("C50").buildAndSave();
+        var test1 = testData.oncologicalTest().withPatient(patient1)
+                .withResult(MostUsedParameters.MON.getId(), 1.)
+                .buildAndSave();
+        var results1 = parameterResultRepository.findByAttachedTest_Id(test1.getId());
+
+        //1 рекомендация + 1 состояние
+
+        Assertions.assertThrows(ChartStateException.class,
+                () -> tCellChartService.saveRecommendation(
+                        testData.recommendation().withRecommendation("рек 1").withChart(ChartType.T_CELL).build(), patient1, results1)
+        );
     }
 
 
