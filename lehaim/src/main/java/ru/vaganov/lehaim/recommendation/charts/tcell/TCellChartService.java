@@ -35,6 +35,7 @@ public class TCellChartService extends ChartStateService {
 
     @Override
     public Recommendation saveRecommendation(Recommendation recommendation, Patient patient, List<ParameterResult> results) {
+        log.info("Получение рекомендации для пациента {}",patient.getId());
         TChartState state = getState(patient, results);
         recommendation = recommendationRepository.save(recommendation);
         state.setRecommendation(recommendation);
