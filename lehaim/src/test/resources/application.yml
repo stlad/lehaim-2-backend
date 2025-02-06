@@ -1,11 +1,6 @@
 spring:
-  datasource:
-    username: user
-    password: passwd
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-test.xml
+    change-log: classpath:db.changelog/db.changelog-test.xml
     contexts: test
   jpa:
     show-sql: true
@@ -14,6 +9,3 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  h2:
-    console:
-      enabled: true
