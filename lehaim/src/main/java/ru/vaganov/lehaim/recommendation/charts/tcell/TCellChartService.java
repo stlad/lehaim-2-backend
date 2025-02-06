@@ -133,7 +133,7 @@ public class TCellChartService extends ChartStateService {
 
     private TParameterRanges.CD4 getCd4Range(List<ParameterResult> results,
                                              List<String> validationErrors) {
-        Double result = getParamResult(MostUsedParameters.CD19.getId(), results, validationErrors);
+        Double result = getParamResult(MostUsedParameters.CD4.getId(), results, validationErrors);
         return result == null ? null : TParameterRanges.CD4.of(result);
     }
 }

@@ -1,7 +1,5 @@
 package ru.vaganov.lehaim.recommendation.charts.tcell;
 
-import org.checkerframework.checker.units.qual.A;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.dictionary.MostUsedParameters;
 import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
 import ru.vaganov.lehaim.repositories.ParameterResultRepository;
-import ru.vaganov.lehaim.repositories.PatientRepository;
 
 
 class TCellChartServiceTest extends BaseContextTest {
@@ -31,21 +28,105 @@ class TCellChartServiceTest extends BaseContextTest {
     }
 
     @Test
-    void getRec(){
-        var patient = testData.patient().withDiagnosis("C50").buildAndSave();
-        var test = testData.oncologicalTest().withPatient(patient)
+    void singleStateTwoPatients() {
+        var patient1 = testData.patient().withDiagnosis("C50").buildAndSave();
+        var test1 = testData.oncologicalTest().withPatient(patient1)
                 .withResult(MostUsedParameters.CD4.getId(), 1.)
                 .withResult(MostUsedParameters.CD8.getId(), 2.)
                 .withResult(MostUsedParameters.NEU.getId(), 5.)
                 .withResult(MostUsedParameters.LYMF.getId(), 5.)
                 .buildAndSave();
-        var results = parameterResultRepository.findByAttachedTest_Id(test.getId());
+        var results1 = parameterResultRepository.findByAttachedTest_Id(test1.getId());
 
-        var recommendation = tCellChartService.getRecommendation(patient, results);
+        //1 рекомендация + 1 состояние
+        var recommendation = tCellChartService.saveRecommendation(
+                testData.recommendation().withRecommendation("рек 1").withChart(ChartType.T_CELL).build(), patient1, results1);
         Assertions.assertNotNull(recommendation);
+        Assertions.assertEquals(1, stateRepository.count());
 
-        var state = stateRepository.findAll().stream().findAny().orElseThrow();
-        Assertions.assertEquals(recommendation, state.getRecommendation());
-        Assertions.assertEquals(-1,state.getCd4compareCd8());
+
+        var patient2 = testData.patient().withDiagnosis("C50").buildAndSave();
+        var test2 = testData.oncologicalTest().withPatient(patient1)
+                .withResult(MostUsedParameters.CD4.getId(), 1.)
+                .withResult(MostUsedParameters.CD8.getId(), 2.)
+                .withResult(MostUsedParameters.NEU.getId(), 5.)
+                .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .buildAndSave();
+        var results2 = parameterResultRepository.findByAttachedTest_Id(test2.getId());
+
+        //1 рекомендация + 1 состояние
+        var recommendation2 = tCellChartService.getRecommendation(patient2, results2);
+        Assertions.assertNotNull(recommendation2);
+        Assertions.assertEquals("рек 1", recommendation2.getRecommendation());
+        Assertions.assertEquals(1, stateRepository.count());
     }
+
+
+    @Test
+    void multipleStateTwoPatients() {
+        var patient1 = testData.patient().withDiagnosis("C50").buildAndSave();
+        var test1 = testData.oncologicalTest().withPatient(patient1)
+                .withResult(MostUsedParameters.CD4.getId(), 1.)
+                .withResult(MostUsedParameters.CD8.getId(), 2.)
+                .withResult(MostUsedParameters.NEU.getId(), 5.)
+                .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .buildAndSave();
+        var results1 = parameterResultRepository.findByAttachedTest_Id(test1.getId());
+
+        //1 рекомендация + 1 состояние
+        var recommendation = tCellChartService.saveRecommendation(
+                testData.recommendation().withRecommendation("рек 1").withChart(ChartType.T_CELL).build(), patient1, results1);
+        Assertions.assertNotNull(recommendation);
+        Assertions.assertEquals(1, stateRepository.count());
+
+
+        var patient2 = testData.patient().withDiagnosis("C50").buildAndSave();
+        var test2 = testData.oncologicalTest().withPatient(patient1)
+                .withResult(MostUsedParameters.CD4.getId(), 2.)
+                .withResult(MostUsedParameters.CD8.getId(), 1.)
+                .withResult(MostUsedParameters.NEU.getId(), 5.)
+                .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .buildAndSave();
+        var results2 = parameterResultRepository.findByAttachedTest_Id(test2.getId());
+
+        //1 рекомендация + 2 состояния
+        var recommendation2 = tCellChartService.getRecommendation(patient2, results2);
+        Assertions.assertNull(recommendation2);
+        Assertions.assertEquals(2, stateRepository.count());
+    }
+
+    @Test
+    void multipleStateTwoPatientsDifferentDiagnosis() {
+        var patient1 = testData.patient().withDiagnosis("C50").buildAndSave();
+        var test1 = testData.oncologicalTest().withPatient(patient1)
+                .withResult(MostUsedParameters.CD4.getId(), 1.)
+                .withResult(MostUsedParameters.CD8.getId(), 2.)
+                .withResult(MostUsedParameters.NEU.getId(), 5.)
+                .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .buildAndSave();
+        var results1 = parameterResultRepository.findByAttachedTest_Id(test1.getId());
+
+        //1 рекомендация + 1 состояние
+        var recommendation = tCellChartService.saveRecommendation(
+                testData.recommendation().withRecommendation("рек 1").withChart(ChartType.T_CELL).build(), patient1, results1);
+        Assertions.assertNotNull(recommendation);
+        Assertions.assertEquals(1, stateRepository.count());
+
+
+        var patient2 = testData.patient().withDiagnosis("C64").buildAndSave();
+        var test2 = testData.oncologicalTest().withPatient(patient1)
+                .withResult(MostUsedParameters.CD4.getId(), 1.)
+                .withResult(MostUsedParameters.CD8.getId(), 2.)
+                .withResult(MostUsedParameters.NEU.getId(), 5.)
+                .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .buildAndSave();
+        var results2 = parameterResultRepository.findByAttachedTest_Id(test2.getId());
+
+        //1 рекомендация + 2 состояния c разными диагнозами
+        var recommendation2 = tCellChartService.getRecommendation(patient2, results2);
+        Assertions.assertNull(recommendation2);
+        Assertions.assertEquals(2, stateRepository.count());
+    }
+
+
 }

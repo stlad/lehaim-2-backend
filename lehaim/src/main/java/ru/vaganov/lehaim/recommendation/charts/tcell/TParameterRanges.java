@@ -5,6 +5,8 @@ import lombok.Getter;
 import ru.vaganov.lehaim.recommendation.utils.ParameterRange;
 import ru.vaganov.lehaim.recommendation.utils.ParameterRangeUtils;
 
+import java.util.Arrays;
+
 public class TParameterRanges {
     @Getter
     @AllArgsConstructor
@@ -28,6 +30,7 @@ public class TParameterRanges {
     @Getter
     @AllArgsConstructor
     public enum CD4 implements ParameterRange {
+        EMPTY(null, null),
         RANGE_1(0d, 0.2),
         RANGE_2(0.2, 0.5),
         RANGE_3(0.5, 4.);
@@ -36,7 +39,8 @@ public class TParameterRanges {
         private final Double endRange;
 
         public static TParameterRanges.CD4 of(Double value) {
-            return ParameterRangeUtils.of(value, TParameterRanges.CD4.values());
+            return ParameterRangeUtils.of(value,
+                    Arrays.stream(CD4.values()).filter(e->e.getStartRange()!=null).toArray(TParameterRanges.CD4[]::new));
         }
     }
 }

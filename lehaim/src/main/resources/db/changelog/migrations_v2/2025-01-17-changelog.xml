@@ -77,7 +77,7 @@
             </column>
             <column name="cd4_compare_cd8" type="int" remarks="результат сравнение cd4 и cd8. Возможные значения: -1,0,1"/>
             <column name="range_neu_lymf" type="varchar" remarks="Принадлежность диапазона по оси neu/lymf"/>
-            <column name="range_cd4" type="varchar"
+            <column name="range_cd4" type="varchar" defaultValue="EMPTY"
                     remarks="Принадлежность диапазона по  cd4"/>
             <column name="link_diagnosis" type="int" remarks="ID диагноза"/>
             <column name="link_recommendation" type="uuid" remarks="ID связанной рекомендации"/>

@@ -34,7 +34,8 @@ public class TChartState {
 
     @Column(name = "range_cd4")
     @Enumerated(EnumType.STRING)
-    private TParameterRanges.CD4 rangeCd4;
+    @Builder.Default
+    private TParameterRanges.CD4 rangeCd4 = TParameterRanges.CD4.EMPTY;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
