@@ -33,4 +33,5 @@ public class BCellChartService extends ChartStateService {
     public Recommendation saveRecommendation(Recommendation recommendation, Patient patient, List<ParameterResult> results) {
         throw new NotImplementedException();
     }
+
 }
