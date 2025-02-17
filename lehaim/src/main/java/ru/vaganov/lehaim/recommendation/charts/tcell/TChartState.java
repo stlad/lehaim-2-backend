@@ -32,6 +32,18 @@ public class TChartState {
     @Enumerated(EnumType.STRING)
     private TParameterRanges.NEU_LYMF rangeNeuLymf;
 
+    @Column(name = "range_neu_cd3")
+    @Enumerated(EnumType.STRING)
+    private TParameterRanges.NEU_CD3 rangeNeuCd3;
+
+    @Column(name = "range_neu_cd4")
+    @Enumerated(EnumType.STRING)
+    private TParameterRanges.NEU_CD4 rangeNeuCd4;
+
+    @Column(name = "range_neu_cd8")
+    @Enumerated(EnumType.STRING)
+    private TParameterRanges.NEU_CD8 rangeNeuCd8;
+
     @Column(name = "range_cd4")
     @Enumerated(EnumType.STRING)
     @Builder.Default

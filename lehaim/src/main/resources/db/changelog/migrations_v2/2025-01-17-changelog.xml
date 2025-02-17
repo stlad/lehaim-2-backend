@@ -99,4 +99,18 @@
                                  referencedColumnNames="id"
                                  onDelete="CASCADE" />
     </changeSet>
+
+    <changeSet id="Обновление рекомендаций т-клеточного звена" author="Vaganov Vladislav">
+        <sql>
+            DELETE FROM t_recommendation rec
+            WHERE rec.id IN( SELECT state.link_recommendation FROM t_tcell_chart_state state )
+        </sql>
+
+        <addColumn tableName="t_tcell_chart_state">
+            <column name="range_neu_cd3" type="varchar" remarks="Принадлежность диапазона по оси neu/cd3"/>
+            <column name="range_neu_cd4" type="varchar" remarks="Принадлежность диапазона по оси neu/cd4"/>
+            <column name="range_neu_cd8" type="varchar" remarks="Принадлежность диапазона по оси neu/cd8"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
