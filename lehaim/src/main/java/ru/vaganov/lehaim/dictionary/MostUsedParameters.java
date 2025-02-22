@@ -13,6 +13,9 @@ public enum MostUsedParameters {
     LYMF(2L),
     MON(3L),
     PLT(8L),
+    /**
+     * общие В-лимфоциты
+     */
     CD19(18L),
     CD8(20L),
     CD4(19L),
@@ -22,7 +25,11 @@ public enum MostUsedParameters {
     TNFa_STIM(38L),
     TNFa_SPON(39L),
     IL2_STIM(40L),
-    IL2_SPON(41L);
+    IL2_SPON(41L),
+    IgA(27L),
+    IgG(28L),
+    IgM(29L),
+    TNK_CELLS(24L);
 
     private Long id;
 }

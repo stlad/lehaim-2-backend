@@ -113,4 +113,57 @@
         </addColumn>
     </changeSet>
 
+
+    <changeSet id="Добавление таблиц состояний B-клеточного звена" author="Vaganov Vladislav">
+        <createTable tableName="t_bcell_chart_state">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="range_iga" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси iga">
+                <constraints nullable="false" />
+            </column>
+            <column name="range_igg" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси igg">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="range_cd19" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси cd19">
+                <constraints nullable="false" />
+            </column>
+            <column name="range_cd19_tnk" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси 19+tnk">
+                <constraints nullable="false" />
+            </column>
+
+
+            <column name="range_neu_lymf" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси neu/lymf">
+                <constraints nullable="false" />
+            </column>
+            <column name="range_neu_cd19" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси neu/cd19">
+                <constraints nullable="false" />
+            </column>
+            <column name="range_neu_cd4" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси neu/cd4">
+                <constraints nullable="false" />
+            </column>
+            <column name="range_cd19_cd4" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси cd19/cd4">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="link_diagnosis" type="int" remarks="ID диагноза"/>
+            <column name="link_recommendation" type="uuid" remarks="ID связанной рекомендации"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="t_bcell_chart_state"
+                                 baseColumnNames="link_diagnosis"
+                                 constraintName="t_bcell_chart_state_to_diagnosis_fk"
+                                 referencedTableName="t_list_diagnosis"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+
+        <addForeignKeyConstraint baseTableName="t_bcell_chart_state"
+                                 baseColumnNames="link_recommendation"
+                                 constraintName="t_bcell_chart_state_to_recommendation_fk"
+                                 referencedTableName="t_recommendation"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+    </changeSet>
 </databaseChangeLog>
