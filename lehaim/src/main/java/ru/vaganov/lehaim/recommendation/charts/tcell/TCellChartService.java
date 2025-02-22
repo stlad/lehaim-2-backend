@@ -66,11 +66,14 @@ public class TCellChartService extends ChartStateService {
             processCD4LessCD8(stateBuilder, results, validationErrors);
         }
 
+        stateBuilder.rangeNeuCd3(getNeuCd3(results, validationErrors));
+        stateBuilder.rangeNeuCd4(getNeuCd4(results, validationErrors));
+        stateBuilder.rangeNeuCd8(getNeuCd8(results, validationErrors));
+
         validateState(validationErrors);
 
         var state = stateBuilder.build();
-        Optional<TChartState> stateOpt = stateRepository.findState(state.getDiagnosis(),
-                state.getCd4compareCd8(), state.getRangeCd4(), state.getRangeNeuLymf());
+        Optional<TChartState> stateOpt = stateRepository.findState(state.getDiagnosis(), state);
 
         return stateOpt.orElseGet(() -> stateRepository.save(state));
     }
@@ -128,5 +131,29 @@ public class TCellChartService extends ChartStateService {
                                              List<String> validationErrors) {
         Double result = getParamResult(MostUsedParameters.CD4.getId(), results, validationErrors);
         return result == null ? null : TParameterRanges.CD4.of(result);
+    }
+
+
+    private TParameterRanges.NEU_CD4 getNeuCd4(List<ParameterResult> results,
+                                                      List<String> validationErrors) {
+        return TParameterRanges.NEU_CD4.of(
+                getDivisionOfParameters(MostUsedParameters.NEU.getId(), MostUsedParameters.CD4.getId(),
+                        results, validationErrors));
+    }
+
+
+    private TParameterRanges.NEU_CD3 getNeuCd3(List<ParameterResult> results,
+                                                      List<String> validationErrors) {
+        return TParameterRanges.NEU_CD3.of(
+                getDivisionOfParameters(MostUsedParameters.NEU.getId(), MostUsedParameters.CD3.getId(),
+                        results, validationErrors));
+    }
+
+
+    private TParameterRanges.NEU_CD8 getNeuCd8(List<ParameterResult> results,
+                                                      List<String> validationErrors) {
+        return TParameterRanges.NEU_CD8.of(
+                getDivisionOfParameters(MostUsedParameters.NEU.getId(), MostUsedParameters.CD8.getId(),
+                        results, validationErrors));
     }
 }

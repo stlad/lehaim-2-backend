@@ -36,6 +36,9 @@ class TCellChartServiceTest extends BaseContextTest {
                 .withResult(MostUsedParameters.CD8.getId(), 2.)
                 .withResult(MostUsedParameters.NEU.getId(), 5.)
                 .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .withResult(MostUsedParameters.CD3.getId(), 0.5)
+                .withResult(MostUsedParameters.CD4.getId(), 0.5)
+                .withResult(MostUsedParameters.CD8.getId(), 0.5)
                 .buildAndSave();
         var results1 = parameterResultRepository.findByAttachedTest_Id(test1.getId());
 
@@ -52,6 +55,9 @@ class TCellChartServiceTest extends BaseContextTest {
                 .withResult(MostUsedParameters.CD8.getId(), 2.)
                 .withResult(MostUsedParameters.NEU.getId(), 5.)
                 .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .withResult(MostUsedParameters.CD3.getId(), 0.5)
+                .withResult(MostUsedParameters.CD4.getId(), 0.5)
+                .withResult(MostUsedParameters.CD8.getId(), 0.5)
                 .buildAndSave();
         var results2 = parameterResultRepository.findByAttachedTest_Id(test2.getId());
 
@@ -71,6 +77,9 @@ class TCellChartServiceTest extends BaseContextTest {
                 .withResult(MostUsedParameters.CD8.getId(), 2.)
                 .withResult(MostUsedParameters.NEU.getId(), 5.)
                 .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .withResult(MostUsedParameters.CD3.getId(), 0.5)
+                .withResult(MostUsedParameters.CD4.getId(), 0.5)
+                .withResult(MostUsedParameters.CD8.getId(), 0.5)
                 .buildAndSave();
         var results1 = parameterResultRepository.findByAttachedTest_Id(test1.getId());
 
@@ -87,6 +96,9 @@ class TCellChartServiceTest extends BaseContextTest {
                 .withResult(MostUsedParameters.CD8.getId(), 1.)
                 .withResult(MostUsedParameters.NEU.getId(), 5.)
                 .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .withResult(MostUsedParameters.CD3.getId(), 0.5)
+                .withResult(MostUsedParameters.CD4.getId(), 0.5)
+                .withResult(MostUsedParameters.CD8.getId(), 0.5)
                 .buildAndSave();
         var results2 = parameterResultRepository.findByAttachedTest_Id(test2.getId());
 
@@ -104,6 +116,9 @@ class TCellChartServiceTest extends BaseContextTest {
                 .withResult(MostUsedParameters.CD8.getId(), 2.)
                 .withResult(MostUsedParameters.NEU.getId(), 5.)
                 .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .withResult(MostUsedParameters.CD3.getId(), 0.5)
+                .withResult(MostUsedParameters.CD4.getId(), 0.5)
+                .withResult(MostUsedParameters.CD8.getId(), 0.5)
                 .buildAndSave();
         var results1 = parameterResultRepository.findByAttachedTest_Id(test1.getId());
 
@@ -120,6 +135,9 @@ class TCellChartServiceTest extends BaseContextTest {
                 .withResult(MostUsedParameters.CD8.getId(), 2.)
                 .withResult(MostUsedParameters.NEU.getId(), 5.)
                 .withResult(MostUsedParameters.LYMF.getId(), 5.)
+                .withResult(MostUsedParameters.CD3.getId(), 0.5)
+                .withResult(MostUsedParameters.CD4.getId(), 0.5)
+                .withResult(MostUsedParameters.CD8.getId(), 0.5)
                 .buildAndSave();
         var results2 = parameterResultRepository.findByAttachedTest_Id(test2.getId());
 
