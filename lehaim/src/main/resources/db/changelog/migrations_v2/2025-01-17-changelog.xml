@@ -115,7 +115,7 @@
 
 
     <changeSet id="Добавление таблиц состояний B-клеточного звена" author="Vaganov Vladislav">
-        <createTable tableName="b_tcell_chart_state">
+        <createTable tableName="t_bcell_chart_state">
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
@@ -152,16 +152,16 @@
             <column name="link_recommendation" type="uuid" remarks="ID связанной рекомендации"/>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="b_tcell_chart_state"
+        <addForeignKeyConstraint baseTableName="t_bcell_chart_state"
                                  baseColumnNames="link_diagnosis"
-                                 constraintName="b_tcell_chart_state_to_diagnosis_fk"
+                                 constraintName="t_bcell_chart_state_to_diagnosis_fk"
                                  referencedTableName="t_list_diagnosis"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE" />
 
-        <addForeignKeyConstraint baseTableName="b_tcell_chart_state"
+        <addForeignKeyConstraint baseTableName="t_bcell_chart_state"
                                  baseColumnNames="link_recommendation"
-                                 constraintName="b_tcell_chart_state_to_recommendation_fk"
+                                 constraintName="t_bcell_chart_state_to_recommendation_fk"
                                  referencedTableName="t_recommendation"
                                  referencedColumnNames="id"
                                  onDelete="CASCADE" />

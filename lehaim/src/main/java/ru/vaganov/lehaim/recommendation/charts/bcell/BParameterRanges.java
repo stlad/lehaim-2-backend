@@ -22,7 +22,7 @@ public class BParameterRanges {
 
         public static BParameterRanges.CD4 of(Double value) {
             return ParameterRangeUtils.of(value,
-                    Arrays.stream(CD4.values()).filter(e->e.getStartRange()!=null).toArray(BParameterRanges.CD4[]::new));
+                    Arrays.stream(CD4.values()).filter(e -> e.getStartRange() != null).toArray(BParameterRanges.CD4[]::new));
         }
     }
 
@@ -41,7 +41,7 @@ public class BParameterRanges {
 
         public static CD19 of(Double value) {
             return ParameterRangeUtils.of(value,
-                    Arrays.stream(CD19.values()).filter(e->e.getStartRange()!=null)
+                    Arrays.stream(CD19.values()).filter(e -> e.getStartRange() != null)
                             .toArray(CD19[]::new));
         }
     }
@@ -61,7 +61,7 @@ public class BParameterRanges {
 
         public static CD19_TNK of(Double value) {
             return ParameterRangeUtils.of(value,
-                    Arrays.stream(CD19_TNK.values()).filter(e->e.getStartRange()!=null)
+                    Arrays.stream(CD19_TNK.values()).filter(e -> e.getStartRange() != null)
                             .toArray(CD19_TNK[]::new));
         }
     }
@@ -78,7 +78,7 @@ public class BParameterRanges {
 
         public static BParameterRanges.IgA of(Double value) {
             return ParameterRangeUtils.of(value,
-                    Arrays.stream(IgA.values()).filter(e->e.getStartRange()!=null)
+                    Arrays.stream(IgA.values()).filter(e -> e.getStartRange() != null)
                             .toArray(BParameterRanges.IgA[]::new));
         }
     }
@@ -95,7 +95,7 @@ public class BParameterRanges {
 
         public static BParameterRanges.IgG of(Double value) {
             return ParameterRangeUtils.of(value,
-                    Arrays.stream(IgG.values()).filter(e->e.getStartRange()!=null)
+                    Arrays.stream(IgG.values()).filter(e -> e.getStartRange() != null)
                             .toArray(BParameterRanges.IgG[]::new));
         }
     }
@@ -118,7 +118,7 @@ public class BParameterRanges {
 
         public static BParameterRanges.NEU_LYMF of(Double value) {
             return ParameterRangeUtils.of(value,
-                    Arrays.stream(NEU_LYMF.values()).filter(e->e.getStartRange()!=null)
+                    Arrays.stream(NEU_LYMF.values()).filter(e -> e.getStartRange() != null)
                             .toArray(BParameterRanges.NEU_LYMF[]::new));
         }
     }
@@ -139,7 +139,7 @@ public class BParameterRanges {
 
         public static BParameterRanges.NEU_CD19 of(Double value) {
             return ParameterRangeUtils.of(value,
-                    Arrays.stream(NEU_CD19.values()).filter(e->e.getStartRange()!=null)
+                    Arrays.stream(NEU_CD19.values()).filter(e -> e.getStartRange() != null)
                             .toArray(BParameterRanges.NEU_CD19[]::new));
         }
     }
@@ -160,7 +160,7 @@ public class BParameterRanges {
 
         public static BParameterRanges.NEU_CD4 of(Double value) {
             return ParameterRangeUtils.of(value,
-                    Arrays.stream(NEU_CD4.values()).filter(e->e.getStartRange()!=null)
+                    Arrays.stream(NEU_CD4.values()).filter(e -> e.getStartRange() != null)
                             .toArray(BParameterRanges.NEU_CD4[]::new));
         }
     }
@@ -181,7 +181,7 @@ public class BParameterRanges {
 
         public static BParameterRanges.CD19_CD4 of(Double value) {
             return ParameterRangeUtils.of(value,
-                    Arrays.stream(CD19_CD4.values()).filter(e->e.getStartRange()!=null)
+                    Arrays.stream(CD19_CD4.values()).filter(e -> e.getStartRange() != null)
                             .toArray(BParameterRanges.CD19_CD4[]::new));
         }
     }

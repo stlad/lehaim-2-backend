@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.vaganov.lehaim.models.Diagnosis;
-import ru.vaganov.lehaim.recommendation.charts.tcell.TChartState;
 
 import java.util.Optional;
 import java.util.UUID;

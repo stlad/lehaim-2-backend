@@ -17,7 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "b_tcell_chart_state")
+@Table(name = "t_bcell_chart_state")
 @Builder
 public class BChartState {
     @Id
@@ -65,7 +65,6 @@ public class BChartState {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private BParameterRanges.CD19_CD4 rangeCd19Cd4 = BParameterRanges.CD19_CD4.EMPTY;
-
 
 
     @ManyToOne
