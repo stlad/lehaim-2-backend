@@ -8,8 +8,11 @@ import ru.vaganov.lehaim.exceptions.NotImplementedException;
 import ru.vaganov.lehaim.models.ParameterResult;
 import ru.vaganov.lehaim.models.Patient;
 import ru.vaganov.lehaim.recommendation.Recommendation;
+import ru.vaganov.lehaim.recommendation.RecommendationRepository;
 import ru.vaganov.lehaim.recommendation.charts.ChartStateService;
 import ru.vaganov.lehaim.recommendation.charts.tcell.TChartState;
+import ru.vaganov.lehaim.recommendation.charts.tcell.TChartStateRepository;
+import ru.vaganov.lehaim.recommendation.charts.tcell.TParameterRanges;
 import ru.vaganov.lehaim.repositories.CatalogRepository;
 
 import java.util.ArrayList;
@@ -19,8 +22,14 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class BCellChartService extends ChartStateService {
-    public BCellChartService(CatalogRepository catalogRepository) {
+    private final BChartStateRepository stateRepository;
+    private final RecommendationRepository recommendationRepository;
+
+    public BCellChartService(CatalogRepository catalogRepository, BChartStateRepository stateRepository,
+                             RecommendationRepository recommendationRepository) {
         super(catalogRepository);
+        this.stateRepository = stateRepository;
+        this.recommendationRepository = recommendationRepository;
     }
 
     @Override
@@ -30,45 +39,102 @@ public class BCellChartService extends ChartStateService {
 
     @Override
     public Recommendation getRecommendation(Patient patient, List<ParameterResult> results) {
-        throw new NotImplementedException();
+        BChartState state = getState(patient, results);
+        return state.getRecommendation();
     }
 
     @Override
     public Recommendation saveRecommendation(Recommendation recommendation, Patient patient, List<ParameterResult> results) {
-        throw new NotImplementedException();
+        log.info("Получение рекомендации для пациента {}", patient.getId());
+        BChartState state = getState(patient, results);
+        recommendation = recommendationRepository.save(recommendation);
+        state.setRecommendation(recommendation);
+        stateRepository.save(state);
+        return recommendation;
     }
 
-    private TChartState getState(Patient patient, List<ParameterResult> results) {
+    private BChartState getState(Patient patient, List<ParameterResult> results) {
         List<String> validationErrors = new ArrayList<>();
         var stateBuilder = BChartState.builder();
         stateBuilder.diagnosis(patient.getDiagnosis());
 
         var igmValue = getParamResult(MostUsedParameters.IgM.getId(), results, validationErrors);
         if (igmValue >= 5) {
-            //b_lymf set none
-            //iga set none
-            //igg set none
+            stateBuilder.rangeCd19(BParameterRanges.CD19.EMPTY);
         } else if (igmValue > 0.45) {
-            //b_lymf диапазон
-            //iga set none
-            //igg set none
+            stateBuilder.rangeCd19(getCd19(results, validationErrors));
         } else {
-            //b_lymf+tna диапазон
-            //iga set диапазон
-            //igg set диапазон
+            stateBuilder.rangeCd19Tnk(getCd19Tnk(results, validationErrors));
+            stateBuilder.rangeIga(getIga(results,validationErrors));
+            stateBuilder.rangeIgg(getIgg(results,validationErrors));
         }
-        //neu_lymf
-        //neu_cd19
-        //neu_cd4
-        //neu_cd4
-        //cd19_cd4
+
+        stateBuilder.rangeNeuLymf(getNeuLymf(results,validationErrors));
+        stateBuilder.rangeNeuCd19(getNeuCd19(results,validationErrors));
+        stateBuilder.rangeNeuCd4(getNeuCd4(results,validationErrors));
+        stateBuilder.rangeCd19Cd4(getCd19Cd4(results,validationErrors));
 
         validateState(validationErrors);
 
         var state = stateBuilder.build();
-        Optional<TChartState> stateOpt = stateRepository.findState(state.getDiagnosis(), state);
+        Optional<BChartState> stateOpt = stateRepository.findState(state.getDiagnosis(), state);
 
         return stateOpt.orElseGet(() -> stateRepository.save(state));
     }
 
+    private BParameterRanges.CD19 getCd19(List<ParameterResult> results,
+                                           List<String> validationErrors) {
+        return BParameterRanges.CD19.of(
+                getParamResult(MostUsedParameters.CD19.getId(), results, validationErrors)
+        );
+    }
+
+    private BParameterRanges.CD19_TNK getCd19Tnk(List<ParameterResult> results,
+                                           List<String> validationErrors) {
+        return BParameterRanges.CD19_TNK.of(
+                getParamResult(MostUsedParameters.CD19.getId(), results, validationErrors)
+                + getParamResult(MostUsedParameters.TNK_CELLS.getId(), results, validationErrors)
+        );
+    }
+
+    private BParameterRanges.IgG getIgg(List<ParameterResult> results,
+                                           List<String> validationErrors) {
+        return BParameterRanges.IgG.of(
+                getParamResult(MostUsedParameters.IgG.getId(), results, validationErrors)
+        );
+    }
+    private BParameterRanges.IgA getIga(List<ParameterResult> results,
+                                           List<String> validationErrors) {
+        return BParameterRanges.IgA.of(
+                getParamResult(MostUsedParameters.IgA.getId(), results, validationErrors)
+        );
+    }
+
+    private BParameterRanges.NEU_LYMF getNeuLymf(List<ParameterResult> results,
+                                               List<String> validationErrors) {
+        return BParameterRanges.NEU_LYMF.of(
+                getDivisionOfParameters(MostUsedParameters.NEU.getId(), MostUsedParameters.LYMF.getId(),
+                        results, validationErrors));
+    }
+
+    private BParameterRanges.NEU_CD19 getNeuCd19(List<ParameterResult> results,
+                                               List<String> validationErrors) {
+        return BParameterRanges.NEU_CD19.of(
+                getDivisionOfParameters(MostUsedParameters.NEU.getId(), MostUsedParameters.CD19.getId(),
+                        results, validationErrors));
+    }
+
+    private BParameterRanges.NEU_CD4 getNeuCd4(List<ParameterResult> results,
+                                               List<String> validationErrors) {
+        return BParameterRanges.NEU_CD4.of(
+                getDivisionOfParameters(MostUsedParameters.NEU.getId(), MostUsedParameters.CD4.getId(),
+                        results, validationErrors));
+    }
+
+    private BParameterRanges.CD19_CD4 getCd19Cd4(List<ParameterResult> results,
+                                               List<String> validationErrors) {
+        return BParameterRanges.CD19_CD4.of(
+                getDivisionOfParameters(MostUsedParameters.CD19.getId(), MostUsedParameters.CD4.getId(),
+                        results, validationErrors));
+    }
 }

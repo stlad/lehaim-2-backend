@@ -13,6 +13,9 @@ public enum MostUsedParameters {
     LYMF(2L),
     MON(3L),
     PLT(8L),
+    /**
+     * общие В-лимфоциты
+     */
     CD19(18L),
     CD8(20L),
     CD4(19L),
