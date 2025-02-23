@@ -132,7 +132,7 @@ public class BParameterRanges {
         RANGE_3(11.2, 16.),
         RANGE_4(16., 21.01),
         RANGE_5(21.01, 36.01),
-        RANGE_6(36.01, 100.);
+        RANGE_6(36.01, 2100.);
 
         private final Double startRange;
         private final Double endRange;
@@ -153,7 +153,7 @@ public class BParameterRanges {
         RANGE_3(0.12, 0.17),
         RANGE_4(0.17, 0.32),
         RANGE_5(0.32, 0.37),
-        RANGE_6(0.37, 100.);
+        RANGE_6(0.37, 1000.);
 
         private final Double startRange;
         private final Double endRange;
@@ -174,7 +174,7 @@ public class BParameterRanges {
         RANGE_3(0.37, 0.53),
         RANGE_4(0.53, 0.78),
         RANGE_5(0.78, 2.32),
-        RANGE_6(2.32, 100.);
+        RANGE_6(2.32, 1000.);
 
         private final Double startRange;
         private final Double endRange;
