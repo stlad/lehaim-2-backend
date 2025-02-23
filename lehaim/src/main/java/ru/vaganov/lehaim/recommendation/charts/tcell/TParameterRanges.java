@@ -30,7 +30,7 @@ public class TParameterRanges {
     @Getter
     @AllArgsConstructor
     public enum NEU_CD4 implements ParameterRange {
-        RANGE_1(0., 0.75),
+        RANGE_1(0., 1.75),
         RANGE_2(1.75, 2.45),
         RANGE_3(2.45, 3.5),
         RANGE_4(3.5, 5.1),
