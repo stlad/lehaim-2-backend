@@ -54,6 +54,9 @@ public class Patient {
 
     private LocalDate operationDate;
 
+    @OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private PatientRadiationTherapy radiationTherapy;
+
 
     @Override
     public String toString() {

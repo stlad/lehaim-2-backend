@@ -62,4 +62,7 @@ public class PatientDTO {
     private String n;
     private String m;
     private String g;
+
+    @Schema(description = "Информация о лучевой терапии")
+    private PatientRadiationTherapyDTO radiationTherapy;
 }

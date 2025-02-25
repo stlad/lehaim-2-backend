@@ -166,4 +166,25 @@
                                  referencedColumnNames="id"
                                  onDelete="CASCADE" />
     </changeSet>
+
+    <changeSet id="Добавление таблицы с лучевой терапией" author="Vaganov Vladislav">
+        <createTable tableName="t_patient_radiation_therapy">
+            <column name="id" type="uuid" remarks="ID записи">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="start_therapy" type="date" remarks="Дата начала лучевой терапии" />
+            <column name="end_therapy" type="date" remarks="Дата конца лучевой терапии" />
+            <column name="comment" type="text" remarks="Комментарий к лучевой терапии" />
+
+            <column name="link_patient" type="uuid" remarks="ИД записи пациента" />
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="t_patient_radiation_therapy"
+                                 baseColumnNames="link_patient"
+                                 constraintName="t_patient_radiation_therapy__to__patient_fk"
+                                 referencedTableName="t_patient"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE" />
+    </changeSet>
 </databaseChangeLog>

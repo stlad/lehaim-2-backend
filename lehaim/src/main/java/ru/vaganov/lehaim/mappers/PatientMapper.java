@@ -7,16 +7,16 @@ import ru.vaganov.lehaim.dto.PatientDTO;
 import java.util.List;
 
 
-@Mapper(componentModel = "spring", uses = {DiagnosisMapper.class})
+@Mapper(componentModel = "spring", uses = {DiagnosisMapper.class, PatientRadiationTherapyMapper.class})
 public interface PatientMapper {
 
 
-    public abstract Patient fromDto(PatientDTO dto);
+    Patient fromDto(PatientDTO dto);
     @Mapping(source = "entity.diagnosis.id", target = "diagnosisId")
-    public abstract  PatientDTO toDto(Patient entity);
-    public abstract List<PatientDTO> toDto(List<Patient> entity);
+    PatientDTO toDto(Patient entity);
+    List<PatientDTO> toDto(List<Patient> entity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    public abstract void updateFromDto(PatientDTO dto, @MappingTarget Patient entity);
+    void updateFromDto(PatientDTO dto, @MappingTarget Patient entity);
 }
 
