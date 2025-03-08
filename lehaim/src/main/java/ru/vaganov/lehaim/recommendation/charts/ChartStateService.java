@@ -7,7 +7,7 @@ import ru.vaganov.lehaim.exceptions.ChartStateException;
 import ru.vaganov.lehaim.exceptions.ParameterNotFoundException;
 import ru.vaganov.lehaim.models.Parameter;
 import ru.vaganov.lehaim.models.ParameterResult;
-import ru.vaganov.lehaim.models.Patient;
+import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.recommendation.Recommendation;
 import ru.vaganov.lehaim.repositories.CatalogRepository;
 

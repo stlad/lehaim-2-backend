@@ -11,6 +11,7 @@ import ru.vaganov.lehaim.dto.oncotests.OncologicalTestRestDTO;
 import ru.vaganov.lehaim.mappers.ParameterMapper;
 import ru.vaganov.lehaim.mappers.ParameterResultMapper;
 import ru.vaganov.lehaim.models.OncologicalTest;
+import ru.vaganov.lehaim.patient.service.PatientService;
 import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
 import ru.vaganov.lehaim.repositories.ParameterResultRepository;
 

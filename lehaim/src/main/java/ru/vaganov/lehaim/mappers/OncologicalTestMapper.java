@@ -1,6 +1,5 @@
 package ru.vaganov.lehaim.mappers;
 
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.dictionary.ChartType;
@@ -8,6 +7,7 @@ import ru.vaganov.lehaim.dto.oncotests.OncologicalTestDTO;
 import ru.vaganov.lehaim.dto.oncotests.OncologicalTestRestDTO;
 import ru.vaganov.lehaim.models.OncologicalTest;
 import ru.vaganov.lehaim.models.ParameterResult;
+import ru.vaganov.lehaim.patient.mapper.PatientMapper;
 import ru.vaganov.lehaim.repositories.ParameterResultRepository;
 import ru.vaganov.lehaim.services.ChartAnalyzer;
 
@@ -32,6 +32,7 @@ public abstract class OncologicalTestMapper {
                 .testNote(entity.getTestNote())
                 .testDate(entity.getTestDate())
                 .possibleCharts(possibleCharts)
+                .isDuringRadiationTherapy(ChartAnalyzer.isTestDuringRadiationTherapy(entity))
                 .build();
     }
 
@@ -39,11 +40,15 @@ public abstract class OncologicalTestMapper {
 
     public OncologicalTestRestDTO toRestDto(Long testId, LocalDate testDate, String testNote,
                                             List<ParameterResult> parameterResults) {
+        var test = parameterResults.stream().map(ParameterResult::getAttachedTest)
+                .filter(attachedTest -> attachedTest.getId().equals(testId)).findAny().orElseThrow();
+
         return OncologicalTestRestDTO.builder()
                 .id(testId)
                 .testDate(testDate)
                 .results(parameterResultMapper.toRestDto(parameterResults))
                 .possibleCharts(ChartAnalyzer.getPossibleChartsByTEstId(parameterResults))
+                .isDuringRadiationTherapy(ChartAnalyzer.isTestDuringRadiationTherapy(test))
                 .testNote(testNote)
                 .build();
     };

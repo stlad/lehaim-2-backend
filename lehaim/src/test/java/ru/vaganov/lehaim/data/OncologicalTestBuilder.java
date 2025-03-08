@@ -2,7 +2,7 @@ package ru.vaganov.lehaim.data;
 
 import ru.vaganov.lehaim.models.OncologicalTest;
 import ru.vaganov.lehaim.models.ParameterResult;
-import ru.vaganov.lehaim.models.Patient;
+import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.repositories.*;
 
 import java.time.LocalDate;
@@ -53,6 +53,11 @@ public class OncologicalTestBuilder {
 
     public OncologicalTestBuilder withPatient(Patient patient){
         this.oncologicalTest.setPatientOwner(patient);
+        return this;
+    }
+
+    public OncologicalTestBuilder withDate(LocalDate date){
+        this.oncologicalTest.setTestDate(date);
         return this;
     }
 

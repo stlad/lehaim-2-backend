@@ -3,7 +3,7 @@ package ru.vaganov.lehaim.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ru.vaganov.lehaim.models.Patient;
+import ru.vaganov.lehaim.patient.entity.Patient;
 
 import java.time.LocalDate;
 import java.util.Optional;

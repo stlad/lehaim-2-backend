@@ -6,7 +6,7 @@ import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.exceptions.*;
 import ru.vaganov.lehaim.models.OncologicalTest;
 import ru.vaganov.lehaim.models.ParameterResult;
-import ru.vaganov.lehaim.models.Patient;
+import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
 import ru.vaganov.lehaim.repositories.ParameterResultRepository;
 import ru.vaganov.lehaim.repositories.PatientRepository;

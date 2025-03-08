@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.dictionary.MostUsedParameters;
+import ru.vaganov.lehaim.models.OncologicalTest;
 import ru.vaganov.lehaim.models.Parameter;
 import ru.vaganov.lehaim.models.ParameterResult;
 
@@ -18,6 +19,15 @@ import static ru.vaganov.lehaim.dictionary.MostUsedParameters.*;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ChartAnalyzer {
+
+    public static Boolean isTestDuringRadiationTherapy(OncologicalTest test){
+        var patient = test.getPatientOwner();
+        if(patient.getRadiationTherapy() == null){
+            return false;
+        }
+        return patient.getRadiationTherapy().isDateInTherapy(test.getTestDate());
+    }
+
     /**
      * Проверка возможности нарисовать график на основе текущих указаных параметров обследования
      *

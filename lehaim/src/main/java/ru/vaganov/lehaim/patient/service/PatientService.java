@@ -1,17 +1,16 @@
-package ru.vaganov.lehaim.services;
+package ru.vaganov.lehaim.patient.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.vaganov.lehaim.exceptions.DiagnosisNotFoundException;
 import ru.vaganov.lehaim.exceptions.PatientExistsException;
 import ru.vaganov.lehaim.exceptions.PatientNotFoundException;
-import ru.vaganov.lehaim.mappers.PatientMapper;
-import ru.vaganov.lehaim.models.Diagnosis;
-import ru.vaganov.lehaim.models.Patient;
-import ru.vaganov.lehaim.dto.PatientDTO;
-import ru.vaganov.lehaim.repositories.DiagnosisRepository;
+import ru.vaganov.lehaim.patient.mapper.PatientMapper;
+import ru.vaganov.lehaim.patient.entity.Patient;
+import ru.vaganov.lehaim.patient.dto.PatientDTO;
+import ru.vaganov.lehaim.repositories.PatientRadiationTherapyRepository;
 import ru.vaganov.lehaim.repositories.PatientRepository;
+import ru.vaganov.lehaim.services.DiagnosisCatalogService;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -27,13 +26,16 @@ public class PatientService {
     private final PatientMapper patientMapper;
 
     private final DiagnosisCatalogService diagnosisService;
+    private final PatientRadiationTherapyRepository radiationTherapyRepository;
 
     public PatientDTO savePatient(PatientDTO dto) {
         if (isPatientPresent(dto))
             throw new PatientExistsException(dto.getLastname(), dto.getName(), dto.getPatronymic());
 
         Patient patient = patientMapper.fromDto(dto);
-
+        if(patient.getRadiationTherapy() != null){
+            patient.getRadiationTherapy().setPatient(patient);
+        }
         patient = patientRepository.save(patient);
         return patientMapper.toDto(patient);
     }

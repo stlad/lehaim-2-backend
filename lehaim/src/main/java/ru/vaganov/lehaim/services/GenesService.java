@@ -8,7 +8,7 @@ import ru.vaganov.lehaim.dto.genes.*;
 import ru.vaganov.lehaim.exceptions.GeneNotFoundException;
 import ru.vaganov.lehaim.exceptions.PatientNotFoundException;
 import ru.vaganov.lehaim.mappers.GeneMapper;
-import ru.vaganov.lehaim.models.Patient;
+import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.models.genes.DiagnosisGene;
 import ru.vaganov.lehaim.models.genes.Gene;
 import ru.vaganov.lehaim.models.genes.GeneValue;
@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
