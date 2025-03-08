@@ -9,6 +9,7 @@ import ru.vaganov.lehaim.services.DiagnosisCatalogService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Mapper(componentModel = "spring", uses = {DiagnosisMapper.class, DiagnosisCatalogService.class})
 public abstract class PatientMapper {
@@ -26,14 +27,16 @@ public abstract class PatientMapper {
 
     @BeforeMapping
     protected void beforeMapping(PatientDTO dto, @MappingTarget Patient entity) {
-        if (dto.getDeathdate() != null && !dto.getDeathdate().isEmpty()) {
-            entity.setDeathdate(LocalDate.parse(dto.getDeathdate(), DateTimeFormatter.ISO_LOCAL_DATE));
+        if (dto.getDeathdate() != null) {
+            setDate(entity::setDeathdate, dto.getDeathdate());
         }
-        if (dto.getBirthdate() != null && !dto.getBirthdate().isEmpty()) {
-            entity.setBirthdate(LocalDate.parse(dto.getBirthdate(), DateTimeFormatter.ISO_LOCAL_DATE));
+
+        if (dto.getBirthdate() != null) {
+            setDate(entity::setBirthdate, dto.getBirthdate());
         }
-        if (dto.getOperationDate() != null && !dto.getOperationDate().isEmpty()) {
-            entity.setOperationDate(LocalDate.parse(dto.getOperationDate(), DateTimeFormatter.ISO_LOCAL_DATE));
+
+        if (dto.getOperationDate() != null) {
+            setDate(entity::setOperationDate, dto.getOperationDate());
         }
 
         if (dto.getDiagnosisId() != null) {
@@ -48,6 +51,12 @@ public abstract class PatientMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void updateFromDto(PatientDTO dto, @MappingTarget Patient entity);
 
-
+    private void setDate(Consumer<LocalDate> set, String date) {
+        set.accept(
+                date.isEmpty()
+                        ? null
+                        : LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
+        );
+    }
 }
 

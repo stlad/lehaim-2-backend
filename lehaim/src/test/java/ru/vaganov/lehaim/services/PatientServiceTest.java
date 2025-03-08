@@ -110,7 +110,7 @@ class PatientServiceTest extends BaseContextTest {
         var result = patientService.updatePatient(patient.getId(), dto);
 
         Assertions.assertEquals(2, result.getDiagnosisId());
-        Assertions.assertEquals("1970-01-01", result.getBirthdate());
+        Assertions.assertNull(result.getBirthdate());
         Assertions.assertEquals("2020-01-01", result.getOperationDate());
         Assertions.assertNull(result.getDeathdate());
     }
