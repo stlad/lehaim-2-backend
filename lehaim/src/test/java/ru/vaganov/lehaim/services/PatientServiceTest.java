@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.BaseContextTest;
 import ru.vaganov.lehaim.patient.dto.PatientDTO;
 import ru.vaganov.lehaim.exceptions.DiagnosisNotFoundException;
+import ru.vaganov.lehaim.patient.dto.PatientRadiationTherapyDTO;
 import ru.vaganov.lehaim.patient.service.PatientService;
 import ru.vaganov.lehaim.repositories.PatientRepository;
 

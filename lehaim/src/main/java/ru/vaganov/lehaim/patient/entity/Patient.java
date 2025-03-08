@@ -55,9 +55,13 @@ public class Patient {
 
     private LocalDate operationDate;
 
-    @OneToOne(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "patient", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private PatientRadiationTherapy radiationTherapy;
 
+    public void setRadiationTherapy(PatientRadiationTherapy radiationTherapy){
+        this.radiationTherapy = radiationTherapy;
+        radiationTherapy.setPatient(this);
+    }
 
     @Override
     public String toString() {

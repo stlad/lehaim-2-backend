@@ -6,7 +6,7 @@
 
     <changeSet id="Добавление колонки дефолтных значений для ген" author="IFedik">
         <addColumn tableName="t_list_gene">
-            <column name="default_value" type="varchar" remarks="Значение по умолчанию" />
+            <column name="default_value" type="varchar" remarks="Значение по умолчанию"/>
         </addColumn>
     </changeSet>
 
@@ -37,20 +37,20 @@
     </changeSet>
 
     <changeSet id="Отчистка таблиц с рекомендациями из-за изменений диапазонов" author="Vaganov Vladislav">
-        <delete tableName="t_cytokine_chart_state" />
-        <delete tableName="t_systemic_inflammation_chart_state" />
-        <delete tableName="t_regeneration_chart_state" />
-        <delete tableName="t_recommendation" />
+        <delete tableName="t_cytokine_chart_state"/>
+        <delete tableName="t_systemic_inflammation_chart_state"/>
+        <delete tableName="t_regeneration_chart_state"/>
+        <delete tableName="t_recommendation"/>
     </changeSet>
 
     <changeSet id="Обновление диапазонов для ER и PR генов" author="Vaganov Vladislav">
         <!-- ER-->
-        <update tableName="t_list_gene" >
+        <update tableName="t_list_gene">
             <column name="possible_values" value="&lt;1;1-2;3-4;5-8"/>
             <where>id=18</where>
         </update>
         <!-- PR-->
-        <update tableName="t_list_gene" >
+        <update tableName="t_list_gene">
             <column name="possible_values" value="&lt;1;1-2;3-4;5-8"/>
             <where>id=19</where>
         </update>
@@ -58,12 +58,12 @@
 
     <changeSet id="Обновление значение по умлочанию для ER и PR генов" author="Vaganov Vladislav">
         <!-- ER-->
-        <update tableName="t_list_gene" >
+        <update tableName="t_list_gene">
             <column name="default_value" value="&lt;1"/>
             <where>id=18</where>
         </update>
         <!-- PR-->
-        <update tableName="t_list_gene" >
+        <update tableName="t_list_gene">
             <column name="default_value" value="&lt;1"/>
             <where>id=19</where>
         </update>
@@ -75,11 +75,12 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="cd4_compare_cd8" type="int" remarks="результат сравнение cd4 и cd8. Возможные значения: -1,0,1"/>
+            <column name="cd4_compare_cd8" type="int"
+                    remarks="результат сравнение cd4 и cd8. Возможные значения: -1,0,1"/>
             <column name="range_neu_lymf" type="varchar" remarks="Принадлежность диапазона по оси neu/lymf"/>
             <column name="range_cd4" type="varchar" defaultValue="EMPTY"
-                    remarks="Принадлежность диапазона по  cd4" >
-                <constraints nullable="false" />
+                    remarks="Принадлежность диапазона по  cd4">
+                <constraints nullable="false"/>
             </column>
             <column name="link_diagnosis" type="int" remarks="ID диагноза"/>
             <column name="link_recommendation" type="uuid" remarks="ID связанной рекомендации"/>
@@ -90,20 +91,21 @@
                                  constraintName="t_tcell_chart_state_to_diagnosis_fk"
                                  referencedTableName="t_list_diagnosis"
                                  referencedColumnNames="id"
-                                 onDelete="CASCADE" />
+                                 onDelete="CASCADE"/>
 
         <addForeignKeyConstraint baseTableName="t_tcell_chart_state"
                                  baseColumnNames="link_recommendation"
                                  constraintName="t_tcell_chart_state_to_recommendation_fk"
                                  referencedTableName="t_recommendation"
                                  referencedColumnNames="id"
-                                 onDelete="CASCADE" />
+                                 onDelete="CASCADE"/>
     </changeSet>
 
     <changeSet id="Обновление рекомендаций т-клеточного звена" author="Vaganov Vladislav">
         <sql>
-            DELETE FROM t_recommendation rec
-            WHERE rec.id IN( SELECT state.link_recommendation FROM t_tcell_chart_state state )
+            DELETE
+            FROM t_recommendation rec
+            WHERE rec.id IN (SELECT state.link_recommendation FROM t_tcell_chart_state state)
         </sql>
 
         <addColumn tableName="t_tcell_chart_state">
@@ -121,31 +123,37 @@
             </column>
 
             <column name="range_iga" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси iga">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="range_igg" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси igg">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
 
-            <column name="range_cd19" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси cd19">
-                <constraints nullable="false" />
+            <column name="range_cd19" type="varchar" defaultValue="EMPTY"
+                    remarks="Принадлежность диапазона по оси cd19">
+                <constraints nullable="false"/>
             </column>
-            <column name="range_cd19_tnk" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси 19+tnk">
-                <constraints nullable="false" />
+            <column name="range_cd19_tnk" type="varchar" defaultValue="EMPTY"
+                    remarks="Принадлежность диапазона по оси 19+tnk">
+                <constraints nullable="false"/>
             </column>
 
 
-            <column name="range_neu_lymf" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси neu/lymf">
-                <constraints nullable="false" />
+            <column name="range_neu_lymf" type="varchar" defaultValue="EMPTY"
+                    remarks="Принадлежность диапазона по оси neu/lymf">
+                <constraints nullable="false"/>
             </column>
-            <column name="range_neu_cd19" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси neu/cd19">
-                <constraints nullable="false" />
+            <column name="range_neu_cd19" type="varchar" defaultValue="EMPTY"
+                    remarks="Принадлежность диапазона по оси neu/cd19">
+                <constraints nullable="false"/>
             </column>
-            <column name="range_neu_cd4" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси neu/cd4">
-                <constraints nullable="false" />
+            <column name="range_neu_cd4" type="varchar" defaultValue="EMPTY"
+                    remarks="Принадлежность диапазона по оси neu/cd4">
+                <constraints nullable="false"/>
             </column>
-            <column name="range_cd19_cd4" type="varchar" defaultValue="EMPTY" remarks="Принадлежность диапазона по оси cd19/cd4">
-                <constraints nullable="false" />
+            <column name="range_cd19_cd4" type="varchar" defaultValue="EMPTY"
+                    remarks="Принадлежность диапазона по оси cd19/cd4">
+                <constraints nullable="false"/>
             </column>
 
             <column name="link_diagnosis" type="int" remarks="ID диагноза"/>
@@ -157,14 +165,14 @@
                                  constraintName="t_bcell_chart_state_to_diagnosis_fk"
                                  referencedTableName="t_list_diagnosis"
                                  referencedColumnNames="id"
-                                 onDelete="CASCADE" />
+                                 onDelete="CASCADE"/>
 
         <addForeignKeyConstraint baseTableName="t_bcell_chart_state"
                                  baseColumnNames="link_recommendation"
                                  constraintName="t_bcell_chart_state_to_recommendation_fk"
                                  referencedTableName="t_recommendation"
                                  referencedColumnNames="id"
-                                 onDelete="CASCADE" />
+                                 onDelete="CASCADE"/>
     </changeSet>
 
     <changeSet id="Добавление таблицы с лучевой терапией" author="Vaganov Vladislav">
@@ -173,11 +181,11 @@
                 <constraints primaryKey="true"/>
             </column>
 
-            <column name="start_therapy" type="date" remarks="Дата начала лучевой терапии" />
-            <column name="end_therapy" type="date" remarks="Дата конца лучевой терапии" />
-            <column name="comment" type="text" remarks="Комментарий к лучевой терапии" />
+            <column name="start_therapy" type="date" remarks="Дата начала лучевой терапии"/>
+            <column name="end_therapy" type="date" remarks="Дата конца лучевой терапии"/>
+            <column name="comment" type="text" remarks="Комментарий к лучевой терапии"/>
 
-            <column name="link_patient" type="uuid" remarks="ИД записи пациента" />
+            <column name="link_patient" type="uuid" remarks="ИД записи пациента"/>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="t_patient_radiation_therapy"
@@ -185,6 +193,8 @@
                                  constraintName="t_patient_radiation_therapy__to__patient_fk"
                                  referencedTableName="t_patient"
                                  referencedColumnNames="id"
-                                 onDelete="CASCADE" />
+                                 onDelete="CASCADE"/>
+
+        <addUniqueConstraint columnNames="link_patient" tableName="t_patient_radiation_therapy"/>
     </changeSet>
 </databaseChangeLog>
