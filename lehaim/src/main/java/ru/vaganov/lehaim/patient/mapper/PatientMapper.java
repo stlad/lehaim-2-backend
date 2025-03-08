@@ -51,6 +51,7 @@ public abstract class PatientMapper {
                     : entity.getRadiationTherapy();
 
             therapyMapper.updateFromDto(dto.getRadiationTherapy(), therapy);
+            entity.setRadiationTherapy(therapy);
         }
     }
 

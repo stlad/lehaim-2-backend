@@ -9,7 +9,7 @@ public class MapperUtils {
     /**
      * <ul>
      *     <li>Если date == null - ничего не делается</li>
-     *     <li>Если date == null - установка поля в null</li>
+     *     <li>Если date == "" - установка поля в null</li>
      *     <li>Если date - установка поля в значение date</li>
      * </ul>
      * @param set Функиця - сеттер поля даты

@@ -5,8 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.BaseContextTest;
-import ru.vaganov.lehaim.patient.dto.PatientDTO;
 import ru.vaganov.lehaim.exceptions.DiagnosisNotFoundException;
+import ru.vaganov.lehaim.patient.dto.PatientDTO;
 import ru.vaganov.lehaim.patient.dto.PatientRadiationTherapyDTO;
 import ru.vaganov.lehaim.patient.service.PatientService;
 import ru.vaganov.lehaim.repositories.PatientRepository;
@@ -140,5 +140,96 @@ class PatientServiceTest extends BaseContextTest {
         Assertions.assertNull(result.getBirthdate());
         Assertions.assertEquals("2020-01-01", result.getOperationDate());
         Assertions.assertNull(result.getDeathdate());
+    }
+
+    @Test
+    @DisplayName("Создание пациента: отсутсвие лучевой терапии")
+    void createPatientWithoutTherapy() {
+        var dto = PatientDTO.builder()
+                .birthdate("2020-01-01")
+                .diagnosisId(2)
+                .radiationTherapy(null)
+                .build();
+
+        var response = patientService.savePatient(dto);
+
+        Assertions.assertNull(response.getRadiationTherapy());
+    }
+
+    @Test
+    @DisplayName("Создание пациента: с лучевой терапии")
+    void createPatientWithTherapy() {
+        var dto = PatientDTO.builder()
+                .birthdate("1980-01-01")
+                .diagnosisId(2)
+                .radiationTherapy(PatientRadiationTherapyDTO.builder()
+                        .startTherapy("2020-01-01")
+                        .endTherapy("")
+                        .build())
+                .build();
+
+        var response = patientService.savePatient(dto);
+
+        Assertions.assertNotNull(response.getRadiationTherapy());
+        Assertions.assertEquals("2020-01-01", response.getRadiationTherapy().getStartTherapy());
+        Assertions.assertNull(response.getRadiationTherapy().getEndTherapy());
+        Assertions.assertNull(response.getRadiationTherapy().getComment());
+    }
+
+    @Test
+    @DisplayName("Обновление пациента: добавление терапии")
+    void updatePatientCreateTherapy() {
+        var patient = testData.patient()
+                .withFullName("Ivanov", "Ivan", "Ivanovich")
+                .withBirthday(LocalDate.parse("1970-01-01"))
+                .withDiagnosis(1)
+                .buildAndSave();
+
+        Assertions.assertNull(patient.getRadiationTherapy());
+
+        var dto = PatientDTO.builder()
+                .radiationTherapy(
+                        PatientRadiationTherapyDTO.builder()
+                                .startTherapy("2020-01-01")
+                                .endTherapy("2023-01-01")
+                                .comment("comment")
+                                .build()
+                )
+                .build();
+
+        var result = patientService.updatePatient(patient.getId(), dto);
+
+        Assertions.assertNotNull(patient.getRadiationTherapy());
+        Assertions.assertEquals("2020-01-01", result.getRadiationTherapy().getStartTherapy());
+        Assertions.assertEquals("2023-01-01", result.getRadiationTherapy().getEndTherapy());
+        Assertions.assertEquals("comment", result.getRadiationTherapy().getComment());
+    }
+
+    @Test
+    @DisplayName("Обновление пациента: удаление дат лучевой терапии")
+    void updatePatientDeleteTherapyDate() {
+        var patient = testData.patient()
+                .withFullName("Ivanov", "Ivan", "Ivanovich")
+                .withBirthday(LocalDate.parse("1970-01-01"))
+                .withDiagnosis(1)
+                .withTherapy(LocalDate.parse("2020-01-01"), LocalDate.parse("2023-01-01"))
+                .buildAndSave();
+
+        Assertions.assertNotNull(patient.getRadiationTherapy());
+
+        var dto = PatientDTO.builder()
+                .radiationTherapy(
+                        PatientRadiationTherapyDTO.builder()
+                                .startTherapy("")
+                                .endTherapy(null)
+                                .build()
+                )
+                .build();
+
+        var result = patientService.updatePatient(patient.getId(), dto);
+
+        Assertions.assertNotNull(patient.getRadiationTherapy());
+        Assertions.assertNull(result.getRadiationTherapy().getStartTherapy());
+        Assertions.assertEquals("2023-01-01", result.getRadiationTherapy().getEndTherapy());
     }
 }
