@@ -25,7 +25,7 @@ public class DiagnosisController {
     @Operation(summary = "Поиск по ID", description = "Поиск по идентификатору" )
     @GetMapping("/{id}")
     public ResponseEntity<DiagnosisDTO> findDiagnosisById(@PathVariable Integer id){
-        return new ResponseEntity<>(diagnosisService.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(diagnosisService.findDtoById(id), HttpStatus.OK);
     }
 
     @Operation(summary = "Получить весь кактлог диагнозов", description = "Получить весь кактлог диагнозов" )

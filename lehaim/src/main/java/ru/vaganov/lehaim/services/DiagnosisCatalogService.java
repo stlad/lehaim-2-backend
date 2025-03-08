@@ -27,8 +27,12 @@ public class DiagnosisCatalogService {
     }
 
 
-    public DiagnosisDTO findById(Integer id) {
-        return diagnosisMapper.toDto(diagnosisRepository.findById(id)
-                .orElseThrow(() -> new DiagnosisNotFoundException(id)));
+    public DiagnosisDTO findDtoById(Integer id) {
+        return diagnosisMapper.toDto(findById(id));
+    }
+
+    public Diagnosis findById(Integer id){
+        return diagnosisRepository.findById(id)
+                .orElseThrow(() -> new DiagnosisNotFoundException(id));
     }
 }

@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import ru.vaganov.lehaim.dictionary.Gender;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -28,10 +27,10 @@ public class PatientDTO {
     private String patronymic;
 
     @Schema(description = "Дата рождения ")
-    private LocalDate birthdate;
+    private String birthdate;
 
     @Schema(description = "Дата смерти ", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    private LocalDate deathdate;
+    private String deathdate;
 
     @Schema(description = "Идентификатор анализа из каталога")
     private Integer diagnosisId;
@@ -52,7 +51,7 @@ public class PatientDTO {
     private String chemotherapyComments;
 
     @Schema(description = "Дата операции")
-    private LocalDate operationDate;
+    private String operationDate;
 
     @Schema(description = "Дополнительный диагноз. Для С50")
     private String additionalDiagnosis;
