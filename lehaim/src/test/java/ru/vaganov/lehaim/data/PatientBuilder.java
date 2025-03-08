@@ -10,7 +10,7 @@ public class PatientBuilder {
     private final PatientRepository patientRepository;
     private final DiagnosisRepository diagnosisRepository;
 
-    private Patient patient;
+    private final Patient patient;
 
     public PatientBuilder(PatientRepository patientRepository, DiagnosisRepository diagnosisRepository) {
         this.patientRepository = patientRepository;
@@ -39,8 +39,25 @@ public class PatientBuilder {
         return this;
     }
 
+    public PatientBuilder withFullName(String lastName, String name, String patronymic) {
+        patient.setPatronymic(patronymic);
+        patient.setLastname(lastName);
+        patient.setName(name);
+        return this;
+    }
+
     public PatientBuilder withDiagnosis(String diagnosisCode) {
         patient.setDiagnosis(diagnosisRepository.findByCode(diagnosisCode).orElseThrow());
+        return this;
+    }
+
+    public PatientBuilder withDiagnosis(Integer id) {
+        patient.setDiagnosis(diagnosisRepository.findById(id).orElseThrow());
+        return this;
+    }
+
+    public PatientBuilder withBirthday(LocalDate birthday) {
+        patient.setBirthdate(birthday);
         return this;
     }
 
