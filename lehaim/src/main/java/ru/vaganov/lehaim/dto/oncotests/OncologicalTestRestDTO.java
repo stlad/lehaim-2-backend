@@ -30,5 +30,8 @@ public class OncologicalTestRestDTO {
 
     @Schema(description = "Заметки к анализу")
     private String testNote;
+
+    @Schema(description = "Анализ сдан во время прохождения курса лучевой терапии")
+    private Boolean isDuringRadiationTherapy;
 }
 

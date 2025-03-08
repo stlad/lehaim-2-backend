@@ -32,6 +32,7 @@ public abstract class OncologicalTestMapper {
                 .testNote(entity.getTestNote())
                 .testDate(entity.getTestDate())
                 .possibleCharts(possibleCharts)
+                .isDuringRadiationTherapy(ChartAnalyzer.isTestDuringRadiationTherapy(entity))
                 .build();
     }
 
@@ -39,11 +40,15 @@ public abstract class OncologicalTestMapper {
 
     public OncologicalTestRestDTO toRestDto(Long testId, LocalDate testDate, String testNote,
                                             List<ParameterResult> parameterResults) {
+        var test = parameterResults.stream().map(ParameterResult::getAttachedTest)
+                .filter(attachedTest -> attachedTest.getId().equals(testId)).findAny().orElseThrow();
+
         return OncologicalTestRestDTO.builder()
                 .id(testId)
                 .testDate(testDate)
                 .results(parameterResultMapper.toRestDto(parameterResults))
                 .possibleCharts(ChartAnalyzer.getPossibleChartsByTEstId(parameterResults))
+                .isDuringRadiationTherapy(ChartAnalyzer.isTestDuringRadiationTherapy(test))
                 .testNote(testNote)
                 .build();
     };

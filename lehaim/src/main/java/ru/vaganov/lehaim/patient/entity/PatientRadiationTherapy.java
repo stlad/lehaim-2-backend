@@ -31,9 +31,12 @@ public class PatientRadiationTherapy {
     private Patient patient;
 
     public boolean isDateInTherapy(LocalDate date) {
-        if (startTherapy == null || endTherapy == null) {
+        if (startTherapy == null) {
             return false;
         }
-        return startTherapy.isBefore(date) && endTherapy.isAfter(date);
+        if (endTherapy == null && date.isAfter(startTherapy)) {
+            return true;
+        }
+        return date.isAfter(startTherapy) && date.isBefore(endTherapy);
     }
 }

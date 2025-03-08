@@ -56,6 +56,11 @@ public class OncologicalTestBuilder {
         return this;
     }
 
+    public OncologicalTestBuilder withDate(LocalDate date){
+        this.oncologicalTest.setTestDate(date);
+        return this;
+    }
+
     public OncologicalTest buildAndSave() {
         oncologicalTestRepository.save(this.oncologicalTest);
         parameterResultRepository.saveAll(this.results);
