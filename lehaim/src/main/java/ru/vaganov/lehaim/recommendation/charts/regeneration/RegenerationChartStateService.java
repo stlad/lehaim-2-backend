@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.models.Diagnosis;
 import ru.vaganov.lehaim.models.ParameterResult;
-import ru.vaganov.lehaim.models.Patient;
+import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.recommendation.Recommendation;
 import ru.vaganov.lehaim.recommendation.charts.ChartStateService;
 import ru.vaganov.lehaim.repositories.CatalogRepository;

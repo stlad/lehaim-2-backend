@@ -1,4 +1,4 @@
-package ru.vaganov.lehaim.models;
+package ru.vaganov.lehaim.patient.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,8 +30,8 @@ public class PatientRadiationTherapy {
     @JoinColumn(name = "link_patient", referencedColumnName = "id")
     private Patient patient;
 
-    public boolean isDateInTherapy(LocalDate date){
-        if(startTherapy == null || endTherapy == null){
+    public boolean isDateInTherapy(LocalDate date) {
+        if (startTherapy == null || endTherapy == null) {
             return false;
         }
         return startTherapy.isBefore(date) && endTherapy.isAfter(date);

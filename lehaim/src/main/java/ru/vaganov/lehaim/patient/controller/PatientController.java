@@ -1,4 +1,4 @@
-package ru.vaganov.lehaim.controllers.rest;
+package ru.vaganov.lehaim.patient.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vaganov.lehaim.dto.oncotests.OncologicalTestDTO;
 import ru.vaganov.lehaim.dto.oncotests.OncologicalTestRestDTO;
-import ru.vaganov.lehaim.dto.PatientDTO;
+import ru.vaganov.lehaim.patient.dto.PatientDTO;
 import ru.vaganov.lehaim.services.OncologicalTestService;
-import ru.vaganov.lehaim.services.PatientService;
+import ru.vaganov.lehaim.patient.service.PatientService;
 
 import java.time.LocalDate;
 import java.util.List;

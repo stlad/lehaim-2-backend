@@ -12,7 +12,7 @@ import ru.vaganov.lehaim.mappers.ParameterResultMapper;
 import ru.vaganov.lehaim.models.OncologicalTest;
 import ru.vaganov.lehaim.models.Parameter;
 import ru.vaganov.lehaim.models.ParameterResult;
-import ru.vaganov.lehaim.models.Patient;
+import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.dto.oncotests.OncologicalTestDTO;
 import ru.vaganov.lehaim.dto.oncotests.OncologicalTestRestDTO;
 import ru.vaganov.lehaim.dto.ParameterResultDTO;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

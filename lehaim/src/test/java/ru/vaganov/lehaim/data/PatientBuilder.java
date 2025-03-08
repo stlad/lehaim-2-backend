@@ -1,6 +1,7 @@
 package ru.vaganov.lehaim.data;
 
-import ru.vaganov.lehaim.models.Patient;
+import ru.vaganov.lehaim.patient.entity.Patient;
+import ru.vaganov.lehaim.patient.entity.PatientRadiationTherapy;
 import ru.vaganov.lehaim.repositories.DiagnosisRepository;
 import ru.vaganov.lehaim.repositories.PatientRepository;
 
@@ -58,6 +59,16 @@ public class PatientBuilder {
 
     public PatientBuilder withBirthday(LocalDate birthday) {
         patient.setBirthdate(birthday);
+        return this;
+    }
+
+    public PatientBuilder withTherapy(LocalDate start, LocalDate end) {
+        var therapy = PatientRadiationTherapy.builder()
+                .startTherapy(start)
+                .endTherapy(end)
+                .patient(this.patient)
+                .build();
+        patient.setRadiationTherapy(therapy);
         return this;
     }
 

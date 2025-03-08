@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import ru.vaganov.lehaim.patient.entity.Patient;
 
 import java.time.LocalDate;
 import java.util.List;

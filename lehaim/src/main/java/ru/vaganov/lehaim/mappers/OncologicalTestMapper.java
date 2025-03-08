@@ -1,6 +1,5 @@
 package ru.vaganov.lehaim.mappers;
 
-import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.dictionary.ChartType;
@@ -8,6 +7,7 @@ import ru.vaganov.lehaim.dto.oncotests.OncologicalTestDTO;
 import ru.vaganov.lehaim.dto.oncotests.OncologicalTestRestDTO;
 import ru.vaganov.lehaim.models.OncologicalTest;
 import ru.vaganov.lehaim.models.ParameterResult;
+import ru.vaganov.lehaim.patient.mapper.PatientMapper;
 import ru.vaganov.lehaim.repositories.ParameterResultRepository;
 import ru.vaganov.lehaim.services.ChartAnalyzer;
 

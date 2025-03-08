@@ -1,17 +1,20 @@
-package ru.vaganov.lehaim.mappers;
+package ru.vaganov.lehaim.patient.mapper;
 
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.vaganov.lehaim.dto.PatientDTO;
-import ru.vaganov.lehaim.models.Patient;
+import ru.vaganov.lehaim.patient.dto.PatientDTO;
+import ru.vaganov.lehaim.mappers.DiagnosisMapper;
+import ru.vaganov.lehaim.utils.MapperUtils;
+import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.services.DiagnosisCatalogService;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.function.Consumer;
 
-@Mapper(componentModel = "spring", uses = {DiagnosisMapper.class, DiagnosisCatalogService.class})
+@Mapper(componentModel = "spring", uses = {
+        DiagnosisMapper.class,
+        DiagnosisCatalogService.class,
+        PatientRadiationTherapyMapper.class
+})
 public abstract class PatientMapper {
     @Autowired
     protected DiagnosisCatalogService diagnosisService;
@@ -27,17 +30,9 @@ public abstract class PatientMapper {
 
     @BeforeMapping
     protected void beforeMapping(PatientDTO dto, @MappingTarget Patient entity) {
-        if (dto.getDeathdate() != null) {
-            setDate(entity::setDeathdate, dto.getDeathdate());
-        }
-
-        if (dto.getBirthdate() != null) {
-            setDate(entity::setBirthdate, dto.getBirthdate());
-        }
-
-        if (dto.getOperationDate() != null) {
-            setDate(entity::setOperationDate, dto.getOperationDate());
-        }
+        MapperUtils.updateDateField(entity::setDeathdate, dto.getDeathdate());
+        MapperUtils.updateDateField(entity::setBirthdate, dto.getBirthdate());
+        MapperUtils.updateDateField(entity::setOperationDate, dto.getOperationDate());
 
         if (dto.getDiagnosisId() != null) {
             entity.setDiagnosis(diagnosisService.findById(dto.getDiagnosisId()));
@@ -48,15 +43,10 @@ public abstract class PatientMapper {
     @Mapping(target = "birthdate", ignore = true)
     @Mapping(target = "operationDate", ignore = true)
     @Mapping(target = "diagnosis", ignore = true)
+    @Mapping(target = "radiationTherapy", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void updateFromDto(PatientDTO dto, @MappingTarget Patient entity);
 
-    private void setDate(Consumer<LocalDate> set, String date) {
-        set.accept(
-                date.isEmpty()
-                        ? null
-                        : LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
-        );
-    }
+
 }
 

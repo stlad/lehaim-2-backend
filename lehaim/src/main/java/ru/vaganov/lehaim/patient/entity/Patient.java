@@ -1,4 +1,4 @@
-package ru.vaganov.lehaim.models;
+package ru.vaganov.lehaim.patient.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
 import ru.vaganov.lehaim.dictionary.Gender;
+import ru.vaganov.lehaim.models.Diagnosis;
 
 import java.time.LocalDate;
 import java.util.UUID;

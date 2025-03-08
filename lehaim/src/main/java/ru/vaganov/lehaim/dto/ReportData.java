@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.vaganov.lehaim.dictionary.TestSeason;
+import ru.vaganov.lehaim.patient.dto.PatientDTO;
 
 import java.time.LocalDate;
 import java.util.List;

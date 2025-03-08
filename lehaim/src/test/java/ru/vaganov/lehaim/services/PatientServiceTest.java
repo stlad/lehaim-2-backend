@@ -5,8 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.BaseContextTest;
-import ru.vaganov.lehaim.dto.PatientDTO;
+import ru.vaganov.lehaim.patient.dto.PatientDTO;
 import ru.vaganov.lehaim.exceptions.DiagnosisNotFoundException;
+import ru.vaganov.lehaim.patient.service.PatientService;
 import ru.vaganov.lehaim.repositories.PatientRepository;
 
 import java.time.LocalDate;
@@ -98,6 +99,31 @@ class PatientServiceTest extends BaseContextTest {
                 .withFullName("Ivanov", "Ivan", "Ivanovich")
                 .withBirthday(LocalDate.parse("1970-01-01"))
                 .withDiagnosis(1)
+                .buildAndSave();
+
+        var dto = PatientDTO.builder()
+                .birthdate("")
+                .deathdate("")
+                .operationDate("2020-01-01")
+                .diagnosisId(2)
+                .build();
+
+        var result = patientService.updatePatient(patient.getId(), dto);
+
+        Assertions.assertEquals(2, result.getDiagnosisId());
+        Assertions.assertNull(result.getBirthdate());
+        Assertions.assertEquals("2020-01-01", result.getOperationDate());
+        Assertions.assertNull(result.getDeathdate());
+    }
+
+    @Test
+    @DisplayName("Обновление пациента: обновление дат")
+    void updatePatientWithRadiationTherapy() {
+        var patient = testData.patient()
+                .withFullName("Ivanov", "Ivan", "Ivanovich")
+                .withBirthday(LocalDate.parse("1970-01-01"))
+                .withDiagnosis(1)
+                .withTherapy(LocalDate.parse("2020-01-01"), LocalDate.parse("2023-01-01"))
                 .buildAndSave();
 
         var dto = PatientDTO.builder()
