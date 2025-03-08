@@ -26,18 +26,14 @@ public class PatientService {
 
     private final PatientMapper patientMapper;
 
-    private final DiagnosisRepository diagnosisRepository;
+    private final DiagnosisCatalogService diagnosisService;
 
     public PatientDTO savePatient(PatientDTO dto) {
         if (isPatientPresent(dto))
             throw new PatientExistsException(dto.getLastname(), dto.getName(), dto.getPatronymic());
 
         Patient patient = patientMapper.fromDto(dto);
-        if (dto.getDiagnosisId() != null) {
-            Diagnosis diagnosis = diagnosisRepository.findById(dto.getDiagnosisId())
-                    .orElseThrow(() -> new DiagnosisNotFoundException(dto.getDiagnosisId()));
-            patient.setDiagnosis(diagnosis);
-        }
+
         patient = patientRepository.save(patient);
         return patientMapper.toDto(patient);
     }
@@ -69,11 +65,6 @@ public class PatientService {
 
         dto.setId(null);
         patientMapper.updateFromDto(dto, patient);
-        if (dto.getDiagnosisId() != null) {
-            Diagnosis diagnosis = diagnosisRepository.findById(dto.getDiagnosisId())
-                    .orElseThrow(() -> new DiagnosisNotFoundException(dto.getDiagnosisId()));
-            patient.setDiagnosis(diagnosis);
-        }
         return patientMapper.toDto(patientRepository.save(patient));
     }
 
@@ -88,6 +79,6 @@ public class PatientService {
                 dto.getName(),
                 dto.getLastname(),
                 dto.getPatronymic(),
-                dto.getBirthdate()).isPresent();
+                LocalDate.parse(dto.getBirthdate())).isPresent();
     }
 }

@@ -1,10 +1,11 @@
 package ru.vaganov.lehaim.exceptions;
 
-public class DiagnosisNotFoundException extends LehaimException{
+public class DiagnosisNotFoundException extends LehaimException {
     private final static String baseMessage = "Не найден диагноз: ";
 
-    public DiagnosisNotFoundException(Integer id){
-        super(baseMessage + id);
+    public DiagnosisNotFoundException(Integer id) {
+
+        super(baseMessage + (id == null ? "null" : id));
     }
 
     @Override
