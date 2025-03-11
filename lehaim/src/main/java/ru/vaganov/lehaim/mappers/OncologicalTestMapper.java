@@ -1,5 +1,6 @@
 package ru.vaganov.lehaim.mappers;
 
+import jakarta.persistence.EntityManager;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.dictionary.ChartType;
@@ -21,6 +22,8 @@ public abstract class OncologicalTestMapper {
     protected ParameterResultMapper parameterResultMapper;
     @Autowired
     protected ParameterResultRepository parameterResultRepository;
+    @Autowired
+    protected EntityManager entityManager;
 
     abstract OncologicalTest fromDto(OncologicalTestDTO dto);
 
@@ -40,8 +43,7 @@ public abstract class OncologicalTestMapper {
 
     public OncologicalTestRestDTO toRestDto(Long testId, LocalDate testDate, String testNote,
                                             List<ParameterResult> parameterResults) {
-        var test = parameterResults.stream().map(ParameterResult::getAttachedTest)
-                .filter(attachedTest -> attachedTest.getId().equals(testId)).findAny().orElseThrow();
+        var test = entityManager.getReference(OncologicalTest.class, testId);
 
         return OncologicalTestRestDTO.builder()
                 .id(testId)
