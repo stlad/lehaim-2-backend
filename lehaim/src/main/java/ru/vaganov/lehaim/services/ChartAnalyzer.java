@@ -39,9 +39,9 @@ public class ChartAnalyzer {
         for (ChartType chart : ChartType.values()) {
             boolean canBeProcessed = switch (chart) {
                 case T_CELL ->  checkResult(results, NEU, LYMF, CD3, CD4, CD8);
-                case B_CELL ->  checkResult(results, NEU, CD19, LYMF, CD8, CD4);
+                case B_CELL ->  checkResult(results, NEU, CD19, LYMF, CD4, IgG, IgA, IgM, TNK_CELLS);
                 case CYTOKINE_PAIRS -> checkResult(results, TNFa_STIM, TNFa_SPON, IFNy_SPON, IFFy_STIM, IL2_SPON, IL2_STIM);
-                case REGENERATION -> checkResult(results, NEU, MON, LYMF);
+                case REGENERATION -> checkResult(results, NEU, MON, LYMF, PLT, WBC, HGB);
                 case SYSTEMIC_INFLAMMATION -> checkResult(results, NEU, LYMF, MON, PLT);
             };
             if (canBeProcessed) {
