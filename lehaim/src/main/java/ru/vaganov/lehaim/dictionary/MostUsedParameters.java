@@ -9,9 +9,11 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum MostUsedParameters {
+    WBC(1L),
     NEU(4L),
     LYMF(2L),
     MON(3L),
+    HGB(7L),
     PLT(8L),
     /**
      * общие В-лимфоциты
