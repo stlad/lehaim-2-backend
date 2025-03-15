@@ -45,4 +45,28 @@ class ChartAnalyzerTest extends BaseContextTest {
 
         Assertions.assertFalse(ChartAnalyzer.isTestDuringRadiationTherapy(test));
     }
+
+    @Test
+    void isTestDuringRadiationTherapy_startInOneDay() {
+        var patient = testData.patient().withBirthday(LocalDate.parse("1970-01-01"))
+                .withTherapy(LocalDate.parse("2020-01-01"), LocalDate.parse("2022-01-01"))
+                .buildAndSave();
+
+        var test = testData.oncologicalTest().withDate(LocalDate.parse("2020-01-01"))
+                .withPatient(patient).buildAndSave();
+
+        Assertions.assertTrue(ChartAnalyzer.isTestDuringRadiationTherapy(test));
+    }
+
+    @Test
+    void isTestDuringRadiationTherapy_endInOneDay() {
+        var patient = testData.patient().withBirthday(LocalDate.parse("1970-01-01"))
+                .withTherapy(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01"))
+                .buildAndSave();
+
+        var test = testData.oncologicalTest().withDate(LocalDate.parse("2020-01-01"))
+                .withPatient(patient).buildAndSave();
+
+        Assertions.assertTrue(ChartAnalyzer.isTestDuringRadiationTherapy(test));
+    }
 }

@@ -34,9 +34,9 @@ public class PatientRadiationTherapy {
         if (startTherapy == null) {
             return false;
         }
-        if (endTherapy == null && date.isAfter(startTherapy)) {
+        if (endTherapy == null && !date.isBefore(startTherapy)) {
             return true;
         }
-        return date.isAfter(startTherapy) && date.isBefore(endTherapy);
+        return !date.isBefore(startTherapy) && !date.isAfter(endTherapy);
     }
 }
