@@ -38,8 +38,8 @@ public abstract class PatientRadiationTherapyMapper {
 
     @BeforeMapping
     protected void beforeMapping(PatientRadiationTherapyDTO dto, @MappingTarget PatientRadiationTherapy entity) {
-        MapperUtils.updateDateField(entity::setStartTherapy, dto.getStartTherapy());
-        MapperUtils.updateDateField(entity::setEndTherapy, dto.getEndTherapy());
+        MapperUtils.update(entity::setStartTherapy, dto.getStartTherapy());
+        MapperUtils.update(entity::setEndTherapy, dto.getEndTherapy());
     }
 
     @Mapping(target = "startTherapy", ignore = true)
