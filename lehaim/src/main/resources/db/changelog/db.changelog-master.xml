@@ -27,4 +27,5 @@
     <include file="/db/changelog/migrations_v2/2024-11-01-changelog.xml" />
     <include file="/db/changelog/migrations_v2/2024-12-01-changelog.xml" />
     <include file="/db/changelog/migrations_v2/2025-01-17-changelog.xml" />
+    <include file="/db/changelog/migrations_v2/2025-04-04-changelog.xml" />
 </databaseChangeLog>
