@@ -3,6 +3,7 @@ package ru.vaganov.lehaim.patient.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vaganov.lehaim.exceptions.PatientExistsException;
 import ru.vaganov.lehaim.exceptions.PatientNotFoundException;
 import ru.vaganov.lehaim.patient.mapper.PatientMapper;
@@ -28,6 +29,7 @@ public class PatientService {
     private final DiagnosisCatalogService diagnosisService;
     private final PatientRadiationTherapyRepository radiationTherapyRepository;
 
+    @Transactional
     public PatientDTO savePatient(PatientDTO dto) {
         if (isPatientPresent(dto))
             throw new PatientExistsException(dto.getLastname(), dto.getName(), dto.getPatronymic());
@@ -61,6 +63,7 @@ public class PatientService {
         return patientMapper.toDto(patient);
     }
 
+    @Transactional
     public PatientDTO updatePatient(UUID id, PatientDTO dto) {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException(id));

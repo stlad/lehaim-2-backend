@@ -3,6 +3,7 @@ package ru.vaganov.lehaim.utils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class MapperUtils {
     public static <T> void update(Consumer<T> setter, T object) {
@@ -25,11 +26,11 @@ public class MapperUtils {
         if (date == null) {
             return;
         }
-        set.accept(
-                date.isEmpty()
-                        ? null
-                        : LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
-        );
+        if (date.isEmpty()) {
+            set.accept(null);
+        } else {
+            set.accept(LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE));
+        }
     }
 
     public static <T> void set(Consumer<T> setter, T object) {
@@ -44,11 +45,16 @@ public class MapperUtils {
         }
     }
 
+    /**
+     * Установка фактического значения с проеобразованием String -> LocalDate
+     * @param setter Функиця - сеттер поля даты
+     * @param object
+     */
     public static void set(Consumer<LocalDate> setter, String object) {
-        if (object == null) {
+        if (object == null || object.isEmpty()) {
             setter.accept(null);
         } else {
-            setter.accept(LocalDate.parse(object));
+            setter.accept(LocalDate.parse(object, DateTimeFormatter.ISO_LOCAL_DATE));
         }
     }
 }
