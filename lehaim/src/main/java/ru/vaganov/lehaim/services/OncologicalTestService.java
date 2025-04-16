@@ -20,7 +20,7 @@ import ru.vaganov.lehaim.dto.ParameterResultRestDTO;
 import ru.vaganov.lehaim.repositories.CatalogRepository;
 import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
 import ru.vaganov.lehaim.repositories.ParameterResultRepository;
-import ru.vaganov.lehaim.repositories.PatientRepository;
+import ru.vaganov.lehaim.patient.repository.PatientRepository;
 
 import java.util.ArrayList;
 import java.util.List;

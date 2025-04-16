@@ -9,7 +9,7 @@ import ru.vaganov.lehaim.models.ParameterResult;
 import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
 import ru.vaganov.lehaim.repositories.ParameterResultRepository;
-import ru.vaganov.lehaim.repositories.PatientRepository;
+import ru.vaganov.lehaim.patient.repository.PatientRepository;
 import ru.vaganov.lehaim.recommendation.charts.ChartStateService;
 
 import java.time.LocalDateTime;

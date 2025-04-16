@@ -53,7 +53,11 @@ public class PatientMapperImpl implements PatientMapper {
 
         patient.diagnosis(dto.getDiagnosisId() == null ? null : diagnosisService.findById(dto.getDiagnosisId()));
 
-        return patient.build();
+        var patientEntity = patient.build();
+        if (patientEntity.getRadiationTherapy() != null) {
+            patientEntity.getRadiationTherapy().setPatient(patientEntity);
+        }
+        return patientEntity;
     }
 
     public PatientDTO toDto(Patient entity) {

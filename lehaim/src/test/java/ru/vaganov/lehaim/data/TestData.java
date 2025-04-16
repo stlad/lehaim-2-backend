@@ -3,6 +3,7 @@ package ru.vaganov.lehaim.data;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.vaganov.lehaim.patient.repository.PatientRepository;
 import ru.vaganov.lehaim.recommendation.RecommendationRepository;
 import ru.vaganov.lehaim.repositories.*;
 

@@ -6,12 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vaganov.lehaim.exceptions.PatientExistsException;
 import ru.vaganov.lehaim.exceptions.PatientNotFoundException;
-import ru.vaganov.lehaim.patient.mapper.PatientMapper;
-import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.patient.dto.PatientDTO;
-import ru.vaganov.lehaim.repositories.PatientRadiationTherapyRepository;
-import ru.vaganov.lehaim.repositories.PatientRepository;
-import ru.vaganov.lehaim.services.DiagnosisCatalogService;
+import ru.vaganov.lehaim.patient.entity.Patient;
+import ru.vaganov.lehaim.patient.mapper.PatientMapper;
+import ru.vaganov.lehaim.patient.repository.PatientRepository;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -26,22 +24,15 @@ public class PatientService {
 
     private final PatientMapper patientMapper;
 
-    private final DiagnosisCatalogService diagnosisService;
-    private final PatientRadiationTherapyRepository radiationTherapyRepository;
-
     @Transactional
     public PatientDTO savePatient(PatientDTO dto) {
-        if (isPatientPresent(dto))
-            throw new PatientExistsException(dto.getLastname(), dto.getName(), dto.getPatronymic());
-
+        throwIfExists(dto.getName(), dto.getLastname(), dto.getPatronymic(), LocalDate.parse(dto.getBirthdate()));
         Patient patient = patientMapper.fromDto(dto);
-        if(patient.getRadiationTherapy() != null){
-            patient.getRadiationTherapy().setPatient(patient);
-        }
         patient = patientRepository.save(patient);
         return patientMapper.toDto(patient);
     }
 
+    @Transactional
     public PatientDTO findPatientById(UUID id) {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException(id));
@@ -49,17 +40,11 @@ public class PatientService {
         return patientMapper.toDto(patient);
     }
 
+    @Transactional
     public PatientDTO findPatientByFullNameAndBirthdate(
             String firstname, String lastname, String middlename, LocalDate birthdate) {
-        Patient patient;
-        if (middlename == null) {
-            patient = patientRepository.findByNameAndLastnameAndBirthdate(firstname, lastname, birthdate)
-                    .orElseThrow(() -> new PatientNotFoundException(firstname, lastname, "", birthdate));
-        } else {
-            patient = patientRepository.findByNameAndLastnameAndPatronymicAndBirthdate(firstname, lastname, middlename, birthdate)
-                    .orElseThrow(() -> new PatientNotFoundException(firstname, lastname, middlename, birthdate));
-        }
-
+        var patient = patientRepository.findSinglePatient(firstname, lastname, middlename, birthdate)
+                .orElseThrow(() -> new PatientNotFoundException(firstname, lastname, middlename, birthdate));
         return patientMapper.toDto(patient);
     }
 
@@ -67,10 +52,11 @@ public class PatientService {
     public PatientDTO updatePatient(UUID id, PatientDTO dto) {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException(id));
-
         dto.setId(null);
         patientMapper.updateFromDto(dto, patient);
-        return patientMapper.toDto(patientRepository.save(patient));
+        throwIfExists(patient.getName(), patient.getLastname(), patient.getPatronymic(), patient.getBirthdate());
+        patient = patientRepository.save(patient);
+        return patientMapper.toDto(patient);
     }
 
     @Deprecated(forRemoval = true)
@@ -79,11 +65,14 @@ public class PatientService {
                 .orElseThrow(() -> new PatientNotFoundException(id));
     }
 
-    private boolean isPatientPresent(PatientDTO dto) {
-        return patientRepository.findByNameAndLastnameAndPatronymicAndBirthdate(
-                dto.getName(),
-                dto.getLastname(),
-                dto.getPatronymic(),
-                LocalDate.parse(dto.getBirthdate())).isPresent();
+    private void throwIfExists(String firstname, String lastname, String patronymic, LocalDate birthdate) {
+        var patient = patientRepository.findSinglePatient(
+                firstname,
+                lastname,
+                patronymic,
+                birthdate);
+        if (patient.isPresent()) {
+            throw new PatientExistsException(patient.get());
+        }
     }
 }

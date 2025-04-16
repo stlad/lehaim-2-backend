@@ -27,4 +27,8 @@
             <column name="link_gene" value="27"/>
         </insert>
     </changeSet>
+
+    <changeSet id="Уникальное ограничение на ФИО+ДР пациента" author="Vaganov Vladislav">
+        <addUniqueConstraint tableName="t_patient" columnNames="name, lastname, patronymic, birthdate" />
+    </changeSet>
 </databaseChangeLog>
