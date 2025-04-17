@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.BaseContextTest;
 import ru.vaganov.lehaim.exceptions.DiagnosisNotFoundException;
+import ru.vaganov.lehaim.exceptions.PatientExistsException;
 import ru.vaganov.lehaim.patient.dto.PatientDTO;
 import ru.vaganov.lehaim.patient.dto.PatientRadiationTherapyDTO;
 import ru.vaganov.lehaim.patient.service.PatientService;
@@ -235,22 +236,37 @@ class PatientServiceTest extends BaseContextTest {
 
     @Test
     @DisplayName("Обновление пациента: изменение ФИО на уже существующего")
-    void updatePatient_throws_whenUpdateToExisting(){
-        var patient1 = testData.patient().withFullName("Иванов","Иван","Иванович")
+    void updatePatient_throws_whenUpdateToExisting() {
+        var patient1 = testData.patient().withFullName("Иванов", "Иван", "Иванович")
                 .withBirthday(LocalDate.parse("1970-01-01")).buildAndSave();
-        var patient2 = testData.patient().withFullName("Андреев","Андрей","Андреевич")
+        var patient2 = testData.patient().withFullName("Андреев", "Андрей", "Андреевич")
                 .withBirthday(LocalDate.parse("1980-01-01")).buildAndSave();
 
         var newPatientDTO = PatientDTO.builder().name("Андрей").lastname("Андреев").patronymic("Андреевич")
                 .birthdate(LocalDate.parse("1980-01-01").toString()).build();
 
-        patientService.updatePatient(patient1.getId(), newPatientDTO);
+        Assertions.assertThrows(PatientExistsException.class,
+                () -> patientService.updatePatient(patient1.getId(), newPatientDTO));
+    }
+
+    @Test
+    @DisplayName("Обновление пациента: частичное изменение ФИО на уже существующего")
+    void updatePatient_throws_whenPartialUpdateToExisting() {
+        var patient1 = testData.patient().withFullName("Иванов", "Иван", "Иванович")
+                .withBirthday(LocalDate.parse("1970-01-01")).buildAndSave();
+        var patient2 = testData.patient().withFullName("Андреев", "Иван", "Иванович")
+                .withBirthday(LocalDate.parse("1970-01-01")).buildAndSave();
+
+        var newPatientDTO = PatientDTO.builder().name("Андреев").build();
+
+        Assertions.assertThrows(PatientExistsException.class,
+                () -> patientService.updatePatient(patient1.getId(), newPatientDTO));
     }
 
     @Test
     @DisplayName("Невозможно создать пациента с одинаковыми ФИО + ДР")
-    void savePatient_throws_whenPatientExists(){
-        testData.patient().withFullName("Иванов","Иван","Иванович")
+    void savePatient_throws_whenPatientExists() {
+        testData.patient().withFullName("Иванов", "Иван", "Иванович")
                 .withBirthday(LocalDate.parse("1970-01-01")).buildAndSave();
 
         testData.flushDB();
@@ -258,7 +274,7 @@ class PatientServiceTest extends BaseContextTest {
         var newPatientDTO = PatientDTO.builder().name("Иванов").lastname("Иван").patronymic("Иванович")
                 .birthdate(LocalDate.parse("1980-01-01").toString()).build();
 
-        patientService.savePatient(newPatientDTO);
+        Assertions.assertThrows(PatientExistsException.class, () -> patientService.savePatient(newPatientDTO));
 
     }
 
