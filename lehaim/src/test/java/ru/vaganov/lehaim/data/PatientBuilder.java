@@ -2,8 +2,8 @@ package ru.vaganov.lehaim.data;
 
 import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.patient.entity.PatientRadiationTherapy;
+import ru.vaganov.lehaim.patient.repository.PatientRepository;
 import ru.vaganov.lehaim.repositories.DiagnosisRepository;
-import ru.vaganov.lehaim.repositories.PatientRepository;
 
 import java.time.LocalDate;
 
@@ -13,13 +13,14 @@ public class PatientBuilder {
 
     private final Patient patient;
 
-    public PatientBuilder(PatientRepository patientRepository, DiagnosisRepository diagnosisRepository) {
+    public PatientBuilder(PatientRepository patientRepository, DiagnosisRepository diagnosisRepository,
+                          DataGenerator generator) {
         this.patientRepository = patientRepository;
         this.diagnosisRepository = diagnosisRepository;
         patient = Patient.builder()
-                .name("Иван")
-                .lastname("Иванов")
-                .patronymic("Иванович")
+                .name(generator.generateString(10))
+                .lastname(generator.generateString(10))
+                .patronymic(generator.generateString(10))
                 .birthdate(LocalDate.parse("1970-01-01"))
                 .diagnosis(diagnosisRepository.findByCode("C50").orElseThrow())
                 .build();

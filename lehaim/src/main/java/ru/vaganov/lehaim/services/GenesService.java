@@ -13,7 +13,7 @@ import ru.vaganov.lehaim.models.genes.DiagnosisGene;
 import ru.vaganov.lehaim.models.genes.Gene;
 import ru.vaganov.lehaim.models.genes.GeneValue;
 import ru.vaganov.lehaim.repositories.DiagnosisRepository;
-import ru.vaganov.lehaim.repositories.PatientRepository;
+import ru.vaganov.lehaim.patient.repository.PatientRepository;
 import ru.vaganov.lehaim.repositories.genes.DiagnosisGeneRepository;
 import ru.vaganov.lehaim.repositories.genes.GeneCatalogRepository;
 import ru.vaganov.lehaim.repositories.genes.GeneValuesRepository;
