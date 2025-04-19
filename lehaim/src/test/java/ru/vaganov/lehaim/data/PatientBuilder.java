@@ -10,18 +10,17 @@ import java.time.LocalDate;
 public class PatientBuilder {
     private final PatientRepository patientRepository;
     private final DiagnosisRepository diagnosisRepository;
-    private final DataGenerator dataGenerator;
 
     private final Patient patient;
 
-    public PatientBuilder(PatientRepository patientRepository, DiagnosisRepository diagnosisRepository, DataGenerator generator) {
+    public PatientBuilder(PatientRepository patientRepository, DiagnosisRepository diagnosisRepository,
+                          DataGenerator generator) {
         this.patientRepository = patientRepository;
         this.diagnosisRepository = diagnosisRepository;
-        this.dataGenerator = generator;
         patient = Patient.builder()
-                .name(dataGenerator.generateString(10))
-                .lastname(dataGenerator.generateString(10))
-                .patronymic(dataGenerator.generateString(10))
+                .name(generator.generateString(10))
+                .lastname(generator.generateString(10))
+                .patronymic(generator.generateString(10))
                 .birthdate(LocalDate.parse("1970-01-01"))
                 .diagnosis(diagnosisRepository.findByCode("C50").orElseThrow())
                 .build();
