@@ -1,6 +1,5 @@
 package ru.vaganov.lehaim.patient.service;
 
-import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,6 +28,7 @@ public class PatientService {
     @Transactional
     public PatientDTO savePatient(PatientDTO dto) {
         Patient patient = patientMapper.fromDto(dto);
+        dto.setId(null);
         patient = save(patient);
         return patientMapper.toDto(patient);
     }
@@ -65,12 +65,13 @@ public class PatientService {
                 .orElseThrow(() -> new PatientNotFoundException(id));
     }
 
-    private Patient save(Patient patient){
+    private Patient save(Patient patient) {
         try {
             return patientRepository.saveAndFlush(patient);
-        } catch (DataIntegrityViolationException exception){
+        } catch (DataIntegrityViolationException exception) {
             log.error(exception.getMessage());
             throw new PatientExistsException(patient);
         }
     }
+
 }

@@ -29,6 +29,7 @@
     </changeSet>
 
     <changeSet id="Уникальное ограничение на ФИО+ДР пациента" author="Vaganov Vladislav">
-        <addUniqueConstraint tableName="t_patient" columnNames="name, lastname, patronymic, birthdate" />
+        <addUniqueConstraint tableName="t_patient" columnNames="name, lastname, patronymic, birthdate"
+                             constraintName="uс_t_patient$name_lastname_patronymic_birthdate"/>
     </changeSet>
 </databaseChangeLog>

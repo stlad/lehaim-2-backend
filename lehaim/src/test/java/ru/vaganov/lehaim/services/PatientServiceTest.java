@@ -257,12 +257,10 @@ class PatientServiceTest extends BaseContextTest {
         var patient2 = testData.patient().withFullName("Андреев", "Иван", "Иванович")
                 .withBirthday(LocalDate.parse("1970-01-01")).buildAndSave();
 
-        var newPatientDTO = PatientDTO.builder().name("Андреев").build();
+        var newPatientDTO = PatientDTO.builder().lastname("Андреев").build();
 
-//        Assertions.assertThrows(PatientExistsException.class,
-//                () -> patientService.updatePatient(patient1.getId(), newPatientDTO));
-        patientService.updatePatient(patient1.getId(), newPatientDTO);
-        patientRepository.findAll();
+        Assertions.assertThrows(PatientExistsException.class,
+                () -> patientService.updatePatient(patient1.getId(), newPatientDTO));
     }
 
     @Test
@@ -273,11 +271,10 @@ class PatientServiceTest extends BaseContextTest {
 
         testData.flushDB();
 
-        var newPatientDTO = PatientDTO.builder().name("Иванов").lastname("Иван").patronymic("Иванович")
-                .birthdate(LocalDate.parse("1980-01-01").toString()).build();
+        var newPatientDTO = PatientDTO.builder().lastname("Иванов").name("Иван").patronymic("Иванович")
+                .birthdate(LocalDate.parse("1970-01-01").toString()).build();
 
         Assertions.assertThrows(PatientExistsException.class, () -> patientService.savePatient(newPatientDTO));
-
     }
 
 }
