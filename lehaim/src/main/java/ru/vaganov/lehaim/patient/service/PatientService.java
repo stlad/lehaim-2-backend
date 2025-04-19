@@ -1,7 +1,9 @@
 package ru.vaganov.lehaim.patient.service;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vaganov.lehaim.exceptions.PatientExistsException;
@@ -26,9 +28,8 @@ public class PatientService {
 
     @Transactional
     public PatientDTO savePatient(PatientDTO dto) {
-        throwIfExists(dto.getName(), dto.getLastname(), dto.getPatronymic(), LocalDate.parse(dto.getBirthdate()));
         Patient patient = patientMapper.fromDto(dto);
-        patient = patientRepository.save(patient);
+        patient = save(patient);
         return patientMapper.toDto(patient);
     }
 
@@ -54,8 +55,7 @@ public class PatientService {
                 .orElseThrow(() -> new PatientNotFoundException(id));
         dto.setId(null);
         patientMapper.updateFromDto(dto, patient);
-        throwIfExists(patient.getName(), patient.getLastname(), patient.getPatronymic(), patient.getBirthdate());
-        patient = patientRepository.save(patient);
+        patient = save(patient);
         return patientMapper.toDto(patient);
     }
 
@@ -65,14 +65,12 @@ public class PatientService {
                 .orElseThrow(() -> new PatientNotFoundException(id));
     }
 
-    private void throwIfExists(String firstname, String lastname, String patronymic, LocalDate birthdate) {
-        var patient = patientRepository.findSinglePatient(
-                firstname,
-                lastname,
-                patronymic,
-                birthdate);
-        if (patient.isPresent()) {
-            throw new PatientExistsException(patient.get());
+    private Patient save(Patient patient){
+        try {
+            return patientRepository.saveAndFlush(patient);
+        } catch (DataIntegrityViolationException exception){
+            log.error(exception.getMessage());
+            throw new PatientExistsException(patient);
         }
     }
 }
