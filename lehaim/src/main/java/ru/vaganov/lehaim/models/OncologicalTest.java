@@ -34,3 +34,14 @@ public class OncologicalTest {
     @OneToMany(mappedBy = "attachedTest", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<ParameterResult> results;
 }
+asidhasjkhdgasjkdasdhjksahkl
+ksajdlkasjdkalsj
+
+
+
+
+        ][asdol;asidl;askd;lasd
+
+
+
+asp;doas;ldi;i]
