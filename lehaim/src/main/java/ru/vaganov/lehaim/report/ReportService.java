@@ -1,4 +1,4 @@
-package ru.vaganov.lehaim.services;
+package ru.vaganov.lehaim.report;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +13,8 @@ import ru.vaganov.lehaim.models.OncologicalTest;
 import ru.vaganov.lehaim.patient.service.PatientService;
 import ru.vaganov.lehaim.report.dto.ReportData;
 import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
+import ru.vaganov.lehaim.services.CatalogService;
+import ru.vaganov.lehaim.services.OncologicalTestService;
 
 import java.util.*;
 

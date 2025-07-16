@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.BaseContextTest;
+import ru.vaganov.lehaim.report.ReportService;
 import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
 
 class ReportServiceTest extends BaseContextTest {
