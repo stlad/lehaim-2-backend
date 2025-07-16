@@ -36,4 +36,9 @@ public class TestData {
     public void flushDB() {
         entityManager.flush();
     }
+
+    public void clearPersistenceContext() {
+        flushDB();
+        entityManager.clear();
+    }
 }
