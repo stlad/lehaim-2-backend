@@ -19,5 +19,6 @@ public class ReportData {
     private String currentTestNote;
     private List<ParameterResultDTO> currentResults;
     private List<ParameterResultDTO> previousResults;
+    private List<ParameterResultDTO> radiationTherapyResults;
     private TestSeason season;
 }

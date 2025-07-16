@@ -47,35 +47,54 @@ public class ReportService {
 
         List<OncologicalTest> prevTests = oncologicalTestRepository.findAllByPatientOwner_IdAndTestDateBefore(patientId, test.getTestDate());
 
-        if (prevTests.isEmpty()) {
-            return reportData;
-        }
-
-        if (prevTests.size() == 1) {
-            List<ParameterResultDTO> prevResults = prevTests.get(0).getResults()
-                    .stream().map(resultMapper::toDto).toList();
-            reportData.setPreviousResults(prevResults);
-            return reportData;
-        }
-        Map<Long, List<Double>> aggregates = new HashMap<>();
-        prevTests.stream()
-                .filter(t -> TestSeason.ofDate(test.getTestDate()).equals(TestSeason.ofDate(t.getTestDate())))
-                .filter(this::isIncludedByRadiationTherapy)
-                .forEach(t ->
-                        t.getResults()
-                                .stream().map(resultMapper::toRestDto)
-                                .forEach(result -> {
-                                    if (!aggregates.containsKey(result.getCatalogId()))
-                                        aggregates.put(result.getCatalogId(), new ArrayList<>());
-                                    aggregates.get(result.getCatalogId()).add(result.getValue());
-
-                                })
-                );
-
-        reportData.setPreviousResults(calculateAvgs(aggregates));
+        reportData.setPreviousResults(calculatePreviousResults(test, prevTests));
+        reportData.setRadiationTherapyResults(calculateRadiationTherapyResults(testId, prevTests));
         return reportData;
     }
 
+    private List<ParameterResultDTO> calculateRadiationTherapyResults(Long testId,
+                                                                      List<OncologicalTest> prevTests) {
+        var test = oncologicalTestRepository.findById(testId).orElseThrow();
+        var radiationTherapy = test.getPatientOwner().getRadiationTherapy();
+        if (radiationTherapy == null) {
+            return null;
+        }
+
+        Map<Long, List<Double>> aggregates = new HashMap<>();
+        prevTests.stream()
+                .filter(t -> isDuringRadiationTherapy(t, radiationTherapyBeforeDays))
+                .forEach(t -> calculateAvgs(t, aggregates));
+
+        return calculateAvgs(aggregates);
+    }
+
+    private List<ParameterResultDTO> calculatePreviousResults(OncologicalTestRestDTO currentTest,
+                                                              List<OncologicalTest> prevTests) {
+        if (prevTests.isEmpty()) {
+            return null;
+        }
+        if (prevTests.size() == 1) {
+            return prevTests.get(0).getResults().stream().map(resultMapper::toDto).toList();
+        }
+        Map<Long, List<Double>> aggregates = new HashMap<>();
+        prevTests.stream()
+                .filter(t -> TestSeason.ofDate(currentTest.getTestDate()).equals(TestSeason.ofDate(t.getTestDate())))
+                .filter(t -> !isDuringRadiationTherapy(t, radiationTherapyBeforeDays, radiationTherapyAfterDays))
+                .forEach(t -> calculateAvgs(t, aggregates));
+
+        return calculateAvgs(aggregates);
+    }
+
+    private void calculateAvgs(OncologicalTest t, Map<Long, List<Double>> aggregatesContainer) {
+        t.getResults()
+                .stream().map(resultMapper::toRestDto)
+                .forEach(result -> {
+                    if (!aggregatesContainer.containsKey(result.getCatalogId()))
+                        aggregatesContainer.put(result.getCatalogId(), new ArrayList<>());
+                    aggregatesContainer.get(result.getCatalogId()).add(result.getValue());
+
+                });
+    }
 
     private List<ParameterResultDTO> calculateAvgs(Map<Long, List<Double>> aggregates) {
         return aggregates.entrySet().stream().map(entrySet -> {
@@ -89,18 +108,20 @@ public class ReportService {
         }).toList();
     }
 
-    /**
-     * Из выборки исключаются анализы в период лучевой терапии. -14 от начала и +60 от окончания.
-     */
-    private boolean isIncludedByRadiationTherapy(OncologicalTest test) {
+
+    private boolean isDuringRadiationTherapy(OncologicalTest test, Integer before, Integer after) {
         if (test.getPatientOwner().getRadiationTherapy() == null) {
-            return true;
+            return false;
         }
         var startTherapy = test.getPatientOwner().getRadiationTherapy().getStartTherapy();
         var endTherapy = test.getPatientOwner().getRadiationTherapy().getEndTherapy();
         var testDate = test.getTestDate();
 
-        return !(testDate.isAfter(startTherapy.minusDays(radiationTherapyBeforeDays))
-                && testDate.isBefore(endTherapy.plusDays(radiationTherapyAfterDays)));
+        return testDate.isAfter(startTherapy.minusDays(before))
+                && testDate.isBefore(endTherapy.plusDays(after));
+    }
+
+    boolean isDuringRadiationTherapy(OncologicalTest test, Integer before) {
+        return isDuringRadiationTherapy(test, before, 0);
     }
 }
