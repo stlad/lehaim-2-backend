@@ -36,4 +36,7 @@ public class ParameterResult {
         return parameter.getRefMin() <= value && value <= parameter.getRefMax();
     }
 
+    public Long getCatalogId() {
+        return this.getParameter().getId();
+    }
 }

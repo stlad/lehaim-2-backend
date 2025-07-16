@@ -1,4 +1,4 @@
-package ru.vaganov.lehaim.report;
+package ru.vaganov.lehaim.report.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +76,6 @@ public class ReportService {
         if (prevTests.size() == 1) {
             return prevTests.get(0).getResults().stream().map(resultMapper::toDto).toList();
         }
-        Map<Long, List<Double>> aggregates = new HashMap<>();
         prevTests.stream()
                 .filter(t -> TestSeason.ofDate(currentTest.getTestDate()).equals(TestSeason.ofDate(t.getTestDate())))
                 .filter(t -> !isDuringRadiationTherapy(t, radiationTherapyBeforeDays, radiationTherapyAfterDays))
@@ -85,31 +84,7 @@ public class ReportService {
         return calculateAvgs(aggregates);
     }
 
-    private void calculateAvgs(OncologicalTest t, Map<Long, List<Double>> aggregatesContainer) {
-        t.getResults()
-                .stream().map(resultMapper::toRestDto)
-                .forEach(result -> {
-                    if (!aggregatesContainer.containsKey(result.getCatalogId()))
-                        aggregatesContainer.put(result.getCatalogId(), new ArrayList<>());
-                    aggregatesContainer.get(result.getCatalogId()).add(result.getValue());
-
-                });
-    }
-
-    private List<ParameterResultDTO> calculateAvgs(Map<Long, List<Double>> aggregates) {
-        return aggregates.entrySet().stream().map(entrySet -> {
-            ParameterResultDTO dto = new ParameterResultDTO();
-            ParameterDTO parameter = catalogService.getDtoById(entrySet.getKey());
-            dto.setParameter(parameter);
-            double sum = entrySet.getValue().stream().reduce(0d, Double::sum);
-            double average = sum / entrySet.getValue().size();
-            dto.setValue(average);
-            return dto;
-        }).toList();
-    }
-
-
-    private boolean isDuringRadiationTherapy(OncologicalTest test, Integer before, Integer after) {
+    protected boolean isDuringRadiationTherapy(OncologicalTest test, Integer before, Integer after) {
         if (test.getPatientOwner().getRadiationTherapy() == null) {
             return false;
         }
@@ -121,7 +96,7 @@ public class ReportService {
                 && testDate.isBefore(endTherapy.plusDays(after));
     }
 
-    boolean isDuringRadiationTherapy(OncologicalTest test, Integer before) {
+    protected isDuringRadiationTherapy(OncologicalTest test, Integer before) {
         return isDuringRadiationTherapy(test, before, 0);
     }
 }

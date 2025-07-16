@@ -20,4 +20,5 @@ public interface ParameterResultMapper {
 
     List<ParameterResultRestDTO> toRestDto(List<ParameterResult> entity);
 
+
 }
