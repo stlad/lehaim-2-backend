@@ -73,6 +73,10 @@ public class PatientBuilder {
         return this;
     }
 
+    public PatientBuilder withTherapy(String start, String end) {
+        return withTherapy(LocalDate.parse(start), LocalDate.parse(end));
+    }
+
     public Patient buildAndSave() {
         return patientRepository.save(this.patient);
     }

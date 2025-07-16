@@ -44,26 +44,30 @@ public class OncologicalTestBuilder {
     public OncologicalTestBuilder withAllResult() {
         this.results = catalogRepository.findAll().stream()
                 .map(parameter -> ParameterResult.builder()
-                            .parameter(parameter)
-                            .value((parameter.getRefMin() + parameter.getRefMax()) / 2)
-                            .attachedTest(this.oncologicalTest)
-                            .build()).toList();
+                        .parameter(parameter)
+                        .value((parameter.getRefMin() + parameter.getRefMax()) / 2)
+                        .attachedTest(this.oncologicalTest)
+                        .build()).toList();
         return this;
     }
 
-    public OncologicalTestBuilder withPatient(Patient patient){
+    public OncologicalTestBuilder withPatient(Patient patient) {
         this.oncologicalTest.setPatientOwner(patient);
         return this;
     }
 
-    public OncologicalTestBuilder withDate(LocalDate date){
+    public OncologicalTestBuilder withDate(LocalDate date) {
         this.oncologicalTest.setTestDate(date);
         return this;
     }
 
+    public OncologicalTestBuilder withDate(String date) {
+        return this.withDate(LocalDate.parse(date));
+    }
+
     public OncologicalTest buildAndSave() {
+        this.oncologicalTest.setResults(results);
         oncologicalTestRepository.save(this.oncologicalTest);
-        parameterResultRepository.saveAll(this.results);
         return oncologicalTest;
     }
 }

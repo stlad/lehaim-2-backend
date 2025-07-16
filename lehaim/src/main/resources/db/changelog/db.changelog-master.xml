@@ -5,6 +5,8 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd" >
 
+    <include file="/db/changelog/sql/drop_views.sql"/>
+
     <include file="/db/changelog/migrations/create-tables.xml" />
     <include file="/db/changelog/migrations/load-catalog-data.xml" />
     <include file="/db/changelog/migrations/parameter-catalog-add-is_active.xml" />
@@ -28,4 +30,6 @@
     <include file="/db/changelog/migrations_v2/2024-12-01-changelog.xml" />
     <include file="/db/changelog/migrations_v2/2025-01-17-changelog.xml" />
     <include file="/db/changelog/migrations_v2/2025-04-04-changelog.xml" />
+
+    <includeAll path="/db/changelog/views"/>
 </databaseChangeLog>

@@ -1,10 +1,11 @@
-package ru.vaganov.lehaim.dto;
+package ru.vaganov.lehaim.report.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.vaganov.lehaim.dictionary.TestSeason;
+import ru.vaganov.lehaim.dto.ParameterResultDTO;
 import ru.vaganov.lehaim.patient.dto.PatientDTO;
 
 import java.time.LocalDate;
