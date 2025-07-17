@@ -84,8 +84,8 @@ public class ReportService {
                 test.getTestDate());
         return switch (reportType) {
             case ALL_RESULTS -> getAllPrevTests(test, prevTests);
-            case RADIATION_THERAPY -> getRadTherapyPrevTests(test, prevTests);
-            case OPERATION -> getOperationPrevTests(test, prevTests);
+            case RADIATION_THERAPY -> getRadTherapyPrevTests(prevTests);
+            case OPERATION -> getOperationPrevTests(prevTests);
             default -> null;
         };
     }
@@ -132,7 +132,7 @@ public class ReportService {
 
     }
 
-    private List<OncologicalTest> getRadTherapyPrevTests(OncologicalTest currentTest, List<OncologicalTest> prevTests) {
+    private List<OncologicalTest> getRadTherapyPrevTests(List<OncologicalTest> prevTests) {
         if (prevTests.isEmpty()) {
             return null;
         }
@@ -145,7 +145,7 @@ public class ReportService {
 
     }
 
-    private List<OncologicalTest> getOperationPrevTests(OncologicalTest currentTest, List<OncologicalTest> prevTests) {
+    private List<OncologicalTest> getOperationPrevTests(List<OncologicalTest> prevTests) {
         if (prevTests.isEmpty()) {
             return null;
         }
