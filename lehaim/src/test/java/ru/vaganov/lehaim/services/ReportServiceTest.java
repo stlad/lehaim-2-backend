@@ -41,7 +41,6 @@ class ReportServiceTest extends BaseContextTest {
         var avgs = report.getPreviousResults();
         var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
         Assertions.assertEquals(25., param.getValue());
-        Assertions.assertNull(report.getRadiationTherapyResults());
     }
 
     @Test
@@ -72,10 +71,6 @@ class ReportServiceTest extends BaseContextTest {
         var avgs = report.getPreviousResults();
         var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
         Assertions.assertEquals(20., param.getValue());
-        Assertions.assertNotNull(report.getRadiationTherapyResults());
-        Assertions.assertEquals(30.,
-                report.getRadiationTherapyResults().stream().filter(
-                        r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow().getValue()
-        );
+
     }
 }

@@ -1,90 +1,97 @@
 package ru.vaganov.lehaim.report.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import ru.vaganov.lehaim.dictionary.TestSeason;
-import ru.vaganov.lehaim.dto.ParameterDTO;
-import ru.vaganov.lehaim.dto.ParameterResultDTO;
-import ru.vaganov.lehaim.dto.oncotests.OncologicalTestRestDTO;
-import ru.vaganov.lehaim.mappers.ParameterResultMapper;
 import ru.vaganov.lehaim.models.OncologicalTest;
-import ru.vaganov.lehaim.patient.service.PatientService;
+import ru.vaganov.lehaim.patient.mapper.PatientMapper;
 import ru.vaganov.lehaim.report.dto.ReportData;
+import ru.vaganov.lehaim.report.dto.ReportAverageTableType;
 import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
-import ru.vaganov.lehaim.services.CatalogService;
-import ru.vaganov.lehaim.services.OncologicalTestService;
+import ru.vaganov.lehaim.utils.DateUtils;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
-@Service
+@Component
 @RequiredArgsConstructor
-@Slf4j
 public class ReportService {
 
-    private final PatientService patientService;
-    private final OncologicalTestService oncologicalTestService;
     private final OncologicalTestRepository oncologicalTestRepository;
-    private final ParameterResultMapper resultMapper;
-    private final CatalogService catalogService;
+    private final PatientMapper patientMapper;
+    private final ReportMapper reportMapper;
+    private final ReportAverageCalculator calculator;
 
-    @Value("${lehaim.report.exclude-radiation-therapy-days-before}")
+    @Value("${lehaim.report.radiation-therapy-days-before}")
     private Integer radiationTherapyBeforeDays;
 
-    @Value("${lehaim.report.exclude-radiation-therapy-days-after}")
+    @Value("${lehaim.report.radiation-therapy-days-after}")
     private Integer radiationTherapyAfterDays;
 
+    @Value("${lehaim.report.operation-days-before}")
+    private Integer operationBeforeDays;
+
+    @Value("${lehaim.report.operation-days-after}")
+    private Integer operationAfterDays;
+
     public ReportData createReportByTestId(UUID patientId, Long testId) {
-        ReportData reportData = new ReportData();
-        OncologicalTestRestDTO test = oncologicalTestService.findOncologicalTestById(patientId, testId);
-        reportData.setTestId(testId);
-        reportData.setPatient(patientService.findPatientById(patientId));
-        reportData.setCurrentTestDate(test.getTestDate());
-        reportData.setCurrentResults(oncologicalTestService.getAllResultsByTestId(testId));
-        reportData.setSeason(TestSeason.ofDate(test.getTestDate()));
-        reportData.setCurrentTestNote(test.getTestNote());
-
-        List<OncologicalTest> prevTests = oncologicalTestRepository.findAllByPatientOwner_IdAndTestDateBefore(patientId, test.getTestDate());
-
-        reportData.setPreviousResults(calculatePreviousResults(test, prevTests));
-        reportData.setRadiationTherapyResults(calculateRadiationTherapyResults(testId, prevTests));
+        var test = oncologicalTestRepository.findById(testId).orElseThrow();
+        var reportData = init(test);
+        var reportType = defineReportType(test);
+        reportData.setReportAverageTableType(reportType);
+        var testToCalculateAverages = getTestByReportType(test, reportData.getReportAverageTableType());
+        var averages = calculator.getCalculatedAverages(testToCalculateAverages);
+        reportData.setPreviousResults(averages);
         return reportData;
     }
 
-    private List<ParameterResultDTO> calculateRadiationTherapyResults(Long testId,
-                                                                      List<OncologicalTest> prevTests) {
-        var test = oncologicalTestRepository.findById(testId).orElseThrow();
+    private ReportAverageTableType defineReportType(OncologicalTest test) {
         var radiationTherapy = test.getPatientOwner().getRadiationTherapy();
-        if (radiationTherapy == null) {
-            return null;
+        var operationDate = test.getPatientOwner().getOperationDate();
+        if (radiationTherapy != null && operationDate != null
+                && DateUtils.isDateBetween(operationDate,
+                radiationTherapy.getStartTherapy(),
+                radiationTherapy.getEndTherapy() == null ? LocalDate.now() : radiationTherapy.getEndTherapy())
+        ) {
+            return ReportAverageTableType.NONE;
         }
 
-        Map<Long, List<Double>> aggregates = new HashMap<>();
-        prevTests.stream()
-                .filter(t -> isDuringRadiationTherapy(t, radiationTherapyBeforeDays))
-                .forEach(t -> calculateAvgs(t, aggregates));
+        if (radiationTherapy != null) {
+            return ReportAverageTableType.RADIATION_THERAPY;
+        }
+        if (operationDate != null) {
+            return ReportAverageTableType.OPERATION;
+        }
 
-        return calculateAvgs(aggregates);
+        return ReportAverageTableType.ALL_RESULTS;
     }
 
-    private List<ParameterResultDTO> calculatePreviousResults(OncologicalTestRestDTO currentTest,
-                                                              List<OncologicalTest> prevTests) {
-        if (prevTests.isEmpty()) {
-            return null;
-        }
-        if (prevTests.size() == 1) {
-            return prevTests.get(0).getResults().stream().map(resultMapper::toDto).toList();
-        }
-        prevTests.stream()
-                .filter(t -> TestSeason.ofDate(currentTest.getTestDate()).equals(TestSeason.ofDate(t.getTestDate())))
-                .filter(t -> !isDuringRadiationTherapy(t, radiationTherapyBeforeDays, radiationTherapyAfterDays))
-                .forEach(t -> calculateAvgs(t, aggregates));
-
-        return calculateAvgs(aggregates);
+    private ReportData init(OncologicalTest test) {
+        var reportData = new ReportData();
+        reportData.setTestId(test.getId());
+        reportData.setPatient(patientMapper.toDto(test.getPatientOwner()));
+        reportData.setCurrentTestDate(test.getTestDate());
+        reportData.setCurrentResults(reportMapper.toReportDto(test.getResults()));
+        reportData.setSeason(TestSeason.ofDate(test.getTestDate()));
+        reportData.setCurrentTestNote(test.getTestNote());
+        return reportData;
     }
 
-    protected boolean isDuringRadiationTherapy(OncologicalTest test, Integer before, Integer after) {
+    private List<OncologicalTest> getTestByReportType(OncologicalTest test, ReportAverageTableType reportType) {
+        var prevTests = oncologicalTestRepository.findAllByPatientOwner_IdAndTestDateBefore(test.getPatientOwner().getId(),
+                test.getTestDate());
+        return switch (reportType) {
+            case ALL_RESULTS -> getAllPrevTests(test, prevTests);
+            case RADIATION_THERAPY -> getRadTherapyPrevTests(test, prevTests);
+            case OPERATION -> getOperationPrevTests(test, prevTests);
+            default -> null;
+        };
+    }
+
+
+    private boolean isDuringRadiationTherapy(OncologicalTest test, Integer before, Integer after) {
         if (test.getPatientOwner().getRadiationTherapy() == null) {
             return false;
         }
@@ -92,11 +99,61 @@ public class ReportService {
         var endTherapy = test.getPatientOwner().getRadiationTherapy().getEndTherapy();
         var testDate = test.getTestDate();
 
-        return testDate.isAfter(startTherapy.minusDays(before))
-                && testDate.isBefore(endTherapy.plusDays(after));
+        return DateUtils.isDateBetween(testDate, startTherapy.minusDays(before), endTherapy.plusDays(after));
     }
 
-    protected isDuringRadiationTherapy(OncologicalTest test, Integer before) {
+    private boolean isDuringOperation(OncologicalTest test) {
+        if (test.getPatientOwner().getOperationDate() == null) {
+            return false;
+        }
+        var start = test.getPatientOwner().getOperationDate().minusDays(operationBeforeDays);
+        var end = test.getPatientOwner().getOperationDate().plusDays(operationAfterDays);
+        var testDate = test.getTestDate();
+
+        return DateUtils.isDateBetween(testDate, start, end);
+    }
+
+    private boolean isDuringRadiationTherapy(OncologicalTest test, Integer before) {
         return isDuringRadiationTherapy(test, before, 0);
     }
+
+
+    private List<OncologicalTest> getAllPrevTests(OncologicalTest currentTest, List<OncologicalTest> prevTests) {
+        if (prevTests.isEmpty()) {
+            return null;
+        }
+        if (prevTests.size() == 1) {
+            return prevTests;
+        }
+        return prevTests.stream()
+                .filter(t -> TestSeason.ofDate(currentTest.getTestDate()).equals(TestSeason.ofDate(t.getTestDate())))
+                .filter(t -> !isDuringRadiationTherapy(t, radiationTherapyBeforeDays, radiationTherapyAfterDays))
+                .toList();
+
+    }
+
+    private List<OncologicalTest> getRadTherapyPrevTests(OncologicalTest currentTest, List<OncologicalTest> prevTests) {
+        if (prevTests.isEmpty()) {
+            return null;
+        }
+        if (prevTests.size() == 1) {
+            return prevTests;
+        }
+        return prevTests.stream()
+                .filter(t -> isDuringRadiationTherapy(t, radiationTherapyBeforeDays))
+                .toList();
+
+    }
+
+    private List<OncologicalTest> getOperationPrevTests(OncologicalTest currentTest, List<OncologicalTest> prevTests) {
+        if (prevTests.isEmpty()) {
+            return null;
+        }
+        if (prevTests.size() == 1) {
+            return prevTests;
+        }
+        return prevTests.stream().filter(this::isDuringOperation).toList();
+    }
 }
+
+

@@ -22,6 +22,9 @@ public class ReportAverageCalculator {
      * Расчет среднего значения для каждого параметра из списка значений
      */
     public List<ParameterResultDTO> getCalculatedAverages(List<OncologicalTest> tests) {
+        if (tests == null) {
+            return null;
+        }
         Map<Long, List<Double>> aggregates = new HashMap<>();
 
         tests.forEach(test -> {
