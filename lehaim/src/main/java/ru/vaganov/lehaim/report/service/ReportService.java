@@ -3,7 +3,7 @@ package ru.vaganov.lehaim.report.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.vaganov.lehaim.dictionary.TestSeason;
+import ru.vaganov.lehaim.report.dto.TestSeason;
 import ru.vaganov.lehaim.models.OncologicalTest;
 import ru.vaganov.lehaim.patient.mapper.PatientMapper;
 import ru.vaganov.lehaim.report.dto.ReportData;
@@ -13,7 +13,6 @@ import ru.vaganov.lehaim.utils.DateUtils;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -36,14 +35,14 @@ public class ReportService {
     @Value("${lehaim.report.operation-days-after}")
     private Integer operationAfterDays;
 
-    public ReportData createReportByTestId(UUID patientId, Long testId) {
+    public ReportData createReportByTestId(Long testId) {
         var test = oncologicalTestRepository.findById(testId).orElseThrow();
         var reportData = init(test);
-        var reportType = defineReportType(test);
-        reportData.setReportAverageTableType(reportType);
+        reportData.setReportAverageTableType(defineReportType(test));
         var testToCalculateAverages = getTestByReportType(test, reportData.getReportAverageTableType());
         var averages = calculator.getCalculatedAverages(testToCalculateAverages);
         reportData.setPreviousResults(averages);
+        findErrors(reportData);
         return reportData;
     }
 
@@ -55,7 +54,7 @@ public class ReportService {
                 radiationTherapy.getStartTherapy(),
                 radiationTherapy.getEndTherapy() == null ? LocalDate.now() : radiationTherapy.getEndTherapy())
         ) {
-            return ReportAverageTableType.NONE;
+            return ReportAverageTableType.THERAPY_AND_OPERATION_OVERLAPS;
         }
 
         if (radiationTherapy != null) {
@@ -153,6 +152,13 @@ public class ReportService {
             return prevTests;
         }
         return prevTests.stream().filter(this::isDuringOperation).toList();
+    }
+
+    private void findErrors(ReportData reportData) {
+        if (ReportAverageTableType.THERAPY_AND_OPERATION_OVERLAPS.equals(reportData.getReportAverageTableType())) {
+            reportData.setErrorText("Таблица средних значений не может быть корректно рассчитана из-за пересечения "
+                    + "операционного периода и периода лучевой терапии");
+        }
     }
 }
 

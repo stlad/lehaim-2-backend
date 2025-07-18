@@ -4,5 +4,5 @@ public enum ReportAverageTableType {
     ALL_RESULTS,
     RADIATION_THERAPY,
     OPERATION,
-    NONE
+    THERAPY_AND_OPERATION_OVERLAPS
 }

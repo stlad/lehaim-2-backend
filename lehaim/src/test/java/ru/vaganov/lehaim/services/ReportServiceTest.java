@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.BaseContextTest;
+import ru.vaganov.lehaim.report.dto.ReportAverageTableType;
+import ru.vaganov.lehaim.report.dto.TestSeason;
 import ru.vaganov.lehaim.report.service.ReportService;
 import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
 
@@ -37,7 +39,9 @@ class ReportServiceTest extends BaseContextTest {
         testData.clearPersistenceContext();
 
 
-        var report = reportService.createReportByTestId(pat.getId(), targetTest.getId());
+        var report = reportService.createReportByTestId(targetTest.getId());
+        Assertions.assertEquals(ReportAverageTableType.ALL_RESULTS, report.getReportAverageTableType());
+        Assertions.assertEquals(TestSeason.SPRING, report.getSeason());
         var avgs = report.getPreviousResults();
         var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
         Assertions.assertEquals(25., param.getValue());
@@ -63,14 +67,93 @@ class ReportServiceTest extends BaseContextTest {
                 .withDate("2018-05-01")
                 .withResult(1L, 30.).withPatient(pat)
                 .buildAndSave();
+        var spring3 = testData.oncologicalTest()
+                .withDate("2018-04-01")
+                .withResult(1L, 70.).withPatient(pat)
+                .buildAndSave();
 
         testData.clearPersistenceContext();
 
 
-        var report = reportService.createReportByTestId(pat.getId(), targetTest.getId());
+        var report = reportService.createReportByTestId(targetTest.getId());
+        Assertions.assertEquals(ReportAverageTableType.RADIATION_THERAPY, report.getReportAverageTableType());
+        Assertions.assertEquals(TestSeason.SPRING, report.getSeason());
         var avgs = report.getPreviousResults();
         var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
-        Assertions.assertEquals(20., param.getValue());
+        Assertions.assertEquals(50., param.getValue());
 
+    }
+
+    @Test
+    void createReportWithOperation() {
+        var pat = testData.patient().withOperationDate("2019-06-01")
+                .buildAndSave();
+        var targetTest = testData.oncologicalTest()
+                .withDate("2020-05-01")
+                .withResult(1L, 10.).withPatient(pat)
+                .buildAndSave();
+        var spring1 = testData.oncologicalTest()
+                .withDate("2019-05-01")
+                .withResult(1L, 20.).withPatient(pat)
+                .buildAndSave();
+        var autumn1 = testData.oncologicalTest()
+                .withDate("2018-09-01")
+                .withResult(1L, 200.).withPatient(pat)
+                .buildAndSave();
+        var spring2 = testData.oncologicalTest()
+                .withDate("2018-06-01")
+                .withResult(1L, 30.).withPatient(pat)
+                .buildAndSave();
+        var spring3 = testData.oncologicalTest()
+                .withDate("2018-07-01")
+                .withResult(1L, 70.).withPatient(pat)
+                .buildAndSave();
+
+        testData.clearPersistenceContext();
+
+
+        var report = reportService.createReportByTestId(targetTest.getId());
+        Assertions.assertEquals(ReportAverageTableType.OPERATION, report.getReportAverageTableType());
+        Assertions.assertEquals(TestSeason.SPRING, report.getSeason());
+        var avgs = report.getPreviousResults();
+        var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
+        Assertions.assertEquals(50., param.getValue());
+    }
+
+    @Test
+    void createReportWithOperationAndTherapyOverlaps() {
+        var pat = testData.patient()
+                .withTherapy("2019-05-01", "2019-07-01")
+                .withOperationDate("2019-06-01")
+                .buildAndSave();
+        var targetTest = testData.oncologicalTest()
+                .withDate("2020-05-01")
+                .withResult(1L, 10.).withPatient(pat)
+                .buildAndSave();
+        var spring1 = testData.oncologicalTest()
+                .withDate("2019-05-01")
+                .withResult(1L, 20.).withPatient(pat)
+                .buildAndSave();
+        var autumn1 = testData.oncologicalTest()
+                .withDate("2018-09-01")
+                .withResult(1L, 200.).withPatient(pat)
+                .buildAndSave();
+        var spring2 = testData.oncologicalTest()
+                .withDate("2018-06-01")
+                .withResult(1L, 30.).withPatient(pat)
+                .buildAndSave();
+        var spring3 = testData.oncologicalTest()
+                .withDate("2018-07-01")
+                .withResult(1L, 70.).withPatient(pat)
+                .buildAndSave();
+
+        testData.clearPersistenceContext();
+
+
+        var report = reportService.createReportByTestId(targetTest.getId());
+        Assertions.assertEquals(ReportAverageTableType.THERAPY_AND_OPERATION_OVERLAPS, report.getReportAverageTableType());
+        Assertions.assertEquals(TestSeason.SPRING, report.getSeason());
+        Assertions.assertNull(report.getPreviousResults());
+        Assertions.assertNotNull(report.getErrorText());
     }
 }

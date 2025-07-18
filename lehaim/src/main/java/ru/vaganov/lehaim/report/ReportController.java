@@ -27,7 +27,7 @@ public class ReportController {
     public ResponseEntity<ReportData> findOncologicalTestByTestId(
             @PathVariable UUID patientId,
             @PathVariable Long testId) {
-        return new ResponseEntity<>(reportService.createReportByTestId(patientId, testId), HttpStatus.OK);
+        return new ResponseEntity<>(reportService.createReportByTestId(testId), HttpStatus.OK);
     }
 
 }
