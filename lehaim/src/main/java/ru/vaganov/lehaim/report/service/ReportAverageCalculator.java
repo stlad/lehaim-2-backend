@@ -2,9 +2,8 @@ package ru.vaganov.lehaim.report.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.vaganov.lehaim.dto.ParameterResultDTO;
-import ru.vaganov.lehaim.mappers.ParameterMapper;
-import ru.vaganov.lehaim.models.OncologicalTest;
+import ru.vaganov.lehaim.oncotest.dto.ParameterResultDTO;
+import ru.vaganov.lehaim.oncotest.entity.OncologicalTest;
 
 import java.util.ArrayList;
 import java.util.HashMap;

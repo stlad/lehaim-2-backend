@@ -7,7 +7,7 @@ import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.patient.entity.PatientRadiationTherapy;
 import ru.vaganov.lehaim.patient.mapper.PatientMapper;
 import ru.vaganov.lehaim.patient.mapper.PatientRadiationTherapyMapper;
-import ru.vaganov.lehaim.services.DiagnosisCatalogService;
+import ru.vaganov.lehaim.catalog.DiagnosisCatalogService;
 
 import java.util.List;
 

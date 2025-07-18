@@ -7,7 +7,7 @@ import ru.vaganov.lehaim.BaseContextTest;
 import ru.vaganov.lehaim.report.dto.ReportAverageTableType;
 import ru.vaganov.lehaim.report.dto.TestSeason;
 import ru.vaganov.lehaim.report.service.ReportService;
-import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
+import ru.vaganov.lehaim.oncotest.repository.OncologicalTestRepository;
 
 class ReportServiceTest extends BaseContextTest {
 

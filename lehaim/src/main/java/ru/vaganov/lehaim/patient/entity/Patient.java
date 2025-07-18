@@ -9,7 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
 import ru.vaganov.lehaim.dictionary.Gender;
-import ru.vaganov.lehaim.models.Diagnosis;
+import ru.vaganov.lehaim.catalog.entity.Diagnosis;
 
 import java.time.LocalDate;
 import java.util.UUID;

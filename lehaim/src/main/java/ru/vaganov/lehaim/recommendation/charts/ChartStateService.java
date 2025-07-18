@@ -5,11 +5,11 @@ import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.recommendation.utils.ParameterChartAxis;
 import ru.vaganov.lehaim.exceptions.ChartStateException;
 import ru.vaganov.lehaim.exceptions.ParameterNotFoundException;
-import ru.vaganov.lehaim.models.Parameter;
-import ru.vaganov.lehaim.models.ParameterResult;
+import ru.vaganov.lehaim.catalog.entity.Parameter;
+import ru.vaganov.lehaim.oncotest.entity.ParameterResult;
 import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.recommendation.Recommendation;
-import ru.vaganov.lehaim.repositories.CatalogRepository;
+import ru.vaganov.lehaim.catalog.repository.ParameterCatalogRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public abstract class ChartStateService {
-    protected final CatalogRepository catalogRepository;
+    protected final ParameterCatalogRepository parameterCatalogRepository;
 
     public  abstract ChartType getChart();
 
@@ -63,7 +63,7 @@ public abstract class ChartStateService {
         if (resOpt.isPresent()) {
             return resOpt.get().getValue();
         }
-        Parameter param = catalogRepository.findById(parameterId)
+        Parameter param = parameterCatalogRepository.findById(parameterId)
                 .orElseThrow(() -> new ParameterNotFoundException(parameterId));
         validationErrors.add("Обследование не содержит результата для параметра: " + param.toString());
         return null;
@@ -94,7 +94,7 @@ public abstract class ChartStateService {
         Double secondParam = getParamResult(secondParamId, results, validationErrors);
         if (firstParam == null || secondParam == null || secondParam == 0) {
             if (secondParam != null && secondParam == 0) {
-                Parameter param = catalogRepository.findById(secondParamId)
+                Parameter param = parameterCatalogRepository.findById(secondParamId)
                         .orElseThrow(() -> new ParameterNotFoundException(secondParamId));
                 validationErrors.add("Значение параметра " + param.toString() + " не должно быть 0");
             }

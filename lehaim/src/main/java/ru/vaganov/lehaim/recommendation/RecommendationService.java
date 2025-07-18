@@ -4,11 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.exceptions.*;
-import ru.vaganov.lehaim.models.OncologicalTest;
-import ru.vaganov.lehaim.models.ParameterResult;
+import ru.vaganov.lehaim.oncotest.entity.OncologicalTest;
+import ru.vaganov.lehaim.oncotest.entity.ParameterResult;
 import ru.vaganov.lehaim.patient.entity.Patient;
-import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
-import ru.vaganov.lehaim.repositories.ParameterResultRepository;
+import ru.vaganov.lehaim.oncotest.repository.OncologicalTestRepository;
+import ru.vaganov.lehaim.oncotest.repository.ParameterResultRepository;
 import ru.vaganov.lehaim.patient.repository.PatientRepository;
 import ru.vaganov.lehaim.recommendation.charts.ChartStateService;
 
