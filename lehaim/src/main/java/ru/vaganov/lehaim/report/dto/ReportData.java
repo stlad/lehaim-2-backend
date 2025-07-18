@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.vaganov.lehaim.dictionary.TestSeason;
 import ru.vaganov.lehaim.dto.ParameterResultDTO;
 import ru.vaganov.lehaim.patient.dto.PatientDTO;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Data @Builder @NoArgsConstructor @AllArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReportData {
     private PatientDTO patient;
     private Long testId;
@@ -19,6 +21,7 @@ public class ReportData {
     private String currentTestNote;
     private List<ParameterResultDTO> currentResults;
     private List<ParameterResultDTO> previousResults;
-    private List<ParameterResultDTO> radiationTherapyResults;
     private TestSeason season;
+    private ReportAverageTableType reportAverageTableType;
+    private String errorText;
 }

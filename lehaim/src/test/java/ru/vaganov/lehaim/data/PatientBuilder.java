@@ -63,6 +63,15 @@ public class PatientBuilder {
         return this;
     }
 
+    public PatientBuilder withOperationDate(LocalDate operationDate) {
+        patient.setOperationDate(operationDate);
+        return this;
+    }
+
+    public PatientBuilder withOperationDate(String operationDate) {
+        return withOperationDate(LocalDate.parse(operationDate));
+    }
+
     public PatientBuilder withTherapy(LocalDate start, LocalDate end) {
         var therapy = PatientRadiationTherapy.builder()
                 .startTherapy(start)

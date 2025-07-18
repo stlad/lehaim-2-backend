@@ -1,4 +1,4 @@
-package ru.vaganov.lehaim.dictionary;
+package ru.vaganov.lehaim.report.dto;
 
 import java.time.LocalDate;
 import java.util.Set;

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vaganov.lehaim.report.dto.ReportData;
+import ru.vaganov.lehaim.report.service.ReportService;
 
 import java.util.UUID;
 
@@ -21,12 +22,12 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    @Operation(summary = "Формирование отчета по анализу", description = "Формирование отчета по анализу" )
+    @Operation(summary = "Формирование отчета по анализу", description = "Формирование отчета по анализу")
     @GetMapping("/{patientId}/test/{testId}")
     public ResponseEntity<ReportData> findOncologicalTestByTestId(
             @PathVariable UUID patientId,
-            @PathVariable Long testId){
-        return new ResponseEntity<>(reportService.createReportByTestId(patientId,testId), HttpStatus.OK);
+            @PathVariable Long testId) {
+        return new ResponseEntity<>(reportService.createReportByTestId(testId), HttpStatus.OK);
     }
 
 }

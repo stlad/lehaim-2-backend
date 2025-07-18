@@ -10,7 +10,10 @@ spring:
       hibernate:
         format_sql: true
 
+
 lehaim:
   report:
-    exclude-radiation-therapy-days-before: 14
-    exclude-radiation-therapy-days-after: 60
+    radiation-therapy-days-before: 14
+    radiation-therapy-days-after: 60
+    operation-days-before: 14
+    operation-days-after: 60
