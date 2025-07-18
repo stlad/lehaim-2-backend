@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.vaganov.lehaim.patient.repository.PatientRepository;
 import ru.vaganov.lehaim.recommendation.RecommendationRepository;
-import ru.vaganov.lehaim.repositories.CatalogRepository;
-import ru.vaganov.lehaim.repositories.DiagnosisRepository;
-import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
-import ru.vaganov.lehaim.repositories.ParameterResultRepository;
+import ru.vaganov.lehaim.catalog.repository.ParameterCatalogRepository;
+import ru.vaganov.lehaim.catalog.repository.DiagnosisRepository;
+import ru.vaganov.lehaim.oncotest.repository.OncologicalTestRepository;
+import ru.vaganov.lehaim.oncotest.repository.ParameterResultRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -17,7 +17,7 @@ public class TestData {
     private final PatientRepository patientRepository;
     private final DiagnosisRepository diagnosisRepository;
     private final OncologicalTestRepository oncologicalTestRepository;
-    private final CatalogRepository catalogRepository;
+    private final ParameterCatalogRepository parameterCatalogRepository;
     private final ParameterResultRepository parameterResultRepository;
     private final RecommendationRepository recommendationRepository;
 
@@ -26,7 +26,7 @@ public class TestData {
     }
 
     public OncologicalTestBuilder oncologicalTest() {
-        return new OncologicalTestBuilder(oncologicalTestRepository, catalogRepository, parameterResultRepository);
+        return new OncologicalTestBuilder(oncologicalTestRepository, parameterCatalogRepository, parameterResultRepository);
     }
 
     public RecommendationBuilder recommendation() {

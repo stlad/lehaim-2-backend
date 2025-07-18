@@ -6,7 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
 import ru.vaganov.lehaim.recommendation.utils.ParameterChartAxis;
-import ru.vaganov.lehaim.models.Diagnosis;
+import ru.vaganov.lehaim.catalog.entity.Diagnosis;
 import ru.vaganov.lehaim.recommendation.Recommendation;
 
 import java.util.UUID;

@@ -7,8 +7,8 @@ import ru.vaganov.lehaim.BaseContextTest;
 import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.dictionary.MostUsedParameters;
 import ru.vaganov.lehaim.exceptions.ChartStateException;
-import ru.vaganov.lehaim.repositories.OncologicalTestRepository;
-import ru.vaganov.lehaim.repositories.ParameterResultRepository;
+import ru.vaganov.lehaim.oncotest.repository.OncologicalTestRepository;
+import ru.vaganov.lehaim.oncotest.repository.ParameterResultRepository;
 
 class BCellChartServiceTest extends BaseContextTest {
     @Autowired

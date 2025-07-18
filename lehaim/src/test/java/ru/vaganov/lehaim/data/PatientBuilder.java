@@ -3,7 +3,7 @@ package ru.vaganov.lehaim.data;
 import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.patient.entity.PatientRadiationTherapy;
 import ru.vaganov.lehaim.patient.repository.PatientRepository;
-import ru.vaganov.lehaim.repositories.DiagnosisRepository;
+import ru.vaganov.lehaim.catalog.repository.DiagnosisRepository;
 
 import java.time.LocalDate;
 

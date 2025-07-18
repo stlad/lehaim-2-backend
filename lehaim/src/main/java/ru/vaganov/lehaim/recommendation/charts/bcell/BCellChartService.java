@@ -4,12 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.vaganov.lehaim.dictionary.ChartType;
 import ru.vaganov.lehaim.dictionary.MostUsedParameters;
-import ru.vaganov.lehaim.models.ParameterResult;
+import ru.vaganov.lehaim.oncotest.entity.ParameterResult;
 import ru.vaganov.lehaim.patient.entity.Patient;
 import ru.vaganov.lehaim.recommendation.Recommendation;
 import ru.vaganov.lehaim.recommendation.RecommendationRepository;
 import ru.vaganov.lehaim.recommendation.charts.ChartStateService;
-import ru.vaganov.lehaim.repositories.CatalogRepository;
+import ru.vaganov.lehaim.catalog.repository.ParameterCatalogRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +21,9 @@ public class BCellChartService extends ChartStateService {
     private final BChartStateRepository stateRepository;
     private final RecommendationRepository recommendationRepository;
 
-    public BCellChartService(CatalogRepository catalogRepository, BChartStateRepository stateRepository,
+    public BCellChartService(ParameterCatalogRepository parameterCatalogRepository, BChartStateRepository stateRepository,
                              RecommendationRepository recommendationRepository) {
-        super(catalogRepository);
+        super(parameterCatalogRepository);
         this.stateRepository = stateRepository;
         this.recommendationRepository = recommendationRepository;
     }

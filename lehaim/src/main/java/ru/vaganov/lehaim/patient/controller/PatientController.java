@@ -8,10 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.vaganov.lehaim.dto.oncotests.OncologicalTestDTO;
-import ru.vaganov.lehaim.dto.oncotests.OncologicalTestRestDTO;
+import ru.vaganov.lehaim.oncotest.dto.OncologicalTestDTO;
+import ru.vaganov.lehaim.oncotest.dto.OncologicalTestRestDTO;
 import ru.vaganov.lehaim.patient.dto.PatientDTO;
-import ru.vaganov.lehaim.services.OncologicalTestService;
+import ru.vaganov.lehaim.oncotest.OncologicalTestService;
 import ru.vaganov.lehaim.patient.service.PatientService;
 
 import java.time.LocalDate;

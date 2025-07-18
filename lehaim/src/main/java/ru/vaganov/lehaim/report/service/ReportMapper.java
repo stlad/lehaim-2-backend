@@ -2,10 +2,10 @@ package ru.vaganov.lehaim.report.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.vaganov.lehaim.dto.ParameterResultDTO;
-import ru.vaganov.lehaim.mappers.ParameterMapper;
-import ru.vaganov.lehaim.models.ParameterResult;
-import ru.vaganov.lehaim.repositories.CatalogRepository;
+import ru.vaganov.lehaim.oncotest.dto.ParameterResultDTO;
+import ru.vaganov.lehaim.catalog.mapper.ParameterMapper;
+import ru.vaganov.lehaim.oncotest.entity.ParameterResult;
+import ru.vaganov.lehaim.catalog.repository.ParameterCatalogRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -14,10 +14,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReportMapper {
     private final ParameterMapper parameterMapper;
-    private final CatalogRepository catalogRepository;
+    private final ParameterCatalogRepository parameterCatalogRepository;
 
     public ParameterResultDTO toReportDto(Long catalogId, Double value) {
-        var parameter = catalogRepository.findById(catalogId).orElseThrow();
+        var parameter = parameterCatalogRepository.findById(catalogId).orElseThrow();
         return ParameterResultDTO.builder()
                 .parameter(parameterMapper.toDto(parameter))
                 .value(value)

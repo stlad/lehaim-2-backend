@@ -3,10 +3,9 @@ package ru.vaganov.lehaim.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.vaganov.lehaim.BaseContextTest;
+import ru.vaganov.lehaim.oncotest.ChartAnalyzer;
 
 import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ChartAnalyzerTest extends BaseContextTest {
 
