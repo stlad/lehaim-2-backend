@@ -86,7 +86,7 @@ class ReportServiceTest extends BaseContextTest {
 
     @Test
     void createReportWithOperation() {
-        var pat = testData.patient().withOperationDate("2019-06-01")
+        var pat = testData.patient().withOperationDate("2018-06-01")
                 .buildAndSave();
         var targetTest = testData.oncologicalTest()
                 .withDate("2020-05-01")
