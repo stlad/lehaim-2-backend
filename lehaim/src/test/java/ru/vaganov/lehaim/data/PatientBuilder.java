@@ -58,6 +58,10 @@ public class PatientBuilder {
         return this;
     }
 
+    public PatientBuilder withBirthday(String birthday) {
+        return withBirthday(LocalDate.parse(birthday));
+    }
+
     public PatientBuilder withBirthday(LocalDate birthday) {
         patient.setBirthdate(birthday);
         return this;
@@ -83,7 +87,9 @@ public class PatientBuilder {
     }
 
     public PatientBuilder withTherapy(String start, String end) {
-        return withTherapy(LocalDate.parse(start), LocalDate.parse(end));
+        return withTherapy(
+                start == null ? null : LocalDate.parse(start),
+                end == null ? null : LocalDate.parse(end));
     }
 
     public Patient buildAndSave() {

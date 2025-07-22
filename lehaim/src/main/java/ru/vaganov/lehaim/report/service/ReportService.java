@@ -3,12 +3,12 @@ package ru.vaganov.lehaim.report.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.vaganov.lehaim.report.dto.TestSeason;
 import ru.vaganov.lehaim.oncotest.entity.OncologicalTest;
-import ru.vaganov.lehaim.patient.mapper.PatientMapper;
-import ru.vaganov.lehaim.report.dto.ReportData;
-import ru.vaganov.lehaim.report.dto.ReportAverageTableType;
 import ru.vaganov.lehaim.oncotest.repository.OncologicalTestRepository;
+import ru.vaganov.lehaim.patient.mapper.PatientMapper;
+import ru.vaganov.lehaim.report.dto.ReportAverageTableType;
+import ru.vaganov.lehaim.report.dto.ReportData;
+import ru.vaganov.lehaim.report.dto.TestSeason;
 import ru.vaganov.lehaim.utils.DateUtils;
 
 import java.time.LocalDate;
@@ -51,8 +51,8 @@ public class ReportService {
         var operationDate = test.getPatientOwner().getOperationDate();
         if (radiationTherapy != null && operationDate != null
                 && DateUtils.isDateBetween(operationDate,
-                radiationTherapy.getStartTherapy(),
-                radiationTherapy.getEndTherapy() == null ? LocalDate.now() : radiationTherapy.getEndTherapy())
+                radiationTherapy.getStartTherapy().orElse(LocalDate.now()),
+                radiationTherapy.getEndTherapy().orElse(LocalDate.now()))
         ) {
             return ReportAverageTableType.THERAPY_AND_OPERATION_OVERLAPS;
         }
@@ -94,8 +94,8 @@ public class ReportService {
         if (test.getPatientOwner().getRadiationTherapy() == null) {
             return false;
         }
-        var startTherapy = test.getPatientOwner().getRadiationTherapy().getStartTherapy();
-        var endTherapy = test.getPatientOwner().getRadiationTherapy().getEndTherapy();
+        var startTherapy = test.getPatientOwner().getRadiationTherapy().getStartTherapy().orElse(LocalDate.now());
+        var endTherapy = test.getPatientOwner().getRadiationTherapy().getEndTherapy().orElse(LocalDate.now());
         var testDate = test.getTestDate();
 
         return DateUtils.isDateBetween(testDate, startTherapy.minusDays(before), endTherapy.plusDays(after));

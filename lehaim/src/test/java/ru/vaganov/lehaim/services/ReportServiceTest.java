@@ -156,4 +156,43 @@ class ReportServiceTest extends BaseContextTest {
         Assertions.assertNull(report.getPreviousResults());
         Assertions.assertNotNull(report.getErrorText());
     }
+
+    @Test
+    void createReportWithNoEndDateTherapy() {
+        var pat = testData.patient()
+                .withBirthday("1987-05-26")
+                .withTherapy("2015-05-01", null)
+                .withOperationDate("2001-01-01")
+                .buildAndSave();
+        var targetTest = testData.oncologicalTest()
+                .withDate("2020-05-01")
+                .withResult(1L, 10.).withPatient(pat)
+                .buildAndSave();
+        var spring1 = testData.oncologicalTest()
+                .withDate("2019-05-01")
+                .withResult(1L, 20.).withPatient(pat)
+                .buildAndSave();
+        var autumn1 = testData.oncologicalTest()
+                .withDate("2018-09-01")
+                .withResult(1L, 200.).withPatient(pat)
+                .buildAndSave();
+        var spring2 = testData.oncologicalTest()
+                .withDate("2018-06-01")
+                .withResult(1L, 30.).withPatient(pat)
+                .buildAndSave();
+        var spring3 = testData.oncologicalTest()
+                .withDate("2018-07-01")
+                .withResult(1L, 70.).withPatient(pat)
+                .buildAndSave();
+
+        testData.clearPersistenceContext();
+
+
+        var report = reportService.createReportByTestId(targetTest.getId());
+        Assertions.assertEquals(ReportAverageTableType.RADIATION_THERAPY, report.getReportAverageTableType());
+        Assertions.assertEquals(TestSeason.SPRING, report.getSeason());
+        var avgs = report.getPreviousResults();
+        var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
+        Assertions.assertEquals(80., param.getValue());
+    }
 }
