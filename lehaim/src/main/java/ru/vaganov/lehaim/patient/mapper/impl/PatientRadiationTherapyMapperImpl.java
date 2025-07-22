@@ -19,8 +19,8 @@ public class PatientRadiationTherapyMapperImpl implements PatientRadiationTherap
 
         var dto = PatientRadiationTherapyDTO.builder();
 
-        set(dto::startTherapy, therapy.getStartTherapy());
-        set(dto::endTherapy, therapy.getEndTherapy());
+        set(dto::startTherapy, therapy.getStartTherapy().orElse(null));
+        set(dto::endTherapy, therapy.getEndTherapy().orElse(null));
         set(dto::comment, therapy.getComment());
 
         return dto.build();

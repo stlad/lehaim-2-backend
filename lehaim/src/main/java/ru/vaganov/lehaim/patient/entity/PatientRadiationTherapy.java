@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 @Data
@@ -38,5 +39,13 @@ public class PatientRadiationTherapy {
             return true;
         }
         return !date.isBefore(startTherapy) && !date.isAfter(endTherapy);
+    }
+
+    public Optional<LocalDate> getEndTherapy() {
+        return Optional.ofNullable(endTherapy);
+    }
+
+    public Optional<LocalDate> getStartTherapy() {
+        return Optional.ofNullable(startTherapy);
     }
 }
