@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.vaganov.lehaim.BaseContextTest;
+import ru.vaganov.lehaim.oncotest.repository.OncologicalTestRepository;
 import ru.vaganov.lehaim.report.dto.ReportAverageTableType;
 import ru.vaganov.lehaim.report.dto.TestSeason;
 import ru.vaganov.lehaim.report.service.ReportService;
-import ru.vaganov.lehaim.oncotest.repository.OncologicalTestRepository;
 
 class ReportServiceTest extends BaseContextTest {
 
@@ -194,5 +194,30 @@ class ReportServiceTest extends BaseContextTest {
         var avgs = report.getPreviousResults();
         var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
         Assertions.assertEquals(80., param.getValue());
+    }
+
+    @Test
+    void createReportWithNoTherapyAndOperation() {
+        var pat = testData.patient()
+                .withBirthday("1987-05-26")
+                .withTherapy("2015-05-01", null)
+                .buildAndSave();
+        var targetTest = testData.oncologicalTest()
+                .withDate("2020-05-01")
+                .withResult(1L, 10.).withPatient(pat)
+                .buildAndSave();
+        var spring1 = testData.oncologicalTest()
+                .withDate("2019-05-01")
+                .withResult(1L, 20.).withPatient(pat)
+                .buildAndSave();
+
+        pat.setOperationDate(null);
+        pat.getRadiationTherapy().setStartTherapy(null);
+
+        testData.flushDB();
+        testData.clearPersistenceContext();
+
+        var report = reportService.createReportByTestId(targetTest.getId());
+        Assertions.assertEquals(ReportAverageTableType.ALL_RESULTS, report.getReportAverageTableType());
     }
 }
