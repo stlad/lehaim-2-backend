@@ -47,9 +47,10 @@ public class ReportService {
     }
 
     private ReportAverageTableType defineReportType(OncologicalTest test) {
-        var radiationTherapy = test.getPatientOwner().getRadiationTherapy();
-        var operationDate = test.getPatientOwner().getOperationDate();
-        if (radiationTherapy != null && operationDate != null
+        var patient = test.getPatientOwner();
+        var radiationTherapy = patient.getRadiationTherapy();
+        var operationDate = patient.getOperationDate();
+        if (patient.hasRadiationTherapy() && operationDate != null
                 && DateUtils.isDateBetween(operationDate,
                 radiationTherapy.getStartTherapy().orElse(LocalDate.now()),
                 radiationTherapy.getEndTherapy().orElse(LocalDate.now()))
@@ -57,7 +58,7 @@ public class ReportService {
             return ReportAverageTableType.THERAPY_AND_OPERATION_OVERLAPS;
         }
 
-        if (radiationTherapy != null) {
+        if (patient.hasRadiationTherapy()) {
             return ReportAverageTableType.RADIATION_THERAPY;
         }
         if (operationDate != null) {

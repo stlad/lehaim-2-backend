@@ -80,7 +80,6 @@ public class PatientBuilder {
         var therapy = PatientRadiationTherapy.builder()
                 .startTherapy(start)
                 .endTherapy(end)
-                .patient(this.patient)
                 .build();
         patient.setRadiationTherapy(therapy);
         return this;

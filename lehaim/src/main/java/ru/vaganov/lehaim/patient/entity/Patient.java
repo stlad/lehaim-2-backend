@@ -1,10 +1,7 @@
 package ru.vaganov.lehaim.patient.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UuidGenerator;
@@ -14,7 +11,8 @@ import ru.vaganov.lehaim.catalog.entity.Diagnosis;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -55,12 +53,22 @@ public class Patient {
 
     private LocalDate operationDate;
 
-    @OneToOne(mappedBy = "patient", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
     private PatientRadiationTherapy radiationTherapy;
 
-    public void setRadiationTherapy(PatientRadiationTherapy radiationTherapy){
+    public void setRadiationTherapy(PatientRadiationTherapy radiationTherapy) {
         this.radiationTherapy = radiationTherapy;
         radiationTherapy.setPatient(this);
+    }
+
+    public boolean hasRadiationTherapy() {
+        if (radiationTherapy == null) {
+            return false;
+        }
+        if (radiationTherapy.getStartTherapy().isPresent()) {
+            return true;
+        }
+        return radiationTherapy.getEndTherapy().isPresent();
     }
 
     @Override
