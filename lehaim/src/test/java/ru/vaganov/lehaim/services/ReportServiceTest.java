@@ -181,7 +181,7 @@ class ReportServiceTest extends BaseContextTest {
                 .withResult(1L, 30.).withPatient(pat)
                 .buildAndSave();
         var spring3 = testData.oncologicalTest()
-                .withDate("2018-07-01")
+                .withDate("2010-07-01")
                 .withResult(1L, 70.).withPatient(pat)
                 .buildAndSave();
 
@@ -189,11 +189,11 @@ class ReportServiceTest extends BaseContextTest {
 
 
         var report = reportService.createReportByTestId(targetTest.getId());
-        Assertions.assertEquals(ReportAverageTableType.RADIATION_THERAPY, report.getReportAverageTableType());
+        Assertions.assertEquals(ReportAverageTableType.ALL_RESULTS, report.getReportAverageTableType());
         Assertions.assertEquals(TestSeason.SPRING, report.getSeason());
         var avgs = report.getPreviousResults();
         var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
-        Assertions.assertEquals(80., param.getValue());
+        Assertions.assertEquals(70., param.getValue());
     }
 
     @Test

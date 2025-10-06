@@ -71,6 +71,10 @@ public class Patient {
         return radiationTherapy.getEndTherapy().isPresent();
     }
 
+    public boolean hasOperation(){
+        return this.operationDate != null;
+    }
+
     @Override
     public String toString() {
         return String.format("(%s) %s %s", getId(), getLastname(), getName());
