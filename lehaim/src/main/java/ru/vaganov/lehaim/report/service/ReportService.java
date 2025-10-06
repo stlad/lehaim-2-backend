@@ -12,6 +12,7 @@ import ru.vaganov.lehaim.report.dto.TestSeason;
 import ru.vaganov.lehaim.utils.DateUtils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -48,20 +49,25 @@ public class ReportService {
 
     private ReportAverageTableType defineReportType(OncologicalTest test) {
         var patient = test.getPatientOwner();
-        var radiationTherapy = patient.getRadiationTherapy();
-        var operationDate = patient.getOperationDate();
-        if (patient.hasRadiationTherapy() && operationDate != null
-                && DateUtils.isDateBetween(operationDate,
-                radiationTherapy.getStartTherapy().orElse(LocalDate.now()),
-                radiationTherapy.getEndTherapy().orElse(LocalDate.now()))
-        ) {
-            return ReportAverageTableType.THERAPY_AND_OPERATION_OVERLAPS;
+        // Если есть и операция и лучевая терапия
+        if (patient.hasRadiationTherapy() && patient.hasOperation()) {
+            // Если лучевая терапия и операция пересекаются по датам - невозможно построить
+            if (DateUtils.isDateBetween(patient.getOperationDate(),
+                    patient.getRadiationTherapy().getStartTherapy().orElse(LocalDate.now()),
+                    patient.getRadiationTherapy().getEndTherapy().orElse(LocalDate.now())
+            )) {
+                return ReportAverageTableType.THERAPY_AND_OPERATION_OVERLAPS;
+            }
+            return ReportAverageTableType.ALL_RESULTS;
         }
 
-        if (patient.hasRadiationTherapy()) {
+        //Была только лучевая терапия
+        if (patient.hasRadiationTherapy() && !patient.hasOperation()) {
             return ReportAverageTableType.RADIATION_THERAPY;
         }
-        if (operationDate != null) {
+
+        //Была только операция
+        if (patient.hasOperation()) {
             return ReportAverageTableType.OPERATION;
         }
 
