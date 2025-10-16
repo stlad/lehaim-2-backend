@@ -7,6 +7,8 @@ import ru.vaganov.lehaim.catalog.mapper.ParameterMapper;
 import ru.vaganov.lehaim.oncotest.entity.ParameterResult;
 import ru.vaganov.lehaim.catalog.repository.ParameterCatalogRepository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ public class ReportMapper {
         var parameter = parameterCatalogRepository.findById(catalogId).orElseThrow();
         return ParameterResultDTO.builder()
                 .parameter(parameterMapper.toDto(parameter))
-                .value(value)
+                .value(BigDecimal.valueOf(value).setScale(2, RoundingMode.DOWN).doubleValue())
                 .build();
     }
 
@@ -28,7 +30,7 @@ public class ReportMapper {
         var parameter = result.getParameter();
         return ParameterResultDTO.builder()
                 .parameter(parameterMapper.toDto(parameter))
-                .value(result.getValue())
+                .value(BigDecimal.valueOf(result.getValue()).setScale(2, RoundingMode.DOWN).doubleValue())
                 .build();
     }
 
