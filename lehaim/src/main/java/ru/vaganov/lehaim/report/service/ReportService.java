@@ -52,17 +52,15 @@ public class ReportService {
         // Если есть и операция и лучевая терапия
         if (patient.hasRadiationTherapy() && patient.hasOperation()) {
             // Если лучевая терапия и операция пересекаются по датам - невозможно построить
-            if (DateUtils.isDateBetween(patient.getOperationDate(),
-                    patient.getRadiationTherapy().getStartTherapy().orElse(LocalDate.now()),
-                    patient.getRadiationTherapy().getEndTherapy().orElse(LocalDate.now())
-            )) {
+            if (patient.getRadiationTherapy().isDateInTherapy(patient.getOperationDate())) {
                 return ReportAverageTableType.THERAPY_AND_OPERATION_OVERLAPS;
             }
             return ReportAverageTableType.ALL_RESULTS;
         }
 
         //Была только лучевая терапия
-        if (patient.hasRadiationTherapy() && !patient.hasOperation()) {
+        if (patient.hasRadiationTherapy() && !patient.hasOperation()
+                && patient.getRadiationTherapy().isDateInTherapy(test.getTestDate())) {
             return ReportAverageTableType.RADIATION_THERAPY;
         }
 
