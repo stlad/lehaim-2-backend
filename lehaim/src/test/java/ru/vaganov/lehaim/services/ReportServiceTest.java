@@ -76,12 +76,16 @@ class ReportServiceTest extends BaseContextTest {
 
 
         var report = reportService.createReportByTestId(targetTest.getId());
-        Assertions.assertEquals(ReportAverageTableType.RADIATION_THERAPY, report.getReportAverageTableType());
+        Assertions.assertEquals(ReportAverageTableType.ALL_RESULTS, report.getReportAverageTableType());
         Assertions.assertEquals(TestSeason.SPRING, report.getSeason());
         var avgs = report.getPreviousResults();
         var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
-        Assertions.assertEquals(50., param.getValue());
 
+        //TODO Уточнить у аналитков:
+        //Если при расчете по всем анализам, мы выбрасывем период ЛТ - то 20
+        Assertions.assertEquals(20., param.getValue());
+        //Если при расчете по всем анализам, мы оставляем все анализы - то 40
+        //Assertions.assertEquals(40., param.getValue());
     }
 
     @Test
@@ -219,5 +223,57 @@ class ReportServiceTest extends BaseContextTest {
 
         var report = reportService.createReportByTestId(targetTest.getId());
         Assertions.assertEquals(ReportAverageTableType.ALL_RESULTS, report.getReportAverageTableType());
+    }
+
+
+    @Test
+    void case_1() {
+        var pat = testData.patient()
+                .withBirthday("1946-04-23")
+                .withTherapy("2025-03-03", "2025-04-11")
+                .buildAndSave();
+
+        var spring0 = testData.oncologicalTest()
+                .withDate("2023-07-09")
+                .withResult(1L, 2.).withPatient(pat)
+                .buildAndSave();
+        var targetTest = testData.oncologicalTest()
+                .withDate("2024-07-09")
+                .withResult(1L, 10.).withPatient(pat)
+                .buildAndSave();
+        var spring1 = testData.oncologicalTest()
+                .withDate("2025-02-21")
+                .withResult(1L, 20.).withPatient(pat)
+                .buildAndSave();
+        var spring2 = testData.oncologicalTest()
+                .withDate("2025-03-15")
+                .withResult(1L, 22.).withPatient(pat)
+                .buildAndSave();
+        var spring3 = testData.oncologicalTest()
+                .withDate("2025-04-09")
+                .withResult(1L, 23.).withPatient(pat)
+                .buildAndSave();
+        var spring4 = testData.oncologicalTest()
+                .withDate("2025-06-14")
+                .withResult(1L, 24.).withPatient(pat)
+                .buildAndSave();
+
+        pat.setOperationDate(null);
+
+        testData.flushDB();
+        testData.clearPersistenceContext();
+
+        var report = reportService.createReportByTestId(targetTest.getId());
+        Assertions.assertEquals(ReportAverageTableType.ALL_RESULTS, report.getReportAverageTableType());
+        var avgs = report.getPreviousResults();
+        var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
+        Assertions.assertEquals(2., param.getValue());
+
+
+        var report1 = reportService.createReportByTestId(spring1.getId());
+        Assertions.assertEquals(ReportAverageTableType.ALL_RESULTS, report1.getReportAverageTableType());
+        var avgs1 = report1.getPreviousResults();
+        var param1 = avgs1.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
+        Assertions.assertEquals(6., param1.getValue());
     }
 }
