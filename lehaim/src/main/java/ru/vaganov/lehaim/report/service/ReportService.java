@@ -65,7 +65,7 @@ public class ReportService {
         }
 
         //Была только операция
-        if (patient.hasOperation()) {
+        if (patient.hasOperation() && isDuringOperation(test)) {
             return ReportAverageTableType.OPERATION;
         }
 
@@ -132,6 +132,7 @@ public class ReportService {
         return prevTests.stream()
                 .filter(t -> TestSeason.ofDate(currentTest.getTestDate()).equals(TestSeason.ofDate(t.getTestDate())))
                 .filter(t -> !isDuringRadiationTherapy(t, radiationTherapyBeforeDays, radiationTherapyAfterDays))
+                .filter(t -> !isDuringOperation(t))
                 .toList();
 
     }

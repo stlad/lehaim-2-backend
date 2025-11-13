@@ -90,14 +90,14 @@ class ReportServiceTest extends BaseContextTest {
 
     @Test
     void createReportWithOperation() {
-        var pat = testData.patient().withOperationDate("2018-06-01")
+        var pat = testData.patient().withOperationDate("2020-04-20")
                 .buildAndSave();
         var targetTest = testData.oncologicalTest()
                 .withDate("2020-05-01")
                 .withResult(1L, 10.).withPatient(pat)
                 .buildAndSave();
         var spring1 = testData.oncologicalTest()
-                .withDate("2019-05-01")
+                .withDate("2020-04-25")
                 .withResult(1L, 20.).withPatient(pat)
                 .buildAndSave();
         var autumn1 = testData.oncologicalTest()
@@ -121,7 +121,7 @@ class ReportServiceTest extends BaseContextTest {
         Assertions.assertEquals(TestSeason.SPRING, report.getSeason());
         var avgs = report.getPreviousResults();
         var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
-        Assertions.assertEquals(50., param.getValue());
+        Assertions.assertEquals(20., param.getValue());
     }
 
     @Test
@@ -275,5 +275,32 @@ class ReportServiceTest extends BaseContextTest {
         var avgs1 = report1.getPreviousResults();
         var param1 = avgs1.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
         Assertions.assertEquals(6., param1.getValue());
+    }
+
+    @Test
+    void case_2() {
+        var pat = testData.patient()
+                .withBirthday("1983-07-16")
+                .withOperationDate("2018-08-08")
+                .buildAndSave();
+
+        var spring0 = testData.oncologicalTest()
+                .withDate("2023-05-09")
+                .withResult(1L, 1.).withPatient(pat)
+                .buildAndSave();
+
+        var targetTest = testData.oncologicalTest()
+                .withDate("2024-05-09")
+                .withResult(1L, 10.).withPatient(pat)
+                .buildAndSave();
+
+        testData.flushDB();
+        testData.clearPersistenceContext();
+
+        var report = reportService.createReportByTestId(targetTest.getId());
+        Assertions.assertEquals(ReportAverageTableType.ALL_RESULTS, report.getReportAverageTableType());
+        var avgs = report.getPreviousResults();
+        var param = avgs.stream().filter(r -> r.getParameter().getId().equals(1L)).findAny().orElseThrow();
+        Assertions.assertEquals(1., param.getValue());
     }
 }
